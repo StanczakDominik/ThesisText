@@ -33,5 +33,45 @@ Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim
 na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
 napisanych w C.
 
+# Algorytm Particle-in-cell
+
+składa się z czterech elementów
+1. PUSH
+2. GATHER
+3. SOLVE
+4. SCATTER
+
+# Implementacje poszczególnych części algorytmów
+
+Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
+numerycznie można zastosować dwa główne podejścia: % zredagować
+1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
+algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
+% alternatywa na słowo "oczko"?
+2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
+dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
+
+Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
+ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
+* algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia %poprawić
+* algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
+jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % jak to faktycznie wygląda z tym algo?
+co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
+warunku Couranta.
+
+# Zastosowane technologie
+* obliczenia wektorowe
+* pytest; Test-driven development
+
+Przy pracy nad kodem użyto frameworku testowego pytest %link w stopce
+Obsługa testów jest trywialna:
+
+Należy zaznaczyć, że w numeryce testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na polowaniach na bugi
+poprzez automatyzację uruchamiania kolejnych partii kodu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
+czasach. % trochę soapbox?
+% przykład kodu
+% powinienem mieć coś w stylu make test czy setup.py test
+
+* Numba
 Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % DOCUMENTATION: JIT
 
