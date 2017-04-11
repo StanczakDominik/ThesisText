@@ -35,11 +35,29 @@ napisanych w C.
 
 # Algorytm Particle-in-cell
 
-składa się z czterech elementów
-1. PUSH
-2. GATHER
-3. SOLVE
-4. SCATTER
+składa się z czterech elementów % GRAFIKA: cykliczny schemacik
+1. GATHER
+depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
+co pozwala na sprawne rozwiązanie na tej siatce
+równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
+oddziaływań kulombowskich między nimi.
+2. SOLVE
+Sprawne rozwiązanie Maxwella na dyskretnej, Eulerowskiej siatce; znalezienie pól elektrycznego i magnetycznego
+na podstawie gęstości ładunku i prądu na siatce. 
+3. SCATTER
+Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
+4. PUSH
+iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
+oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
+
+% LEAPFROG
+Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
+prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
+z wykorzystaniem prędkości znanej w połowie kroku czasowego między kolejnymi iteracjami czasowymi. Jest to tzw. algorytm
+leapfrog % reference
+stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % poczytać
+tego rodzaju integratorów równań ruchu (w przeciwieństwie do, na przykład, standardowej metody Runge-Kutta 4, która
+mimo swej większej dokładności nie zachowuje energii cząstek.
 
 # Implementacje poszczególnych części algorytmów
 
@@ -74,4 +92,3 @@ czasach. % trochę soapbox?
 
 * Numba
 Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % DOCUMENTATION: JIT
-
