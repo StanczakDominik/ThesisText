@@ -50,6 +50,15 @@ Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elek
 iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
 oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
 
+% SUPERPARTICLES
+Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
+między poszczególnymi cząstkami ze względu na liczbę cząstek % rzędu liczby Avogadro ~10^23
+W tym kontekście bardzo szczęśliwym jest fakt, że wszystkie istotne wielkości zależą nie od ładunku ani masy,
+ale od stosunku $q/m$. W praktyce stosuje się więc \emph{makrocząstki}, obdarzone ładunkiem i masą będące wielokrotnościami
+tych wielkości dla cząstek występujących w naturze (jak jony i elektrony, pozwalając jednocześnie zachować gęstości
+cząstek i ładunku % oraz inne wielkości fizyczne)
+zbliżone do rzeczywistych.
+
 % LEAPFROG
 Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
 prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
@@ -92,3 +101,34 @@ czasach. % trochę soapbox?
 
 * Numba
 Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % DOCUMENTATION: JIT
+
+# Struktura kodu
+
+Program ma obiektową strukturę zewnątrzą % API?
+składa się z kilku prostych koncepcyjnie elementów:
+
+### Species
+Klasa reprezentująca pewną grupę cząstek (np. elektrony w symulacji)
+
+### Grid
+Klasa reprezentująca dyskretną siatkę, na której dokonywane są obliczenia dot. pól elektromagnetycznych.
+
+### Simulation
+Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
+stanowiąca front-end % przeformułować
+do obliczeń prowadzonych w symulacji.
+
+Poza tym program jest podzielony na pliki:
+*algorithms_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
+*algorithms_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
+*algorithms_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
+*animation - tworzy animacje dla celów analizy danych
+*static_plots - tworzy statyczne wykresy dla celów analizy danych
+*Plotting.py - zawiera ustawienia dot. analizy danych % czy to można przenieść do simulation czy gdzieś?
+
+Configi testowe są zawarte w plikach run_*: % przeformułować
+* run_coldplasma
+* run_twostream
+* run_wave
+* run_beam
+
