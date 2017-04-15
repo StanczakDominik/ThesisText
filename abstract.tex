@@ -1,5 +1,14 @@
-\section{Streszczenie} % 150-250słów, polski + angielski
-\section{Wstęp} %2-3 stronywprowadzenie w temat, motywacja, teza (cel)
+\section{Abstract} % 150-250słów, polski + angielski
+A Python particle-in-cell plasma simulation code is developed to model the interaction between a hydrogen plasma target
+and a laser impulse. The code is then optimized to demonstrate the possibilities of using a high level programming
+language to call low level numerical procedures, thus achieving high computational efficiency.
+
+\section{Streszczenie}
+Utworzono kod symulacyjny Particle-in-Cell mający modelować interakcję relatywistycznej plazmy wodorowej oraz
+impulsu laserowego. Kod zoptymalizowano w celu zademonstrowania możliwości użycia wysokopoziomowego języka programowania
+wywołującego niskopoziomowe procedury numeryczne do osiągnięcia wysokiej wydajności obliczeniowej.
+
+\section{Wstęp} %2-3 strony wprowadzenie w temat, motywacja, teza (cel)
 Algorytmy Particle-in-Cell ("cząstka w komórce") to jedne z najbardziej zbliżonych do fundamentalnej fizyki
 metod symulacji materii w stanie plazmy. Zastosowany w nich lagranżowski opis cząsteczek pozwala na dokładne
 odwzorowanie dynamiki ruchu elektronów i jonów. Jednocześnie, ewolucja pola elektromagnetycznego na Eulerowskiej
@@ -17,7 +26,7 @@ Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej 
 możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie ich zastosowań.
 Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych jest jednak utrudniona poprzez
 niskopoziomowość %DOCUMENTATION: to sformułowanie zabiło JFK i chciałbym inne
-istniejących technologii (CUDA, OpenGL) %DOCUMENTATION: źródło
+istniejących technologii (CUDA, OpenCL) %DOCUMENTATION: źródło
 co utrudnia pisanie złożonych programów, zwłaszcza przez osoby zajmujące się głównie pracą badawczą
 niż wyłącznie programowaniem. %DOCUMENTATION: przeformułować
 
@@ -25,8 +34,11 @@ Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metod
 wysokopoziomowym i %wyciśnięcie z niego tylu flopsów ile się da!
 Ma to dwojaki sens:
 1. zweryfikowanie możliwości leżących w obecnych językach wysokopoziomowych bez wykorzystywania kart graficznych
+
 \section{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
+
 \subsection{Symulacja plazmy}
+
 \subsection{Modele Particle-in-cell}
 
 Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
@@ -64,25 +76,30 @@ na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultató
 napisanych w C.
 
 \subsection{Optymalizacja kodu}
+
 \section{Opis i treść kodu} % 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
-\subsection{Struktura, hierarchia}
-# Struktura kodu
+Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github %link
 
-Program ma obiektową strukturę zewnątrzą % API?
-składa się z kilku prostych koncepcyjnie elementów:
+\subsection{Struktura i hierarchia kodu}
 
-### Species
+Program ma obiektową strukturę zewnątrzą, którą w celu łatwości zrozumienia jego działania nakrywa wewnętrzną warstwę
+składającą się głównie z n-wymiarowych tablic \emph{NumPy} oraz zwektoryzowanych operacji na nich.
+
+Kod składa się z kilku prostych koncepcyjnie elementów:
+
+\subsubsection{Species}
 Klasa reprezentująca pewną grupę cząstek (np. elektrony w symulacji)
 
-### Grid
+\subsubsection{Grid}
 Klasa reprezentująca dyskretną siatkę, na której dokonywane są obliczenia dot. pól elektromagnetycznych.
 
-### Simulation
+\subsubsection{Simulation}
 Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
-stanowiąca front-end % przeformułować
-do obliczeń prowadzonych w symulacji.
+pozwalająca w prosty sposób na wykonywanie iteracji algorytmu i analizy danych. Jest tworzona tak przy
+uruchamianiu symulacji, jak i przy wczytywaniu danych z plików .hdf5.
 
-Poza tym program jest podzielony na pliki:
+\subsubsection{Pliki pomocnicze}
+Poza powyższymi program jest podzielony na pliki:
 *algorithms_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
 *algorithms_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
 *algorithms_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
@@ -96,7 +113,10 @@ Configi testowe są zawarte w plikach run_*: % przeformułować
 * run_wave
 * run_beam
 
-\subsection{Wybrane i zastosowane algorytmy}
+Testy jednostkowe są zawarte w katalogu tests:
+
+\subsection{Wybrane algorytmy}
+
 % LEAPFROG
 Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
 prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
@@ -128,6 +148,11 @@ warunku Couranta.
 # Zastosowane technologie
 * obliczenia wektorowe
 * pytest; Test-driven development
+* format plików danych hdf5
+* wykresy: matplotlib
+* scipy
+* numba
+* numpy
 
 Przy pracy nad kodem użyto frameworku testowego pytest %link w stopce
 Obsługa testów jest trywialna:
