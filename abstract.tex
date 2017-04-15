@@ -1,3 +1,5 @@
+\section{Streszczenie} % 150-250słów, polski + angielski
+\section{Wstęp} %2-3 stronywprowadzenie w temat, motywacja, teza (cel)
 Algorytmy Particle-in-Cell ("cząstka w komórce") to jedne z najbardziej zbliżonych do fundamentalnej fizyki
 metod symulacji materii w stanie plazmy. Zastosowany w nich lagranżowski opis cząsteczek pozwala na dokładne
 odwzorowanie dynamiki ruchu elektronów i jonów. Jednocześnie, ewolucja pola elektromagnetycznego na Eulerowskiej
@@ -23,19 +25,11 @@ Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metod
 wysokopoziomowym i %wyciśnięcie z niego tylu flopsów ile się da!
 Ma to dwojaki sens:
 1. zweryfikowanie możliwości leżących w obecnych językach wysokopoziomowych bez wykorzystywania kart graficznych
+\section{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
+\subsection{Symulacja plazmy}
+\subsection{Modele Particle-in-cell}
 
-Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
-
-Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
-w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, np. w mechanice płynów % DOCUMENTATION: PyFR
-
-Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
-na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
-napisanych w C.
-
-# Algorytm Particle-in-cell
-
-składa się z czterech elementów % GRAFIKA: cykliczny schemacik
+Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
 1. GATHER
 depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
 co pozwala na sprawne rozwiązanie na tej siatce
@@ -50,7 +44,7 @@ Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elek
 iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
 oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
 
-% SUPERPARTICLES
+\subsubsection{Makrocząstki}
 Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
 między poszczególnymi cząstkami ze względu na liczbę cząstek % rzędu liczby Avogadro ~10^23
 W tym kontekście bardzo szczęśliwym jest fakt, że wszystkie istotne wielkości zależą nie od ładunku ani masy,
@@ -59,49 +53,19 @@ tych wielkości dla cząstek występujących w naturze (jak jony i elektrony, po
 cząstek i ładunku % oraz inne wielkości fizyczne)
 zbliżone do rzeczywistych.
 
-% LEAPFROG
-Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
-prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
-z wykorzystaniem prędkości znanej w połowie kroku czasowego między kolejnymi iteracjami czasowymi. Jest to tzw. algorytm
-leapfrog % reference
-stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % poczytać
-tego rodzaju integratorów równań ruchu (w przeciwieństwie do, na przykład, standardowej metody Runge-Kutta 4, która
-mimo swej większej dokładności nie zachowuje energii cząstek.
+\subsection{Python}
+Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
 
-# Implementacje poszczególnych części algorytmów
+Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
+w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, np. w mechanice płynów % DOCUMENTATION: PyFR
 
-Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
-numerycznie można zastosować dwa główne podejścia: % zredagować
-1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
-algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
-% alternatywa na słowo "oczko"?
-2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
-dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
+Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
+na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
+napisanych w C.
 
-Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
-ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
-* algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia %poprawić
-* algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
-jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % jak to faktycznie wygląda z tym algo?
-co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
-warunku Couranta.
-
-# Zastosowane technologie
-* obliczenia wektorowe
-* pytest; Test-driven development
-
-Przy pracy nad kodem użyto frameworku testowego pytest %link w stopce
-Obsługa testów jest trywialna:
-
-Należy zaznaczyć, że w numeryce testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na polowaniach na bugi
-poprzez automatyzację uruchamiania kolejnych partii kodu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
-czasach. % trochę soapbox?
-% przykład kodu
-% powinienem mieć coś w stylu make test czy setup.py test
-
-* Numba
-Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % DOCUMENTATION: JIT
-
+\subsection{Optymalizacja kodu}
+\section{Opis i treść kodu} % 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
+\subsection{Struktura, hierarchia}
 # Struktura kodu
 
 Program ma obiektową strukturę zewnątrzą % API?
@@ -131,4 +95,62 @@ Configi testowe są zawarte w plikach run_*: % przeformułować
 * run_twostream
 * run_wave
 * run_beam
+
+\subsection{Wybrane i zastosowane algorytmy}
+% LEAPFROG
+Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
+prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
+z wykorzystaniem prędkości znanej w połowie kroku czasowego między kolejnymi iteracjami czasowymi. Jest to tzw. algorytm
+leapfrog % reference
+stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % poczytać
+tego rodzaju integratorów równań ruchu (w przeciwieństwie do, na przykład, standardowej metody Runge-Kutta 4, która
+mimo swej większej dokładności nie zachowuje energii cząstek.
+
+# Implementacje poszczególnych części algorytmów
+
+Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
+numerycznie można zastosować dwa główne podejścia: % zredagować
+1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
+algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
+% alternatywa na słowo "oczko"?
+2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
+dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
+
+Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
+ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
+* algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia %poprawić
+* algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
+jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % jak to faktycznie wygląda z tym algo?
+co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
+warunku Couranta.
+\subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
+\subsection{Wykorzystane techniki i technologie}
+# Zastosowane technologie
+* obliczenia wektorowe
+* pytest; Test-driven development
+
+Przy pracy nad kodem użyto frameworku testowego pytest %link w stopce
+Obsługa testów jest trywialna:
+
+Należy zaznaczyć, że w numeryce testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na polowaniach na bugi
+poprzez automatyzację uruchamiania kolejnych partii kodu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
+czasach. % trochę soapbox?
+% przykład kodu
+% powinienem mieć coś w stylu make test czy setup.py test
+
+* Numba
+Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % DOCUMENTATION: JIT
+
+
+\section{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
+\subsection{Przypadki testowe - porównanie z LPIC++}
+\subsection{Benchmarki - szybkość, zasobożerność} %fix
+\subsection{Problemy napotkane w trakcie pisania kodu}
+\section{Zakończenie} % 3-5 stron
+\section{Bibliografia} % 15-25 pozycji
+1. Birdsall, Langdon
+2. LPIC++
+3. Buneman, Villasenor
+4. Metody numeryczne
+
 
