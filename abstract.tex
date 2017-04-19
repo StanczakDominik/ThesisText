@@ -17,18 +17,18 @@ przyspieszenie etapu obliczenia oddziaływań międzycząsteczkowych. W większo
 ten etap jest najbardziej krytyczny dla wydajności progamu.
 
 W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
-\item symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER %DOCUMENTATION: źródło,
-\item modelowania rekonekcji linii magnetycznych w polu gwiazdy %DOCUMENTATION: źródło
-\item projektowania silników jonowych (Halla) %DOCUMENTATION: jak wyżej
-\item badania interakcji laserów z plazmą w kontekście tworzenia niewielkich akceleratorów cząstek %DOCUMENTATION
+\item symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER %TODO: źródło,
+\item modelowania rekonekcji linii magnetycznych w polu gwiazdy %TODO: źródło
+\item projektowania silników jonowych (Halla) %TODO: jak wyżej
+\item badania interakcji laserów z plazmą w kontekście tworzenia niewielkich akceleratorów cząstek %TODO
 
-Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych %DOCUMENTATION
+Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych %TODO
 możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie ich zastosowań.
 Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych jest jednak utrudniona poprzez
-niskopoziomowość %DOCUMENTATION: to sformułowanie zabiło JFK i chciałbym inne
-istniejących technologii (CUDA, OpenCL) %DOCUMENTATION: źródło
+niskopoziomowość %TODO: to sformułowanie zabiło JFK i chciałbym inne
+istniejących technologii (CUDA, OpenCL) %TODO: źródło
 co utrudnia pisanie złożonych programów, zwłaszcza przez osoby zajmujące się głównie pracą badawczą
-niż wyłącznie programowaniem. %DOCUMENTATION: przeformułować
+niż wyłącznie programowaniem. %TODO: przeformułować
 
 Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell w języku
 wysokopoziomowym i %wyciśnięcie z niego tylu flopsów ile się da!
@@ -37,22 +37,77 @@ Ma to dwojaki sens:
 
 \section{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
 
-\subsection{Symulacja plazmy}
+\subsection{Fizyka plazmy}
+
+Plazma, powszechnie nazywana czwartym stanem materii, to zbiór zjonizowanych %TODO: formalna definicja plazmy
+cząstek oraz elektronów. Plazmy występują w całym wszechświecie, od materii międzygwiezdnej po błyskawice.
+Ich istnienie uwarunkowane jest obecnością wysokich energii, wystarczających do zjonizowania atomów gazu.
+
+Fizyka plazmy jest stosunkowo młodą nauką, której rozwój nastąpił dopiero w ostatnim stuleciu, zaczynając od badań Alfvena. %TODO reference
+Globalny wzrost zainteresowania fizyką plazmy rozpoczął się w latach '50 ubiegłego wieku, %TODO - zweryfikować
+gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, % TODO: reference: fusion in europe history of fusion
+które mogą mieć zastosowania w energetyce jako następny etap rozwoju po reakcjach rozpadu wykorzystywanych
+w "klasycznych" elektrowniach jądrowych. 
+
+Poza tym plazmy mają szerokie zastosowanie w przemyśle metalurgicznym, elektronicznym, kosmicznym itp. %TODO: to potrzebuje źródła
+
+\subsection{Modelowanie i symulacja plazmy}
+
+Zjawiska z zakresu fizyki plazmy są jednymi z bardziej złożonych problemów modelowanie komputerowej.
+Głównym, koncepcyjnie, powodem uniemożliwiającym zastosowanie prostych metod symulacji
+znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałowuje
+z każdą inną nawzajem poprzez niepomijalne na dużych odległościach oddziaływania kulombowskie $\approx r^{-2}$.
+
+Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami są opisy statystyczne, opierające się na
+modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji
+
+\begin{equation}
+f(\vec{x}, \vec{v}, t)
+\end{equation}
+
+opisująca gęstość rozkładu plazmy w sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz prędkości).
+
+Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
+
+\begin{equation}
+\f_\alpha 
+% TODO: wzór na równanie Vlasova
+\end{equation}
+
+W praktyce jest ono również nierozwiązywalne. Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
+przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. % TODO: runaway electrons
+
+W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
+\begin{enumerate}
+\item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
+wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TODO: reformulate
+\item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
+\end{enumerate}
+
+Prawdopodobnie najpopoularniejszym modelem z tej drugeij kategorii są modele Particle-in-cell.
 
 \subsection{Modele Particle-in-cell}
 
+Idea modelu particle-in-cell jest wyjątkowo prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo kroku
+symulacji dynamiki molekularnej, czyli obliczania sił międzycząsteczkowych. Cząstki poruszają się w ciągłej, Lagrange'owskiej przestrzeni.
+Ich ruch wykorzystywany jest do zebrania informacji dotyczącej gęstości ładunku i prądu na dyskretną, Eulerowską siatkę. Na siatce rozwiązane
+są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane
+do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
+do $n \log{n}$ z $n^2$ % TODO: wyrazić złożoność PIC przez rozmiar siatki
+
 Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
-1. GATHER
+\begin{enumerate}
+\item GATHER \\
 depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
 co pozwala na sprawne rozwiązanie na tej siatce
 równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
 oddziaływań kulombowskich między nimi.
-2. SOLVE
+\item SOLVE \\
 Sprawne rozwiązanie Maxwella na dyskretnej, Eulerowskiej siatce; znalezienie pól elektrycznego i magnetycznego
 na podstawie gęstości ładunku i prądu na siatce. 
-3. SCATTER
+\item SCATTER \\
 Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
-4. PUSH
+\item PUSH \\
 iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
 oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
 
@@ -65,11 +120,21 @@ tych wielkości dla cząstek występujących w naturze (jak jony i elektrony, po
 cząstek i ładunku % oraz inne wielkości fizyczne)
 zbliżone do rzeczywistych.
 
+\subsection{Problem testowy}
+
+Problemem testowym, jakiego używamy do przetestowania wydajności działania algorytmu jest
+interakcja impulsu laserowego z tarczą składającą się ze zjonizowanego wodoru i elektronów.
+
+Układ ten modelowany jest jako jednowymiarowy.
+
+Jest to tak zwany w literaturze model 1D-3D. O ile położenia cząstek są jednowymiarowe
+
+
 \subsection{Python}
 Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
 
 Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
-w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, np. w mechanice płynów % DOCUMENTATION: PyFR
+w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, np. w mechanice płynów % TODO: PyFR
 
 Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
 na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
@@ -164,7 +229,7 @@ czasach. % trochę soapbox?
 % powinienem mieć coś w stylu make test czy setup.py test
 
 * Numba
-Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % DOCUMENTATION: JIT
+Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
 
 
 \section{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
