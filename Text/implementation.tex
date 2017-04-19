@@ -1,0 +1,93 @@
+\section{Opis i treść kodu} % 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
+Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github %link
+
+\subsection{Struktura i hierarchia kodu}
+
+Program ma obiektową strukturę zewnątrzą, którą w celu łatwości zrozumienia jego działania nakrywa wewnętrzną warstwę
+składającą się głównie z n-wymiarowych tablic \emph{NumPy} oraz zwektoryzowanych operacji na nich.
+
+Kod składa się z kilku prostych koncepcyjnie elementów:
+
+\subsubsection{Species}
+Klasa reprezentująca pewną grupę cząstek (np. elektrony w symulacji)
+
+\subsubsection{Grid}
+Klasa reprezentująca dyskretną siatkę, na której dokonywane są obliczenia dot. pól elektromagnetycznych.
+
+\subsubsection{Simulation}
+Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
+pozwalająca w prosty sposób na wykonywanie iteracji algorytmu i analizy danych. Jest tworzona tak przy
+uruchamianiu symulacji, jak i przy wczytywaniu danych z plików .hdf5.
+
+\subsubsection{Pliki pomocnicze}
+Poza powyższymi program jest podzielony na pliki:
+\begin{itemize}
+\item algorithms\_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
+\item algorithms\_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
+\item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
+\item animation - tworzy animacje dla celów analizy danych
+\item static\_plots - tworzy statyczne wykresy dla celów analizy danych
+\item Plotting - zawiera ustawienia dot. analizy danych % czy to można przenieść do simulation czy gdzieś?
+\end{itemize}
+
+Configi testowe są zawarte w plikach run\_*: % przeformułować
+\begin{itemize}
+\item run\_coldplasma
+\item run\_twostream
+\item run\_wave
+\item run\_beam
+\end{itemize}
+
+Testy jednostkowe są zawarte w katalogu tests:
+
+\subsection{Wybrane algorytmy}
+
+% LEAPFROG
+Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
+prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
+z wykorzystaniem prędkości znanej w połowie kroku czasowego między kolejnymi iteracjami czasowymi. Jest to tzw. algorytm
+leapfrog % reference
+stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % poczytać
+tego rodzaju integratorów równań ruchu (w przeciwieństwie do, na przykład, standardowej metody Runge-Kutta 4, która
+mimo swej większej dokładności nie zachowuje energii cząstek.
+
+\subsection{Implementacje poszczególnych części algorytmów}
+
+Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
+numerycznie można zastosować dwa główne podejścia: % zredagować
+1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
+algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
+% alternatywa na słowo "oczko"?
+2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
+dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
+
+Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
+ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
+* algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia %poprawić
+* algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
+jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % jak to faktycznie wygląda z tym algo?
+co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
+warunku Couranta.
+\subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
+\subsection{Wykorzystane techniki i technologie}
+\begin{itemize}
+    \item obliczenia wektorowe
+    \item pytest; Test-driven development
+    \item format plików danych hdf5
+    \item wykresy: matplotlib
+    \item scipy
+    \item numba
+    \item numpy
+\end{itemize}
+
+Przy pracy nad kodem użyto frameworku testowego pytest %link w stopce
+Obsługa testów jest trywialna:
+
+Należy zaznaczyć, że w numeryce testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na polowaniach na bugi
+poprzez automatyzację uruchamiania kolejnych partii kodu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
+czasach. % trochę soapbox?
+% przykład kodu
+% powinienem mieć coś w stylu make test czy setup.py test
+
+\subsubsection{Numba}
+Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
