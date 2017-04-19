@@ -5,4 +5,4 @@ Source/begining.pdf: Source/preamble.tex Source/begining.tex Text/abstract_en.te
 	pdflatex -halt-on-error -output-directory=Source Source/begining.tex
 
 clean:
-	rm *.aux *.log *.out *.pdf *.fls *.fdb_latexmk  */*.aux */*.log */*.out */*.pdf */*.fls */*.fdb_latexmk */*.toc *.toc
+	rm *.blg *.brf *.synctex.gz *.bbl *.aux *.log *.out *.pdf *.fls *.fdb_latexmk  */*.aux */*.log */*.out */*.pdf */*.fls */*.fdb_latexmk */*.toc *.toc */*.brf
