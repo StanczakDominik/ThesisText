@@ -1,0 +1,9 @@
+1. W pliku preamble.tex należy uzupełnić podstawowe dane dotyczące autora oraz tytułu pracy (bez kompilacji).
+2. W pliku begining.tex należy uzupełnić dane dyplomanta, tytuł pracy, nazwisko promotora, streszczenie itp., a nastę
+pnie skompilować dokument do pliku .pdf.
+3. Uzupełnić bibliografię, plik bibliography.bib.
+4. Główną treść pracy umieścić w pliku thesis.tex.
+
+Aby skompilować plik thesis.tex z zewnątrzną biblioteką należy zmienić ustawienia szybkiej kompilacji:
+Preferencje -> Konfiguracja Texmakera -> Szybka kompilacja -> Polecenie szybkiej kompilacji
+ -> PdfLaTeX + Bib(la)tex + PdfLaTeX (x2) + podgląd Pdf
