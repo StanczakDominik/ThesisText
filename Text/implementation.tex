@@ -109,7 +109,9 @@ i długofalowo zachowuje energię cząstek.
 W tym przypadku stosuje się relatywistyczny algorytm Borysa, w którym jedyną faktyczną poprawką względem
 nierelatywistycznego jest operowanie na pędach oraz sprowadzanie pędów do prędkości jako $\vec{v} = \vec{p} / \gamma$ %REWRITE
 
-\subsection{Implementacje poszczególnych części algorytmów}
+\subsubsection{Depozycja gęstości ładunku i prądu}
+\subsubsection{Interpolacja pól elektrycznego i magnetycznego}
+\subsubsection{Field solver} %TODO: przerobić
 
 Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
 numerycznie można zastosować dwa główne podejścia: % zredagować
@@ -127,13 +129,40 @@ jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach 
 co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
 warunku Couranta.
 
-W 1D algorytm sprowadza się do obliczenia
-$F_{\text{plus}}
-$F_minus
+% TODO: gładsze przejście tutaj
+W 1D można dokonać dekompozycji składowych poprzecznych pola elektromagnetycznego (tutaj oznaczanych $y$, $z$) na
+propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane w % słowo
 
-$G_plus
-$G_minus
+Wychodzimy z rotacyjnych równań Maxwella:
+
+\begin{equation}
+    \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
+\end{equation}
+
+\begin{equation}
+    \nabla \times \vec{B} = \mu_0 (\vec{j} + \epsilon_0 \frac{\partial \vec{E}}{\partial t})
+\end{equation}
+
+% TODO: skończyć wyprowadzenie
+
+\begin{equation}
+    F^{+} = E_y + c B_z
+\end{equation}
+\begin{equation}
+    F^{-} = E_y - c B_z
+\end{equation}
+Analogicznie, dla składowych $E_z$, $B_y$:
+
+% TODO: zweryfikować znaki i czy c nie jest w mianowniku
+\begin{equation}
+    G^{+} = E_z - c B_y
+\end{equation}
+\begin{equation}
+    G^{-} = E_z + c B_y
+\end{equation}
+
 \subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
+
 \subsection{Wykorzystane techniki i technologie}
 \begin{itemize}
     \item obliczenia wektorowe
