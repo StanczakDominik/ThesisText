@@ -90,4 +90,37 @@ czasach. % trochę soapbox?
 % powinienem mieć coś w stylu make test czy setup.py test
 
 \subsubsection{Numba}
+
 Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
+
+
+
+\section{Depozycja ładunku i prądu}
+
+\subsection{Case 6}
+\begin{equation}
+    \varepsilon_3 = \frac{x_n - (x_i + \frac{dx}{2})}{x_{n+1} - x_n}
+\end{equation}
+\begin{equation}
+    \rho_i^{n+1} = \frac{q}{\Delta x} (x_i + \frac{\Delta x}{2} - x^{n+1})
+\end{equation}
+\begin{equation}
+    \rho_{i-1}^{n+1} = \frac{q}{\Delta x} (x^{n+1} - (x_i - \frac{\Delta x}{2}))
+\end{equation}
+\begin{equation}
+    j_{x,i+1}^{n+1/2} = q (\frac{1}{2} + \frac{x^n - x_{i+1}}{\Delta x})
+\end{equation}
+\begin{equation}
+    j_{x,i}^{n+1/2} = q (\frac{1}{2} - \frac{x^{n+1} - x_i}{\Delta x})
+\end{equation}
+\begin{equation}
+    <\rho_{i+1}> = \frac{q \varepsilon}{2} (\frac{1}{2} - \frac{x_{i+1} - x^n}{\Delta x})
+\end{equation}
+\begin{equation}
+    <\rho_{i-1}> = q \frac{1- \varepsilon}{2} (\frac{1}{2} - \frac{x^n - x_i}{\Delta x})
+    % todo
+\end{equation}
+\begin{equation}
+    <\rho_{i}> = q \Bigg(\frac{\varepsilon}{2} (\frac{3}{2} + \frac{x^n-x_i}{\Delta x}) +\
+    \frac{1-\varepsilon}{2} (\frac{3}{2} - \frac{x^{n+1} - x_{i+1}}{\Delta x})\Bigg)
+\end{equation}
