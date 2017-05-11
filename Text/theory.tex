@@ -105,3 +105,20 @@ na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultató
 napisanych w C.
 
 \subsection{Optymalizacja kodu}
+
+\subsubsection{Numpy}
+Numpy to biblioteka umożliwiająca wykonywanie obliczeń macierzowych. Pod zewnętrzną powłoką zawiera odwołania do
+wypróbowanych modułów LAPACK, BLAS %itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
+% w ogóle stoi numpy
+napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de facto standard większości obliczeń
+numerycznych w Pythonie.
+\subsubsection{Numba}
+Numba to biblioteka służąca do kompilacji just-in-time kodu. % ogarnąć jak właściwie działa numba
+W wielu przypadkach % odniesienie
+pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie niższej bądź nawet równej do analogicznego
+programu w C. % czy były takie testy z fortranem
+\subsubsection{HDF5}
+HDF5 jest wysokowydajnym programem plikow służącym przechowywaniu danych liczbowych w drzewiastej strukturze danych.
+W Pythonie implementuje go biblioteka h5py.
+Używa się go na przykład w % lista miejsc gdzie używają hdf5
+W bieżącej pracy  wykorzystuje się go do przechowywania danych dot. symulacji, pozwalających na postprocessinge<F9><F8>
