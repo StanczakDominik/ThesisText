@@ -1,4 +1,5 @@
 \section{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
+% TODO: use \Chapter instead of Section?
 
 \subsection{Fizyka plazmy}
 
@@ -25,7 +26,7 @@ Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi po
 modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji
 
 \begin{equation}
-f(\vec{x}, \vec{v}, t)
+    f(\vec{x}, \vec{v}, t)
 \end{equation}
 
 opisująca gęstość rozkładu plazmy w sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz prędkości).
@@ -33,7 +34,7 @@ opisująca gęstość rozkładu plazmy w sześciowymiarowej przestrzeni fazowej 
 Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
 
 \begin{equation}
-f_{\alpha}
+    f_{\alpha}
 % TODO: wzór na równanie Vlasova
 \end{equation}
 
@@ -42,12 +43,13 @@ przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne
 
 W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
 \begin{enumerate}
-\item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
-wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TODO: reformulate
-\item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
+    \item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
+        wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TODO: reformulate
+    \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
+        (matematycznie jest to równanie Klimontowicza przybliżające równanie Vlasova) %TODO: read about this
 \end{enumerate}
 
-Prawdopodobnie najpopoularniejszym modelem z tej drugeij kategorii są modele Particle-in-cell.
+Prawdopodobnie najpopoularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell. 
 
 \subsection{Modele Particle-in-cell}
 
@@ -58,22 +60,33 @@ są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki który
 do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
 do $n \log{n}$ z $n^2$ % TODO: wyrazić złożoność PIC przez rozmiar siatki
 
+
 Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
-\begin{enumerate}
-\item GATHER \\
-depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
-co pozwala na sprawne rozwiązanie na tej siatce
-równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
-oddziaływań kulombowskich między nimi.
-\item SOLVE \\
-Sprawne rozwiązanie Maxwella na dyskretnej, Eulerowskiej siatce; znalezienie pól elektrycznego i magnetycznego
-na podstawie gęstości ładunku i prądu na siatce.
-\item SCATTER \\
-Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
-\item PUSH \\
-iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
-oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
-\end{enumerate}
+\subsubsection{GATHER}
+        depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
+        co pozwala na sprawne rozwiązanie na tej siatce
+        równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
+        oddziaływań kulombowskich między nimi.
+
+        $1 = \sum_i S_i$<++> % TODO: dokończyć wzór
+\subsubsection{SOLVE}
+        Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce;
+        znalezienie pól elektrycznego i magnetycznego
+        na podstawie gęstości ładunku i prądu na siatce.
+        Istnieją dwie główne szkoły rozwiązywania tych równań: metody globalne i lokalne. Metody globalne wykorzystują
+        zazwyczaj równania dywergencyjne, rozwiązywane iteracyjnie lub spektralnie,
+        zaś lokalne - równania rotacyjne. Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
+        Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
+        metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
+\subsubsection{SCATTER}
+        Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
+        Należy przy tym zauważyć, że jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól 
+        elektromagnetycznych w okolicy cząstki, ta część algorytmu sprawia, że algorytmy Particle-in-cell doskonale
+        nadają się do zrównoleglania (problem jest w przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
+        Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
+\subsubsection{PUSH}
+        iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
+        oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
 
 \subsubsection{Makrocząstki}
 Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
