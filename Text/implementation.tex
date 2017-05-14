@@ -199,6 +199,16 @@ Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Ju
 
 \section{Depozycja ładunku i prądu}
 
+Depozycja ładunku i prądu polega na obliczeniu na podstawie położenia i prędkości każdej cząstki jej wkładu do
+gęstości prądu i ładunku na siatce, oraz zwiększeniu bieżących wartości o ten wkład.
+
+W symulacji stosowana jest liniowa interpolacja - cząstki mają ``szerokość'' jednej komórki siatki, zaś ich wkład do $i$
+komórki jest proporcjonalny do przekrycia między powierzchnią cząstki a powierzchnią siatki.
+
+Stosowany algorytm jest rekurencyjny i uwzględnia zachowanie ładunku/prądu %TODO: rewrite
+%TODO: villasenor/buneman
+co pozwala na uniknięcie stosowania poprawek % div B, div E
+%(co łatwo pokazać, div E\ldots)
 \subsection{Case 6}
 \begin{equation}
     \varepsilon_3 = \frac{x_n - (x_i + \frac{dx}{2})}{x_{n+1} - x_n}
