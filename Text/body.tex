@@ -79,7 +79,6 @@ wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TO
 \end{enumerate}
 
 Prawdopodobnie najpopoularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell.
-Prawdopodobnie najpopoularniejszym modelem z tej drugeij kategoii są modele Particle-in-cell.
 
 \subsection{Modele Particle-in-cell}
 
@@ -92,20 +91,20 @@ do $n \log{n}$ z $n^2$ % TODO: wyrazić złożoność PIC przez rozmiar siatki
 
 Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
 \subsubsection{GATHER}
-depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
-co pozwala na sprawne rozwiązanie na tej siatce
-równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
-oddziaływań kulombowskich między nimi.
-        $1 = \sum_i S_i$<++> % TODO: dokończyć wzór
+    Depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
+    co pozwala na sprawne rozwiązanie na tej siatce
+    równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
+    oddziaływań kulombowskich między nimi.
+    $1 = \sum_i S_i$<++> % TODO: dokończyć wzór
 \subsubsection{SOLVE}
-        Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce;
-        znalezienie pól elektrycznego i magnetycznego
-        na podstawie gęstości ładunku i prądu na siatce.
-        Istnieją dwie główne szkoły rozwiązywania tych równań: metody globalne i lokalne. Metody globalne wykorzystują
-        zazwyczaj równania dywergencyjne, rozwiązywane iteracyjnie lub spektralnie,
-        zaś lokalne - równania rotacyjne. Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
-        Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
-        metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
+    Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce;
+    znalezienie pól elektrycznego i magnetycznego
+    na podstawie gęstości ładunku i prądu na siatce.
+    Istnieją dwie główne szkoły rozwiązywania tych równań: metody globalne i lokalne. Metody globalne wykorzystują
+    zazwyczaj równania dywergencyjne, rozwiązywane iteracyjnie lub spektralnie,
+    zaś lokalne - równania rotacyjne. Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
+    Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
+    metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
 \subsubsection{SCATTER}
         Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
         Należy przy tym zauważyć, że jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
@@ -113,8 +112,8 @@ oddziaływań kulombowskich między nimi.
         nadają się do zrównoleglania (problem jest w przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
         Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
 \subsubsection{PUSH}
-iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
-oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
+    iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
+    oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
 
 \subsubsection{Makrocząstki}
 Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
@@ -407,7 +406,42 @@ co pozwala na uniknięcie stosowania poprawek % div B, div E
 \end{equation}
 
 \section{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
-\subsection{Przypadki testowe - porównanie z LPIC++}
+\subsection{Przypadki testowe}
+
+Kod przetestowano w dwojaki sposób. Poszczególne algorytmy podlegały testom jednostkowym
+przy użyciu modułu pytest % TODO: pytest reference
+\begin{enumerate}
+    \item Gather
+    \begin{enumerate}
+        % TODO: itemii?
+        \item Depozycja prądu z pojedynczej cząstki na niewielką siatkę
+        \item Depozycja prądu z dwóch pojedynczych cząstek na niewielką siatkę
+              i porównanie z sumą prądów dla obu pojedynczyczh cząstek
+        \item Depozycja prądu z dużej ilości równomiernie rozłożonych cząstek
+    \end{enumerate}
+
+    \itemi Solve
+    \begin{enumerate}
+        \item % TODO
+    \end{enumerate}
+
+    \itemi Scatter
+    \begin{enumerate}
+        \item % TODO
+    \end{enumerate}
+
+    \itemi Push
+    \begin{enumerate}
+        \item Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
+        \item Ruch w jednorodnym polu elektrycznym z polem magnetycznym % TODO: zrobić to
+    \end{enumerate}
+\end{enumerate}
+
+Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
+\subsubsection{oscylacje zimnej plazmy}
+\subsubsection{niestabilność dwóch strumieni}
+
+\subsection{Symulacja oddziaływania lasera z tarczą wodorową}
 \subsection{Benchmarki - szybkość, zasobożerność} %fix
 \subsection{Problemy napotkane w trakcie pisania kodu}
 
