@@ -75,9 +75,11 @@ W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
 \item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
 wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TODO: reformulate
 \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
+        (matematycznie jest to równanie Klimontowicza przybliżające równanie Vlasova) %TODO: read about this
 \end{enumerate}
 
-Prawdopodobnie najpopoularniejszym modelem z tej drugeij kategorii są modele Particle-in-cell.
+Prawdopodobnie najpopoularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell.
+Prawdopodobnie najpopoularniejszym modelem z tej drugeij kategoii są modele Particle-in-cell.
 
 \subsection{Modele Particle-in-cell}
 
@@ -89,21 +91,30 @@ do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich inter
 do $n \log{n}$ z $n^2$ % TODO: wyrazić złożoność PIC przez rozmiar siatki
 
 Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
-\begin{enumerate}
-\item GATHER \\
+\subsubsection{GATHER}
 depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
 co pozwala na sprawne rozwiązanie na tej siatce
 równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
 oddziaływań kulombowskich między nimi.
-\item SOLVE \\
-Sprawne rozwiązanie Maxwella na dyskretnej, Eulerowskiej siatce; znalezienie pól elektrycznego i magnetycznego
-na podstawie gęstości ładunku i prądu na siatce.
-\item SCATTER \\
-Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
-\item PUSH \\
+        $1 = \sum_i S_i$<++> % TODO: dokończyć wzór
+\subsubsection{SOLVE}
+        Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce;
+        znalezienie pól elektrycznego i magnetycznego
+        na podstawie gęstości ładunku i prądu na siatce.
+        Istnieją dwie główne szkoły rozwiązywania tych równań: metody globalne i lokalne. Metody globalne wykorzystują
+        zazwyczaj równania dywergencyjne, rozwiązywane iteracyjnie lub spektralnie,
+        zaś lokalne - równania rotacyjne. Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
+        Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
+        metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
+\subsubsection{SCATTER}
+        Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
+        Należy przy tym zauważyć, że jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
+        elektromagnetycznych w okolicy cząstki, ta część algorytmu sprawia, że algorytmy Particle-in-cell doskonale
+        nadają się do zrównoleglania (problem jest w przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
+        Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
+\subsubsection{PUSH}
 iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
 oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
-\end{enumerate}
 
 \subsubsection{Makrocząstki}
 Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
@@ -119,10 +130,10 @@ zbliżone do rzeczywistych.
 Problemem testowym, jakiego używamy do przetestowania wydajności działania algorytmu jest
 interakcja impulsu laserowego z tarczą składającą się ze zjonizowanego wodoru i elektronów.
 
-Układ ten modelowany jest jako jednowymiarowy.
-
-Jest to tak zwany w literaturze model 1D-3D. O ile położenia cząstek są jednowymiarowe
-
+Układ ten modelowany jest jako jednowymiarowy. Jest to tak zwany w literaturze model 1D-3D. O ile położenia cząstek
+są jednowymiarowe ze względu na znaczną symetrię
+cylindryczną układu, cząstki mają prędkości w pełnych trzech wymiarach. Jest to konieczne ze względu
+na oddziaływania cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu.
 
 \subsection{Python}
 Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
@@ -316,6 +327,15 @@ Analogicznie, dla składowych $E_z$, $B_y$:
 \begin{equation}
     G^{-} = E_z + c B_y
 \end{equation}
+Wyrazem ``źródłowym'' dla F, G jest prąd poprzeczny. Po dyskretyzacji równania, wyrażenie na ewolucję pól F, G między
+iteracjami przybiera postać:
+
+\begin{equation}
+    F^{+}^{n+1}_{i+1} = F^{+}<++>_{n} + j%sprawdzić
+\end{equation}
+
+Z tego powodu bardzo istotnym dla dokładnośći i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
+aby był robiony w sposób który spełnia zachowanie ładunku.
 
 \subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
 
@@ -343,6 +363,18 @@ czasach. % trochę soapbox?
 
 Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
 
+\section{Depozycja ładunku i prądu}
+
+Depozycja ładunku i prądu polega na obliczeniu na podstawie położenia i prędkości każdej cząstki jej wkładu do
+gęstości prądu i ładunku na siatce, oraz zwiększeniu bieżących wartości o ten wkład.
+
+W symulacji stosowana jest liniowa interpolacja - cząstki mają ``szerokość'' jednej komórki siatki, zaś ich wkład do $i$
+komórki jest proporcjonalny do przekrycia między powierzchnią cząstki a powierzchnią siatki.
+
+Stosowany algorytm jest rekurencyjny i uwzględnia zachowanie ładunku/prądu %TODO: rewrite
+%TODO: villasenor/buneman
+co pozwala na uniknięcie stosowania poprawek % div B, div E
+%(co łatwo pokazać, div E\ldots)
 
 
 \subsection{Depozycja ładunku i prądu}
