@@ -51,19 +51,23 @@ Głównym, koncepcyjnie, powodem uniemożliwiającym zastosowanie prostych metod
 znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałowuje
 z każdą inną nawzajem poprzez niepomijalne na dużych odległościach oddziaływania kulombowskie $\approx r^{-2}$.
 
-Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami są opisy statystyczne, opierające się na
-modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji
+Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami są opisy statystyczne,
+opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako 
+
 
 \begin{equation}
-f(\vec{x}, \vec{v}, t)
+    \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1 % normalizacja?
 \end{equation}
 
-opisująca gęstość rozkładu plazmy w sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz prędkości).
+opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
+oraz prędkości, powielone dla każdej z N cząstek).
+
+% TODO: dodać reference na opis statystyczny 
 
 Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
 
 \begin{equation}
-f_{\alpha}
+    \frac{ d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_\vec{v} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
 % TODO: wzór na równanie Vlasova
 \end{equation}
 
@@ -157,6 +161,7 @@ Numba to biblioteka służąca do kompilacji just-in-time kodu. % ogarnąć jak 
 W wielu przypadkach % odniesienie
 pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie niższej bądź nawet równej do analogicznego
 programu w C. % czy były takie testy z fortranem
+Jednocześnie 
 \subsubsection{HDF5}
 HDF5 jest wysokowydajnym programem plikow służącym przechowywaniu danych liczbowych w drzewiastej strukturze danych.
 W Pythonie implementuje go biblioteka h5py.
@@ -374,9 +379,8 @@ Stosowany algorytm jest rekurencyjny i uwzględnia zachowanie ładunku/prądu %T
 %TODO: villasenor/buneman
 co pozwala na uniknięcie stosowania poprawek % div B, div E
 %(co łatwo pokazać, div E\ldots)
+Dzięki temu algorytm obliczania zmian w polu elektromagnetycznym znacznie się upraszcza.
 
-
-\subsection{Depozycja ładunku i prądu}
 
 \begin{equation}
     \varepsilon_3 = \frac{x_n - (x_i + \frac{dx}{2})}{x_{n+1} - x_n}
@@ -446,3 +450,6 @@ Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych pr
 \subsection{Problemy napotkane w trakcie pisania kodu}
 
 \section{Zakończenie} % 3-5 stron
+Utworzono kod symulacyjny stosujący algorytm particle-in-cell w Pythonie, który zoptymalizowano.
+Otrzymane wyniki benchmarków pozwalają sądzić, że % jest moc
+
