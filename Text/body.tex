@@ -168,7 +168,7 @@ W Pythonie implementuje go biblioteka h5py.
 Używa się go na przykład w % lista miejsc gdzie używają hdf5
 W bieżącej pracy  wykorzystuje się go do przechowywania danych dot. symulacji, pozwalających na postprocessinge<F9><F8>
 
-\section{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
+\section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
 \subsection{Opis i treść kodu}
 Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github %link
 
@@ -367,7 +367,7 @@ czasach. % trochę soapbox?
 
 Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
 
-\section{Depozycja ładunku i prądu}
+\subsection{Depozycja ładunku i prądu}
 
 Depozycja ładunku i prądu polega na obliczeniu na podstawie położenia i prędkości każdej cząstki jej wkładu do
 gęstości prądu i ładunku na siatce, oraz zwiększeniu bieżących wartości o ten wkład.
@@ -409,11 +409,22 @@ Dzięki temu algorytm obliczania zmian w polu elektromagnetycznym znacznie się 
     \frac{1-\varepsilon}{2} (\frac{3}{2} - \frac{x^{n+1} - x_{i+1}}{\Delta x})\Bigg)
 \end{equation}
 
-\section{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
+\section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
+Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania niniejszej pracy wersji programu.
+W repozytorium gita na Githubie jest to commit ``placeholder'' % TODO: uzupełnić commita
+identyfikowany również jako wersja 1.0.
+
 \subsection{Przypadki testowe}
 
-Kod przetestowano w dwojaki sposób. Poszczególne algorytmy podlegały testom jednostkowym
-przy użyciu modułu pytest % TODO: pytest reference
+Kod przetestowano w dwojaki sposób. Pierwszym z nich są testy jednostkowe.
+Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego pakietu pytest % TODO: pytest reference.
+
+Testy polegały na przeprowadzeniu fragmentu symulacji - w przypadku testów algorytmów było to na przykład wygenerowanie
+pojedynczej cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na siatkę, co pozwala porównać
+otrzymany wynik z przewidywanym analitycznie dla danego rozmiaru siatki i położenia cząstki. Automatyczne testy
+jednostkowe uruchamiane po każdej wymiernej zmianie kodu pozwalają kontrolować działanie programu znacznie ułatwiają
+zapobieganie błędom.
+
 \begin{enumerate}
     \item Gather
     \begin{enumerate}
@@ -449,7 +460,8 @@ Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych pr
 \subsection{Benchmarki - szybkość, zasobożerność} %fix
 \subsection{Problemy napotkane w trakcie pisania kodu}
 
-\section{Zakończenie} % 3-5 stron
-Utworzono kod symulacyjny stosujący algorytm particle-in-cell w Pythonie, który zoptymalizowano.
+\section[Zakończenie]{Zakończenie} % 3-5 stron
+Utworzono kod symulacyjny implementacyjny algorytm particle-in-cell w Pythonie przy użyciu wszystkich dostępnych
+możliwości, jakie daje ekosystem open-source. Kod zoptymalizowano przy użyciu % TODO: zoptymalizować.
 Otrzymane wyniki benchmarków pozwalają sądzić, że % jest moc
 
