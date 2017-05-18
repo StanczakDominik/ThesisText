@@ -57,7 +57,9 @@ opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest
 
 \begin{equation}
     \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1 % normalizacja?
+    \label{eqn:distribution-function}
 \end{equation}
+
 
 opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
 oraz prędkości, powielone dla każdej z N cząstek).
@@ -68,6 +70,7 @@ Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova 
 
 \begin{equation}
     \frac{ d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_\vec{v} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
+    \label{eqn:Vlasov}
 % TODO: wzór na równanie Vlasova
 \end{equation}
 
@@ -127,6 +130,14 @@ ale od stosunku $q/m$. W praktyce stosuje się więc \emph{makrocząstki}, obdar
 tych wielkości dla cząstek występujących w naturze (jak jony i elektrony, pozwalając jednocześnie zachować gęstości
 cząstek i ładunku % oraz inne wielkości fizyczne)
 zbliżone do rzeczywistych.
+
+Zazwyczaj (``tradycyjnie'') stosuje się gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej gęstości krytycznej plazmy,
+która jest opisana wzorem
+
+\begin{equation}
+    n_c = m_e \varepsilon_0 * (\frac{2 \pi c}{e \lambda})^2
+    \label{eqn:critical-density}
+\end{equation}
 
 \subsection{Problem testowy}
 
@@ -308,28 +319,24 @@ Wychodzimy z rotacyjnych równań Maxwella:
 
 \begin{equation}
     \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
-\end{equation}
-
-\begin{equation}
     \nabla \times \vec{B} = \mu_0 (\vec{j} + \epsilon_0 \frac{\partial \vec{E}}{\partial t})
+    \label{eqn:Maxwell-rotation-derivation}
 \end{equation}
 
 % TODO: skończyć wyprowadzenie
 
 \begin{equation}
     F^{+} = E_y + c B_z
-\end{equation}
-\begin{equation}
     F^{-} = E_y - c B_z
+    \label{eqn:Birdsall-electromagnetic-quantities}
 \end{equation}
 Analogicznie, dla składowych $E_z$, $B_y$:
 
 % TODO: zweryfikować znaki i czy c nie jest w mianowniku
 \begin{equation}
     G^{+} = E_z - c B_y
-\end{equation}
-\begin{equation}
     G^{-} = E_z + c B_y
+    \label{eqn:Birdsall-electromagnetic-quantities-alternate-axes}
 \end{equation}
 Wyrazem ``źródłowym'' dla F, G jest prąd poprzeczny. Po dyskretyzacji równania, wyrażenie na ewolucję pól F, G między
 iteracjami przybiera postać:
@@ -457,6 +464,23 @@ Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych pr
 \subsubsection{niestabilność dwóch strumieni}
 
 \subsection{Symulacja oddziaływania lasera z tarczą wodorową}
+
+Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją rozkładu gęstości (jest to tak zwany obszar prejonizacji) %TODO: preplazmy?
+
+Gęstość rozkładu plazmy przyjęto jako
+
+Początkowe prędkości cząstek przyjęto jako zerowe. % TODO: wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z
+
+Za moc lasera przyjęto $10^{23} W/m^2$, % TODO: czy to nie jest za dużo?
+zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
+
+Długość obszaru symulacji to % TODO
+
+Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według tablic,
+jak obrazuje następująca tabela:
+
+% TODO: zrobić tabelkę na stałe
+
 \subsection{Benchmarki - szybkość, zasobożerność} %fix
 \subsection{Problemy napotkane w trakcie pisania kodu}
 
