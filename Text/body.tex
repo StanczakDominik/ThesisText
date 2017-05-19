@@ -52,7 +52,7 @@ znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - ka�
 z każdą inną nawzajem poprzez niepomijalne na dużych odległościach oddziaływania kulombowskie $\approx r^{-2}$.
 
 Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami są opisy statystyczne,
-opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako 
+opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako
 
 
 \begin{equation}
@@ -64,7 +64,7 @@ opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest
 opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
 oraz prędkości, powielone dla każdej z N cząstek).
 
-% TODO: dodać reference na opis statystyczny 
+% TODO: dodać reference na opis statystyczny
 
 Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
 
@@ -116,7 +116,7 @@ Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczn
         Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
         Należy przy tym zauważyć, że jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
         elektromagnetycznych w okolicy cząstki, ta część algorytmu sprawia, że algorytmy Particle-in-cell doskonale
-        nadają się do zrównoleglania (problem jest w przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
+        nadają się do zrównoleglania (problem jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
         Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
 \subsubsection{PUSH}
     iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
@@ -159,25 +159,6 @@ Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim
 na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
 napisanych w C.
 
-\subsection{Optymalizacja kodu}
-
-\subsubsection{Numpy}
-Numpy to biblioteka umożliwiająca wykonywanie obliczeń macierzowych. Pod zewnętrzną powłoką zawiera odwołania do
-wypróbowanych modułów LAPACK, BLAS %itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
-% w ogóle stoi numpy
-napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de facto standard większości obliczeń
-numerycznych w Pythonie.
-\subsubsection{Numba}
-Numba to biblioteka służąca do kompilacji just-in-time kodu. % ogarnąć jak właściwie działa numba
-W wielu przypadkach % odniesienie
-pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie niższej bądź nawet równej do analogicznego
-programu w C. % czy były takie testy z fortranem
-Jednocześnie 
-\subsubsection{HDF5}
-HDF5 jest wysokowydajnym programem plikow służącym przechowywaniu danych liczbowych w drzewiastej strukturze danych.
-W Pythonie implementuje go biblioteka h5py.
-Używa się go na przykład w % lista miejsc gdzie używają hdf5
-W bieżącej pracy  wykorzystuje się go do przechowywania danych dot. symulacji, pozwalających na postprocessinge<F9><F8>
 
 \section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
 \subsection{Opis i treść kodu}
@@ -348,33 +329,61 @@ iteracjami przybiera postać:
 Z tego powodu bardzo istotnym dla dokładnośći i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
 aby był robiony w sposób który spełnia zachowanie ładunku.
 
-\subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
 
-\subsection{Wykorzystane techniki i technologie}
-\begin{itemize}
-    \item obliczenia wektorowe
-    \item pytest; Test-driven development
-    \item format plików danych hdf5
-    \item wykresy: matplotlib
-    \item scipy
-    \item numba
-    \item numpy
-\end{itemize}
+\subsection{Wykorzystane biblioteki i technologie}
 
-Przy pracy nad kodem użyto frameworku testowego pytest %link w stopce
-Obsługa testów jest trywialna:
-
-Należy zaznaczyć, że w numeryce testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na polowaniach na bugi
-poprzez automatyzację uruchamiania kolejnych partii kodu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
-czasach. % trochę soapbox?
-% przykład kodu
-% powinienem mieć coś w stylu make test czy setup.py test
+\subsubsection{Numpy}
+Numpy to biblioteka umożliwiająca wykonywanie obliczeń macierzowych. Pod zewnętrzną powłoką zawiera odwołania do
+wypróbowanych modułów LAPACK, BLAS %itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
+% w ogóle stoi numpy
+napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de facto standard większości obliczeń
+numerycznych w Pythonie.
+\subsubsection{scipy}
+Kolejną podstawową biblioteką w numerycznym Pythonie jest \emph{scipy}, biblioteka
+zawierająca wydajne implementacje wielu podstawowych algorytmów numerycznych służących
+między innymi całkowaniu, optymalizacji, algebrze liniowej czy transformatom Fouriera.
 
 \subsubsection{Numba}
+Numba to biblioteka służąca do kompilacji just-in-time kodu. % ogarnąć jak właściwie działa numba
+W wielu przypadkach % odniesienie
+pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie niższej bądź nawet równej do analogicznego
+programu w C. % czy były takie testy z fortranem
+Jednocześnie
+% \subsubsection{Numba}
 
-Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
+% Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
+\subsubsection{HDF5}
+HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej strukturze danych.
+W Pythonie implementuje go biblioteka h5py.
+Używa się go na przykład w % lista miejsc gdzie używają hdf5
+W bieżącej pracy  wykorzystuje się go do przechowywania danych dot. symulacji, pozwalających na postprocessinge<F9><F8>
 
-\subsection{Depozycja ładunku i prądu}
+% \begin{itemize}
+    % \item obliczenia wektorowe
+    % \item pytest; Test-driven development
+    % \item format plików danych hdf5
+    \item wykresy: matplotlib
+    \item scipy
+    % \item numba
+    % \item numpy
+% \end{itemize}
+
+\subsubsection{py.test}
+Przy pracy nad kodem użyto frameworku testowego py.test %link w stopce
+Obsługa testów jest trywialna:
+
+% przykład kodu
+
+Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie objawia się
+zazwyczaj błędem wykonywania programu, a jedynie błędnymi wynikami, dobrze zautomatyzowane
+testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na debugowaniu
+poprzez automatyzację uruchamiania kolejnych partii kodu i lokalizację błędnie działających
+części algorytmu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
+czasach, zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
+wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
+
+\subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
+\subsubsection{Depozycja ładunku i prądu}
 
 Depozycja ładunku i prądu polega na obliczeniu na podstawie położenia i prędkości każdej cząstki jej wkładu do
 gęstości prądu i ładunku na siatce, oraz zwiększeniu bieżących wartości o ten wkład.
@@ -488,4 +497,3 @@ jak obrazuje następująca tabela:
 Utworzono kod symulacyjny implementacyjny algorytm particle-in-cell w Pythonie przy użyciu wszystkich dostępnych
 możliwości, jakie daje ekosystem open-source. Kod zoptymalizowano przy użyciu % TODO: zoptymalizować.
 Otrzymane wyniki benchmarków pozwalają sądzić, że % jest moc
-
