@@ -1,3 +1,5 @@
+\newcommand{\pkg}[1]\texttt{#1}}
+
 \section[Wstęp]{Wstęp} %2-3 strony wprowadzenie w temat, motywacja, teza (cel)
 Algorytmy Particle-in-Cell ("cząstka w komórce") to jedne z najbardziej zbliżonych do fundamentalnej fizyki
 metod symulacji materii w stanie plazmy. Zastosowany w nich lagranżowski opis cząsteczek pozwala na dokładne
@@ -9,20 +11,36 @@ ten etap jest najbardziej krytyczny dla wydajności progamu.
 W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 \item symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER %TODO: źródło,
 \item modelowania rekonekcji linii magnetycznych w polu gwiazdy %TODO: źródło
-\item projektowania silników jonowych (Halla) %TODO: jak wyżej
+\item projektowania silników jonowych (Halla) %TODO: źródło
 \item badania interakcji laserów z plazmą w kontekście tworzenia niewielkich,
-wysokowydajnych akceleratorów cząstek %TODO
+wysokowydajnych akceleratorów cząstek %TODO: źródło
 
-Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych %TODO
-możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie ich zastosowań.
-Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych jest jednak utrudniona poprzez
-niskopoziomowość %TODO: to sformułowanie zabiło JFK i chciałbym inne
-istniejących technologii (CUDA, OpenCL) %TODO: źródło
-co utrudnia pisanie złożonych programów, zwłaszcza przez osoby zajmujące się głównie pracą badawczą
-niż wyłącznie programowaniem. %TODO: przeformułować
+Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych
+możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich zastosowań.
 
-Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell w języku
-wysokopoziomowym i %wyciśnięcie z niego tylu flopsów ile się da!
+Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych,
+jak również w ogólności nowoczesnych symulacji wykorzystujących dobrodziejstwa nowych technologii
+jest jednak utrudniona poprzez niskopoziomowość istniejących języków klasycznie
+kojarzonych z symulacją numeryczną (C, FORTRAN) oraz istniejących technologii zrównoleglania
+algorytmów (MPI, CUDA, OpenCL).
+
+To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
+zajmujące się głównie pracą badawczą (np. fizyką), a nie tylko programowaniem,
+jest znacznie utrudnione. Należy też zauważyć, że programy takie często są
+trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
+i modyfikacji przez osoby niezwiązane z oryginalnym autorem z powodów takich jak
+\begin{itemize}
+    \item brak dostępności kodu źródłowego
+    \item niedostateczna dokumentacja
+    \item brak jasno postawionych testów pokazujących, kiedy algorytm działa zgodnie ze swoim przeznaczeniem
+    \item zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
+\end{itemize}
+
+Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell w popularnym języku
+wysokopoziomowym (Pythonie) przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
+i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej.
+
+% TODO: pick up here
 Ma to dwojaki sens:
 \begin{enumerate}
     \item zweryfikowanie możliwości leżących w obecnych językach wysokopoziomowych bez wykorzystywania kart graficznych
@@ -338,6 +356,7 @@ wypróbowanych modułów LAPACK, BLAS %itd - dopisać przykłady pozostałych bi
 % w ogóle stoi numpy
 napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de facto standard większości obliczeń
 numerycznych w Pythonie.
+
 \subsubsection{scipy}
 Kolejną podstawową biblioteką w numerycznym Pythonie jest \emph{scipy}, biblioteka
 zawierająca wydajne implementacje wielu podstawowych algorytmów numerycznych służących
@@ -353,20 +372,20 @@ Jednocześnie
 
 % Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
 \subsubsection{HDF5}
-HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej strukturze danych.
+HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej,
+skompresowanej strukturze danych.
 W Pythonie implementuje go biblioteka h5py.
 Używa się go na przykład w % lista miejsc gdzie używają hdf5
-W bieżącej pracy  wykorzystuje się go do przechowywania danych dot. symulacji, pozwalających na postprocessinge<F9><F8>
+W bieżącej pracy  wykorzystuje się go do przechowywania danych dot. symulacji,
+pozwalających na postprocessinge<F9><F8>
 
-% \begin{itemize}
-    % \item obliczenia wektorowe
-    % \item pytest; Test-driven development
-    % \item format plików danych hdf5
-    \item wykresy: matplotlib
-    \item scipy
-    % \item numba
-    % \item numpy
-% \end{itemize}
+\subsubsection{matplotlib}
+Do wizualizacji danych z symulacji
+(oraz tworzenia schematów w sekcji teoretycznej niniejszej pracy)
+użyto własnoręcznie napisanych wykresów w uniwersalnym
+pakiecie graficznym \pkg{matplotlib}. \pkg{matplotlib} zapewnie wsparcia zarówno
+dla grafik statycznych w różnych układach współrzędnych (w tym 3D), jak również dla
+dynamicznie generowanych animacji przedstawiających przebiegi czasowe symulacji.
 
 \subsubsection{py.test}
 Przy pracy nad kodem użyto frameworku testowego py.test %link w stopce
