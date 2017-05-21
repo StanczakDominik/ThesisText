@@ -291,7 +291,18 @@ W tym przypadku stosuje się relatywistyczny algorytm Borysa, w którym jedyną 
 nierelatywistycznego jest operowanie na pędach oraz sprowadzanie pędów do prędkości jako $\vec{v} = \vec{p} / \gamma$ %REWRITE
 
 \subsubsection{Depozycja gęstości ładunku i prądu}
+Depozycja ładunku odbywa się w prosty sposób, przy następujących założeniach:
+\begin{itemize}
+    \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species}) ładunek $q$ oraz parametr \code{scaling} (również) % TODO STYLE?
+    decydujący o tym, ile rzeczywistych cząstek reprezentuje. Sumaryczny ładunek makrocząstki wynosi więc \code{q*scaling}
+    \item Każda makrocząstka ma szerokość jednej komórki siatki $\Delta x$. Cząstka zlokalizowana więc środkiem
+    w połowie długości komórki będzie w niej całkowicie zawarata.
+    \item W ten sposób możemy stwierdzić, % TODO CONTINUE
+
+\end{itemize}
 \subsubsection{Interpolacja pól elektrycznego i magnetycznego}
+Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
+% TODO CONTINUE
 \subsubsection{Field solver} %TODO: przerobić
 
 Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
