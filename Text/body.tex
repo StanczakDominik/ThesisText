@@ -1,4 +1,4 @@
-\newcommand{\pkg}[1]\texttt{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
 
 \section[Wstęp]{Wstęp} %2-3 strony wprowadzenie w temat, motywacja, teza (cel)
 Algorytmy Particle-in-Cell ("cząstka w komórce") to jedne z najbardziej zbliżonych do fundamentalnej fizyki
@@ -87,7 +87,7 @@ oraz prędkości, powielone dla każdej z N cząstek).
 Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
 
 \begin{equation}
-    \frac{ d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_\vec{v} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
+    \frac{ d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_{\vec{v}} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
     \label{eqn:Vlasov}
 % TODO: wzór na równanie Vlasova
 \end{equation}
@@ -131,11 +131,11 @@ Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczn
     Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
     metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
 \subsubsection{SCATTER}
-        Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
-        Należy przy tym zauważyć, że jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
-        elektromagnetycznych w okolicy cząstki, ta część algorytmu sprawia, że algorytmy Particle-in-cell doskonale
-        nadają się do zrównoleglania (problem jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
-        Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
+    Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
+    Należy przy tym zauważyć, że jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
+    elektromagnetycznych w okolicy cząstki, ta część algorytmu sprawia, że algorytmy Particle-in-cell doskonale
+    nadają się do zrównoleglania (problem jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
+    Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
 \subsubsection{PUSH}
     iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
     oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
@@ -268,7 +268,7 @@ Configi testowe są zawarte w plikach run\_*: % przeformułować
 
 Testy jednostkowe są zawarte w katalogu tests:
 
-\subsection{Wybrane algorytmy}
+\subsection{Zastosowane algorytmy}
 
 \subsubsection{Leapfrog oraz Borys} % REWRITE
 Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
@@ -341,10 +341,10 @@ Wyrazem ``źródłowym'' dla F, G jest prąd poprzeczny. Po dyskretyzacji równa
 iteracjami przybiera postać:
 
 \begin{equation}
-    F^{+}^{n+1}_{i+1} = F^{+}<++>_{n} + j%sprawdzić
+    {F^{+}}^{n+1}_{i+1} = F^{+}_{n} + j%sprawdzić
 \end{equation}
 
-Z tego powodu bardzo istotnym dla dokładnośći i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
+Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
 aby był robiony w sposób który spełnia zachowanie ładunku.
 
 
@@ -358,7 +358,7 @@ napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de fac
 numerycznych w Pythonie.
 
 \subsubsection{scipy}
-Kolejną podstawową biblioteką w numerycznym Pythonie jest \emph{scipy}, biblioteka
+Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy}, biblioteka
 zawierająca wydajne implementacje wielu podstawowych algorytmów numerycznych służących
 między innymi całkowaniu, optymalizacji, algebrze liniowej czy transformatom Fouriera.
 
@@ -376,14 +376,14 @@ HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczb
 skompresowanej strukturze danych.
 W Pythonie implementuje go biblioteka h5py.
 Używa się go na przykład w % lista miejsc gdzie używają hdf5
-W bieżącej pracy  wykorzystuje się go do przechowywania danych dot. symulacji,
-pozwalających na postprocessinge<F9><F8>
+W bieżącej pracy wykorzystuje się go do przechowywania danych dot. symulacji,
+pozwalających na ich postprocessing do dalszej analizy.
 
 \subsubsection{matplotlib}
 Do wizualizacji danych z symulacji
 (oraz tworzenia schematów w sekcji teoretycznej niniejszej pracy)
 użyto własnoręcznie napisanych wykresów w uniwersalnym
-pakiecie graficznym \pkg{matplotlib}. \pkg{matplotlib} zapewnie wsparcia zarówno
+pakiecie graficznym \code{matplotlib}. \code{matplotlib} zapewnie wsparcia zarówno
 dla grafik statycznych w różnych układach współrzędnych (w tym 3D), jak również dla
 dynamicznie generowanych animacji przedstawiających przebiegi czasowe symulacji.
 
@@ -461,29 +461,30 @@ jednostkowe uruchamiane po każdej wymiernej zmianie kodu pozwalają kontrolowa�
 zapobieganie błędom.
 
 \begin{enumerate}
-    \item Gather
+    \itemi Gather
     \begin{enumerate}
         % TODO: itemii?
-        \item Depozycja prądu z pojedynczej cząstki na niewielką siatkę
-        \item Depozycja prądu z dwóch pojedynczych cząstek na niewielką siatkę
+        \itemii Depozycja prądu z pojedynczej cząstki na niewielką siatkę
+        \itemii Depozycja prądu z dwóch pojedynczych cząstek na niewielką siatkę
               i porównanie z sumą prądów dla obu pojedynczyczh cząstek
-        \item Depozycja prądu z dużej ilości równomiernie rozłożonych cząstek
+        \itemii Depozycja prądu z dużej ilości równomiernie rozłożonych cząstek
     \end{enumerate}
 
     \itemi Solve
     \begin{enumerate}
-        \item % TODO
+        \itemii Symulacja fali sinusoidalnej, obwiedni impulsu i złożenia tych dwóch
+              propagujących się w próżni
     \end{enumerate}
 
     \itemi Scatter
     \begin{enumerate}
-        \item % TODO
+        \itemii % TODO: write these
     \end{enumerate}
 
     \itemi Push
     \begin{enumerate}
-        \item Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
-        \item Ruch w jednorodnym polu elektrycznym z polem magnetycznym % TODO: zrobić to
+        \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
+        \itemii Ruch w jednorodnym polu magnetycznym z polem magnetycznym
     \end{enumerate}
 \end{enumerate}
 
@@ -499,7 +500,7 @@ Gęstość rozkładu plazmy przyjęto jako
 
 Początkowe prędkości cząstek przyjęto jako zerowe. % TODO: wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z
 
-Za moc lasera przyjęto $10^{23} W/m^2$, % TODO: czy to nie jest za dużo?
+Za moc lasera przyjęto $10^{23} W/m^2$, % TODO ASK: czy to nie jest za dużo?
 zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
 
 Długość obszaru symulacji to % TODO
@@ -510,6 +511,7 @@ jak obrazuje następująca tabela:
 % TODO: zrobić tabelkę na stałe
 
 \subsection{Benchmarki - szybkość, zasobożerność} %fix
+Do przeprowadzenia testów wydajności kodu użyto % TODO:
 \subsection{Problemy napotkane w trakcie pisania kodu}
 
 \section[Zakończenie]{Zakończenie} % 3-5 stron
