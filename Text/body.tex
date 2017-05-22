@@ -299,9 +299,12 @@ Depozycja ładunku odbywa się w prosty sposób, przy następujących założeni
     w połowie długości komórki będzie w niej całkowicie zawarata.
     \item W ten sposób możemy stwierdzić, % TODO CONTINUE
 
+% TODO: popatrzec do Bunemana i zobaczyc jakiej depozycji ladunku uzywali.
+
 \end{itemize}
 \subsubsection{Interpolacja pól elektrycznego i magnetycznego}
 Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
+Wartosci pol sa liniowo skalowane do pozycji czastek wedlug ich wzglednych położeń wewnątrz komórek.
 % TODO CONTINUE
 \subsubsection{Field solver} %TODO: przerobić
 
@@ -323,7 +326,8 @@ warunku Couranta.
 
 % TODO: gładsze przejście tutaj
 W 1D można dokonać dekompozycji składowych poprzecznych pola elektromagnetycznego (tutaj oznaczanych $y$, $z$) na
-propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane w % słowo
+propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane poprzez zamianę zmiennych
+w dwie wielkości elektrodynamiczne $F^+$, $F^-$. 
 
 Wychodzimy z rotacyjnych równań Maxwella:
 
@@ -357,6 +361,18 @@ iteracjami przybiera postać:
 
 Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
 aby był robiony w sposób który spełnia zachowanie ładunku.
+
+Składowa podłużna pola jest obliczana poprzez wyrażenie
+
+\begin{equation}
+    % TODO
+\end{equation}
+
+oraz jej dyskretny odpowiednik
+
+\begin{equation}
+% TODO
+    \end{equation
 
 
 \subsection{Wykorzystane biblioteki i technologie}
