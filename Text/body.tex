@@ -327,7 +327,7 @@ warunku Couranta.
 % TODO: gładsze przejście tutaj
 W 1D można dokonać dekompozycji składowych poprzecznych pola elektromagnetycznego (tutaj oznaczanych $y$, $z$) na
 propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane poprzez zamianę zmiennych
-w dwie wielkości elektrodynamiczne $F^+$, $F^-$. 
+w dwie wielkości elektrodynamiczne $F^+$, $F^-$.
 
 Wychodzimy z rotacyjnych równań Maxwella:
 
@@ -372,8 +372,44 @@ oraz jej dyskretny odpowiednik
 
 \begin{equation}
 % TODO
-    \end{equation
+\end{equation}
 
+\subsection{Warunki początkowe dla cząstek}
+
+W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w .% TODO: Birdsall Langdon
+Jego działanie można łatwo zilustrować na przykładzie początkowej funkcji gęstości cząstek zadanej
+dowolną funkcją analityczną. % TODO: czy analityczna nie jest słowem zarezerwowanych dla tych na szeregi
+Używając funkcji dystrybucji w jednym wymiarze zależnej jedynie od położenia znormalizowanej do
+liczby cząstek $N$, można wykonać całkowanie kumulatywne po siatce gęstszej niż liczba cząstek
+na wybranym przedziale, po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
+przybiera kolejne większe całkowite wartości.
+
+% TODO: rysunek: przykład z ipynb
+
+Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną % TODO: czy nie przesadzam?
+i zrenormalizować ją tak, aby $\int_0^L f(x) dx = N$. W praktyce wykorzystuje się wartości marginalnie większe
+niż $N$, mianowicie $N+0.1$, co pozwala na uniknięcie problemów ze skończoną dokładnością obliczeń
+na liczbach zmiennoprzecinkowych.
+
+Aby uniknąć problemu w przypadku dwóch \code{Species} cząstek o identycznej liczbie makrocząstek i przeciwnym znaku
+które według powyższego algorytmu zostałyby rozłożone w identycznych miejscach z powodu niezależnego
+stosowania algorytmu dla każdej grupy cząstek, co prowadziłoby do neutralizacji ładunku na całej symulacji,
+na położenia cząstek nakłada się dodatkowy gaussowski szum o niewielkiej intensywności.
+
+Analogiczny algorytm znajduje zastosowanie w obliczaniu początkowych wartości prędkości dla cząstek.
+Wykorzystuje się relatywistyczny rozkład Maxwella
+
+\begin{equation}
+f(v) = \exp{()\gamma - 1) / k T} % TODO: wzór
+\label{relativistic-maxwell-distribution}
+\end{equation}
+
+Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane % TODO: czy to jest słowo
+należy zadbać o zdekorelowanie ich prędkości między sobą. Naiwne zastosowanie algorytmu na położenia
+prowadzi zaś do rozłożenia cząstek rosnąco numeracją w kierunku rosnącego położenia $x$.
+
+Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo wybranymi cząstkami.
+% TODO: dopisać jak będzie zrobione.
 
 \subsection{Wykorzystane biblioteki i technologie}
 
