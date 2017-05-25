@@ -92,8 +92,14 @@ Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova 
 % TODO: wzór na równanie Vlasova
 \end{equation}
 
-W praktyce jest ono również nierozwiązywalne. Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
-przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. % TODO: runaway electrons
+W praktyce jest ono również nierozwiązywalne poza trywialnymi przypadkami o ułatwiających problem symetriach. 
+Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
+przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. Należy zauważyć, że skalowanie
+liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$, gdzie $N_r$ to liczba punktów przestrzennych, zaś
+$N_v$ to liczba punktów na siatce prędkości. Jest to więc % intractable
+obliczeniowo. % TODO: przeformułować
+między innymi ze względu na istotne w plazmach zjawisko ``uciekających elektronów'' o dużych prędkościach.
+% TODO: runaway electrons - przeformułować
 
 W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
 \begin{enumerate}
