@@ -92,7 +92,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 % TODO: wzór na równanie Vlasova
     \end{equation}
 
-    W praktyce jest ono również nierozwiązywalne poza trywialnymi przypadkami o ułatwiających problem symetriach. 
+    W praktyce jest ono również nierozwiązywalne poza trywialnymi przypadkami o ułatwiających problem symetriach.
     Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
     przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. Należy zauważyć, że skalowanie
     liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$, gdzie $N_r$ to liczba punktów przestrzennych, zaś
@@ -561,8 +561,30 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 
     Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
     \subsubsection{oscylacje zimnej plazmy}
-    \subsubsection{niestabilność dwóch strumieni}
+    Jest to efektywnie fala stojąca. Jednorodne rozmieszczenie cząstek z zerową prędkością początkową (stąd określenie
+    "zimna plazma" jako nietermalna)
+    % TODO: czy ja ruszam prędkości czy położenia i czy to nie powinno zmienić fazy
+    jednego typu na okresowej siatce z jednoczesnym wysunięciem ich z położeń równowagi o $\Delta x = A \sin(kx)$,
+    gdzie $k = n 2 \pi / L$, pozwala na obserwację
+    oscylacji cząstek wokół ich stabilnych położeń równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
+    elipsy, co pozwala wnioskować że ruch ten jest harmoniczny.
 
+    Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to dx$ % TODO dx
+    obserwuje się nieliniowy reżim %TODO: i co
+
+    Jest to też łoże testowe %TODO sformułowanie
+    dla innych przypadków, takich jak niestabilność Kaiser-Wilhelm % TODO: sformułowanie z BL
+    oraz % TODO czegoś jeszcze.
+    \subsubsection{niestabilność dwóch strumieni} % TODO
+    Różnice między tym a poprzednim przypadkiem to obecność dwóch jednorodnie rozłożonych strumieni cząstek
+    z przeciwnie skierowanymi prędkościami wzdłuż osi układu.
+
+    Dla niewielkich prędkości % TODO: sparametryzować
+    obserwuje się liniowy reżim %TODO bunchingu
+
+    Dla dużych prędkości % TODO sprawdzić
+     obserwuje się nieliniowe zachowanie cząstek, które zaczynają się mieszać ze sobą, zaś cały układ się termalizuje.
+    % TODO: opisać dalej
     \subsection{Symulacja oddziaływania lasera z tarczą wodorową}
 
     Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją rozkładu gęstości (jest to tak zwany obszar prejonizacji) %TODO: preplazmy?
