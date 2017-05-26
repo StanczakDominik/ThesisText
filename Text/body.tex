@@ -13,121 +13,121 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 \item modelowania rekonekcji linii magnetycznych w polu gwiazdy %TODO: źródło
 \item projektowania silników jonowych (Halla) %TODO: źródło
 \item badania interakcji laserów z plazmą w kontekście tworzenia niewielkich,
-wysokowydajnych akceleratorów cząstek %TODO: źródło
+    wysokowydajnych akceleratorów cząstek %TODO: źródło
 
-Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych
-możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich zastosowań.
+    Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych
+    możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich zastosowań.
 
-Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych,
-jak również w ogólności nowoczesnych symulacji wykorzystujących dobrodziejstwa nowych technologii
-jest jednak utrudniona poprzez niskopoziomowość istniejących języków klasycznie
-kojarzonych z symulacją numeryczną (C, FORTRAN) oraz istniejących technologii zrównoleglania
-algorytmów (MPI, CUDA, OpenCL).
+    Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych,
+    jak również w ogólności nowoczesnych symulacji wykorzystujących dobrodziejstwa nowych technologii
+    jest jednak utrudniona poprzez niskopoziomowość istniejących języków klasycznie
+    kojarzonych z symulacją numeryczną (C, FORTRAN) oraz istniejących technologii zrównoleglania
+    algorytmów (MPI, CUDA, OpenCL).
 
-To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
-zajmujące się głównie pracą badawczą (np. fizyką), a nie tylko programowaniem,
-jest znacznie utrudnione. Należy też zauważyć, że programy takie często są
-trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
-i modyfikacji przez osoby niezwiązane z oryginalnym autorem z powodów takich jak
-\begin{itemize}
-    \item brak dostępności kodu źródłowego
-    \item niedostateczna dokumentacja
-    \item brak jasno postawionych testów pokazujących, kiedy algorytm działa zgodnie ze swoim przeznaczeniem
-    \item zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
-\end{itemize}
+    To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
+    zajmujące się głównie pracą badawczą (np. fizyką), a nie tylko programowaniem,
+    jest znacznie utrudnione. Należy też zauważyć, że programy takie często są
+    trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
+    i modyfikacji przez osoby niezwiązane z oryginalnym autorem z powodów takich jak
+    \begin{itemize}
+        \item brak dostępności kodu źródłowego
+        \item niedostateczna dokumentacja
+        \item brak jasno postawionych testów pokazujących, kiedy algorytm działa zgodnie ze swoim przeznaczeniem
+        \item zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
+    \end{itemize}
 
-Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell w popularnym języku
-wysokopoziomowym (Pythonie) przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
-i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej.
+    Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell w popularnym języku
+    wysokopoziomowym (Pythonie) przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
+    i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej.
 
 % TODO: pick up here
-Ma to dwojaki sens:
-\begin{enumerate}
-    \item zweryfikowanie możliwości leżących w obecnych językach wysokopoziomowych bez wykorzystywania kart graficznych
-    \item położenie fundamentów pod
-\end{enumerate}
-\section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
+    Ma to dwojaki sens:
+    \begin{enumerate}
+        \item zweryfikowanie możliwości leżących w obecnych językach wysokopoziomowych bez wykorzystywania kart graficznych
+        \item położenie fundamentów pod
+    \end{enumerate}
+    \section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
 
-\subsection{Fizyka plazmy}
+    \subsection{Fizyka plazmy}
 
-Plazma, powszechnie nazywana czwartym stanem materii, to zbiór zjonizowanych %TODO: formalna definicja plazmy
-cząstek oraz elektronów. Plazmy występują w całym wszechświecie, od materii międzygwiezdnej po błyskawice.
-Ich istnienie uwarunkowane jest obecnością wysokich energii, wystarczających do zjonizowania atomów gazu.
+    Plazma, powszechnie nazywana czwartym stanem materii, to zbiór zjonizowanych %TODO: formalna definicja plazmy
+    cząstek oraz elektronów. Plazmy występują w całym wszechświecie, od materii międzygwiezdnej po błyskawice.
+    Ich istnienie uwarunkowane jest obecnością wysokich energii, wystarczających do zjonizowania atomów gazu.
 
-Fizyka plazmy jest stosunkowo młodą nauką, której rozwój nastąpił dopiero w ostatnim stuleciu, zaczynając od badań Alfvena. %TODO reference
-Globalny wzrost zainteresowania fizyką plazmy rozpoczął się w latach '50 ubiegłego wieku, %TODO - zweryfikować
-gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, % TODO: reference: fusion in europe history of fusion
-które mogą mieć zastosowania w energetyce jako następny etap rozwoju po reakcjach rozpadu wykorzystywanych
-w "klasycznych" elektrowniach jądrowych.
+    Fizyka plazmy jest stosunkowo młodą nauką, której rozwój nastąpił dopiero w ostatnim stuleciu, zaczynając od badań Alfvena. %TODO reference
+    Globalny wzrost zainteresowania fizyką plazmy rozpoczął się w latach '50 ubiegłego wieku, %TODO - zweryfikować
+    gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, % TODO: reference: fusion in europe history of fusion
+    które mogą mieć zastosowania w energetyce jako następny etap rozwoju po reakcjach rozpadu wykorzystywanych
+    w "klasycznych" elektrowniach jądrowych.
 
-Poza tym plazmy mają szerokie zastosowanie w przemyśle metalurgicznym, elektronicznym, kosmicznym itp. %TODO: to potrzebuje źródła
+    Poza tym plazmy mają szerokie zastosowanie w przemyśle metalurgicznym, elektronicznym, kosmicznym itp. %TODO: to potrzebuje źródła
 
-\subsection{Modelowanie i symulacja plazmy}
+    \subsection{Modelowanie i symulacja plazmy}
 
-Zjawiska z zakresu fizyki plazmy są jednymi z bardziej złożonych problemów modelowanie komputerowej.
-Głównym, koncepcyjnie, powodem uniemożliwiającym zastosowanie prostych metod symulacji
-znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałowuje
-z każdą inną nawzajem poprzez niepomijalne na dużych odległościach oddziaływania kulombowskie $\approx r^{-2}$.
+    Zjawiska z zakresu fizyki plazmy są jednymi z bardziej złożonych problemów modelowanie komputerowej.
+    Głównym, koncepcyjnie, powodem uniemożliwiającym zastosowanie prostych metod symulacji
+    znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałowuje
+    z każdą inną nawzajem poprzez niepomijalne na dużych odległościach oddziaływania kulombowskie $\approx r^{-2}$.
 
-Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami są opisy statystyczne,
-opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako
-
-
-\begin{equation}
-    \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1 % normalizacja?
-    \label{eqn:distribution-function}
-\end{equation}
+    Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami są opisy statystyczne,
+    opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako
 
 
-opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
-oraz prędkości, powielone dla każdej z N cząstek).
+    \begin{equation}
+        \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1 % normalizacja?
+        \label{eqn:distribution-function}
+    \end{equation}
+
+
+    opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
+    oraz prędkości, powielone dla każdej z N cząstek).
 
 % TODO: dodać reference na opis statystyczny
 
-Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
+    Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
 
-\begin{equation}
-    \frac{ d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_{\vec{v}} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
-    \label{eqn:Vlasov}
+    \begin{equation}
+        \frac{ d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_{\vec{v}} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
+        \label{eqn:Vlasov}
 % TODO: wzór na równanie Vlasova
-\end{equation}
+    \end{equation}
 
-W praktyce jest ono również nierozwiązywalne poza trywialnymi przypadkami o ułatwiających problem symetriach. 
-Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
-przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. Należy zauważyć, że skalowanie
-liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$, gdzie $N_r$ to liczba punktów przestrzennych, zaś
-$N_v$ to liczba punktów na siatce prędkości. Jest to więc % intractable
-obliczeniowo. % TODO: przeformułować
-między innymi ze względu na istotne w plazmach zjawisko ``uciekających elektronów'' o dużych prędkościach.
+    W praktyce jest ono również nierozwiązywalne poza trywialnymi przypadkami o ułatwiających problem symetriach. 
+    Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
+    przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. Należy zauważyć, że skalowanie
+    liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$, gdzie $N_r$ to liczba punktów przestrzennych, zaś
+    $N_v$ to liczba punktów na siatce prędkości. Jest to więc % intractable
+    obliczeniowo. % TODO: przeformułować
+    między innymi ze względu na istotne w plazmach zjawisko ``uciekających elektronów'' o dużych prędkościach.
 % TODO: runaway electrons - przeformułować
 
-W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
-\begin{enumerate}
-\item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
-wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TODO: reformulate
-\item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
-        (matematycznie jest to równanie Klimontowicza przybliżające równanie Vlasova) %TODO: read about this
-\end{enumerate}
+    W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
+    \begin{enumerate}
+        \item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
+            wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TODO: reformulate
+        \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
+            (matematycznie jest to równanie Klimontowicza przybliżające równanie Vlasova) %TODO: read about this
+    \end{enumerate}
 
-Prawdopodobnie najpopoularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell.
+    Prawdopodobnie najpopoularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell.
 
-\subsection{Modele Particle-in-cell}
+    \subsection{Modele Particle-in-cell}
 
-Idea modelu particle-in-cell jest wyjątkowo prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo kroku
-symulacji dynamiki molekularnej, czyli obliczania sił międzycząsteczkowych. Cząstki poruszają się w ciągłej, Lagrange'owskiej przestrzeni.
-Ich ruch wykorzystywany jest do zebrania informacji dotyczącej gęstości ładunku i prądu na dyskretną, Eulerowską siatkę. Na siatce rozwiązane
-są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane
-do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
-do $n \log{n}$ z $n^2$ % TODO: wyrazić złożoność PIC przez rozmiar siatki
+    Idea modelu particle-in-cell jest wyjątkowo prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo kroku
+    symulacji dynamiki molekularnej, czyli obliczania sił międzycząsteczkowych. Cząstki poruszają się w ciągłej, Lagrange'owskiej przestrzeni.
+    Ich ruch wykorzystywany jest do zebrania informacji dotyczącej gęstości ładunku i prądu na dyskretną, Eulerowską siatkę. Na siatce rozwiązane
+    są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane
+    do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
+    do $n \log{n}$ z $n^2$ % TODO: wyrazić złożoność PIC przez rozmiar siatki
 
-Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
-\subsubsection{GATHER}
+    Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczny schemacik
+    \subsubsection{GATHER}
     Depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
     co pozwala na sprawne rozwiązanie na tej siatce
     równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
     oddziaływań kulombowskich między nimi.
     $1 = \sum_i S_i$<++> % TODO: dokończyć wzór
-\subsubsection{SOLVE}
+    \subsubsection{SOLVE}
     Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce;
     znalezienie pól elektrycznego i magnetycznego
     na podstawie gęstości ładunku i prądu na siatce.
@@ -136,456 +136,456 @@ Algorytm particle-in-cell składa się z czterech elementów % GRAFIKA: cykliczn
     zaś lokalne - równania rotacyjne. Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
     Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
     metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
-\subsubsection{SCATTER}
+    \subsubsection{SCATTER}
     Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły elektromagnetyczne działające na cząstki.
     Należy przy tym zauważyć, że jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
     elektromagnetycznych w okolicy cząstki, ta część algorytmu sprawia, że algorytmy Particle-in-cell doskonale
     nadają się do zrównoleglania (problem jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
     Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
-\subsubsection{PUSH}
+    \subsubsection{PUSH}
     iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
     oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
 
-\subsubsection{Makrocząstki}
-Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
-między poszczególnymi cząstkami ze względu na liczbę cząstek % rzędu liczby Avogadro ~10^23
-W tym kontekście bardzo szczęśliwym jest fakt, że wszystkie istotne wielkości zależą nie od ładunku ani masy,
-ale od stosunku $q/m$. W praktyce stosuje się więc \emph{makrocząstki}, obdarzone ładunkiem i masą będące wielokrotnościami
-tych wielkości dla cząstek występujących w naturze (jak jony i elektrony, pozwalając jednocześnie zachować gęstości
-cząstek i ładunku % oraz inne wielkości fizyczne)
-zbliżone do rzeczywistych.
+    \subsubsection{Makrocząstki}
+    Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
+    między poszczególnymi cząstkami ze względu na liczbę cząstek % rzędu liczby Avogadro ~10^23
+    W tym kontekście bardzo szczęśliwym jest fakt, że wszystkie istotne wielkości zależą nie od ładunku ani masy,
+    ale od stosunku $q/m$. W praktyce stosuje się więc \emph{makrocząstki}, obdarzone ładunkiem i masą będące wielokrotnościami
+    tych wielkości dla cząstek występujących w naturze (jak jony i elektrony, pozwalając jednocześnie zachować gęstości
+    cząstek i ładunku % oraz inne wielkości fizyczne)
+    zbliżone do rzeczywistych.
 
-Zazwyczaj (``tradycyjnie'') stosuje się gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej gęstości krytycznej plazmy,
-która jest opisana wzorem
+    Zazwyczaj (``tradycyjnie'') stosuje się gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej gęstości krytycznej plazmy,
+    która jest opisana wzorem
 
-\begin{equation}
-    n_c = m_e \varepsilon_0 * (\frac{2 \pi c}{e \lambda})^2
-    \label{eqn:critical-density}
-\end{equation}
+    \begin{equation}
+        n_c = m_e \varepsilon_0 * (\frac{2 \pi c}{e \lambda})^2
+        \label{eqn:critical-density}
+    \end{equation}
 
-\subsection{Problem testowy}
+    \subsection{Problem testowy}
 
-Problemem testowym, jakiego używamy do przetestowania wydajności działania algorytmu jest
-interakcja impulsu laserowego z tarczą składającą się ze zjonizowanego wodoru i elektronów.
+    Problemem testowym, jakiego używamy do przetestowania wydajności działania algorytmu jest
+    interakcja impulsu laserowego z tarczą składającą się ze zjonizowanego wodoru i elektronów.
 
-Układ ten modelowany jest jako jednowymiarowy. Jest to tak zwany w literaturze model 1D-3D. O ile położenia cząstek
-są jednowymiarowe ze względu na znaczną symetrię
-cylindryczną układu, cząstki mają prędkości w pełnych trzech wymiarach. Jest to konieczne ze względu
-na oddziaływania cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu.
+    Układ ten modelowany jest jako jednowymiarowy. Jest to tak zwany w literaturze model 1D-3D. O ile położenia cząstek
+    są jednowymiarowe ze względu na znaczną symetrię
+    cylindryczną układu, cząstki mają prędkości w pełnych trzech wymiarach. Jest to konieczne ze względu
+    na oddziaływania cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu.
 
-\subsection{Python}
-Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
+    \subsection{Python}
+    Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
 
-Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
-w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, np. w mechanice płynów % TODO: PyFR
+    Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
+    w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, np. w mechanice płynów % TODO: PyFR
 
-Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
-na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
-napisanych w C.
+    Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
+    na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
+    napisanych w C.
 
 
-\section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
-\subsection{Opis i treść kodu}
-Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github %link
+    \section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
+    \subsection{Opis i treść kodu}
+    Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github %link
 
-\subsection{Struktura i hierarchia kodu}
+    \subsection{Struktura i hierarchia kodu}
 
-Program ma obiektową strukturę zewnątrzą, którą w celu łatwości zrozumienia jego działania nakrywa wewnętrzną warstwę
-składającą się głównie z n-wymiarowych tablic \emph{NumPy} oraz zwektoryzowanych operacji na nich.
+    Program ma obiektową strukturę zewnątrzą, którą w celu łatwości zrozumienia jego działania nakrywa wewnętrzną warstwę
+    składającą się głównie z n-wymiarowych tablic \emph{NumPy} oraz zwektoryzowanych operacji na nich.
 
-Kod składa się z kilku prostych koncepcyjnie elementów:
+    Kod składa się z kilku prostych koncepcyjnie elementów:
 
-\subsubsection{Species}
-Klasa reprezentująca pewną grupę makrocząstek (np. odpowiadające elektronom w symulacji).
+    \subsubsection{Species}
+    Klasa reprezentująca pewną grupę makrocząstek (np. odpowiadające elektronom w symulacji).
 
-Zawiera skalary:
-\begin{itemize}
-\item $N$ - liczba makrocząstek
-\item $q$ - ładunek makrocząstki
-\item $m$ - masa makrocząstki
-\item $c$ - prędkość światła
-\end{itemize}
+    Zawiera skalary:
+    \begin{itemize}
+        \item $N$ - liczba makrocząstek
+        \item $q$ - ładunek makrocząstki
+        \item $m$ - masa makrocząstki
+        \item $c$ - prędkość światła
+    \end{itemize}
 
-Zawiera tablice rozmiaru $N$:
-\begin{itemize}
-\item jednowymiarowych położeń makrocząstek $x^n$, zapisywanych w iteracjach $n, n+1, n+2$...
-\item trójwymiarowych prędkości makrocząstek $\vec{v}^{n+\frac{1}{2}}$, zapisywanych w iteracjach $n+\frac{1}{2}, n+{3}{2}, n+{5}{2}$...
-\item stanu makrocząstek (flagi boolowskie oznaczające cząstki aktywne bądź usunięte z obszaru symulacji)
-\end{itemize}
+    Zawiera tablice rozmiaru $N$:
+    \begin{itemize}
+        \item jednowymiarowych położeń makrocząstek $x^n$, zapisywanych w iteracjach $n, n+1, n+2$...
+        \item trójwymiarowych prędkości makrocząstek $\vec{v}^{n+\frac{1}{2}}$, zapisywanych w iteracjach $n+\frac{1}{2}, n+{3}{2}, n+{5}{2}$...
+        \item stanu makrocząstek (flagi boolowskie oznaczające cząstki aktywne bądź usunięte z obszaru symulacji)
+    \end{itemize}
 
-Poza tym, zawiera też informacje dotyczące zbierania danych dot. cząstek:
-\begin{itemize}
-    \item stringowy identyfikator grupy cząstek, dla potrzeb legend wykresów
-    \item $N_T$ - liczbę iteracji czasowych w symulacji
-    \item odpowiadające poprzednio wymienionym tablice rozmiaru $N_T * N$
-\end{itemize}
+    Poza tym, zawiera też informacje dotyczące zbierania danych dot. cząstek:
+    \begin{itemize}
+        \item stringowy identyfikator grupy cząstek, dla potrzeb legend wykresów
+        \item $N_T$ - liczbę iteracji czasowych w symulacji
+        \item odpowiadające poprzednio wymienionym tablice rozmiaru $N_T * N$
+    \end{itemize}
 
 %TODO: jeżeli liczba makrocząstek lub iteracji przekracza pewną stałą, dane zapisywane są jedynie co tyle
 % iteracji, aby zebrać właśnie tyle snapshotów cząstek. % REWRITE
 
-\subsubsection{Grid}
-Klasa reprezentująca dyskretną siatkę, na której dokonywane są obliczenia dot. pól elektromagnetycznych.
+    \subsubsection{Grid}
+    Klasa reprezentująca dyskretną siatkę, na której dokonywane są obliczenia dot. pól elektromagnetycznych.
 
-Klasa zawiera:
-\begin{itemize}
-    \item $x_i$ - tablicę położeń lewych krawędzi komórek siatki
-    \item $N_G$ - liczbę komórek siatki
-    \item $\Delta x$ - krok przestrzenny siatki - $N_G * \Delta x$ daje długość obszaru symulacji
-    \item $\rho_i$ - tablicę gęstości ładunku na siatce
-    \item $\vec{j}_{i,j}$ - tablicę gęstości prądu na siatce
-    \item $E_{i,j}$ - tablicę pola elektrycznego na siatce
-    \item $B_{i,j}$ - tablicę pola magnetycznego na siatce
-    \item $n_{\text{species}}$ - liczbę rodzajów cząstek w symulacji, na potrzeby wykresów
-    \item $c$, $\epsilon_0$ - stałe fizyczne - prędkość światła oraz przepuszczalność elektryczną próżni % REWRITE: nazwa stałej
-\end{itemize}
+    Klasa zawiera:
+    \begin{itemize}
+        \item $x_i$ - tablicę położeń lewych krawędzi komórek siatki
+        \item $N_G$ - liczbę komórek siatki
+        \item $\Delta x$ - krok przestrzenny siatki - $N_G * \Delta x$ daje długość obszaru symulacji
+        \item $\rho_i$ - tablicę gęstości ładunku na siatce
+        \item $\vec{j}_{i,j}$ - tablicę gęstości prądu na siatce
+        \item $E_{i,j}$ - tablicę pola elektrycznego na siatce
+        \item $B_{i,j}$ - tablicę pola magnetycznego na siatce
+        \item $n_{\text{species}}$ - liczbę rodzajów cząstek w symulacji, na potrzeby wykresów
+        \item $c$, $\epsilon_0$ - stałe fizyczne - prędkość światła oraz przepuszczalność elektryczną próżni % REWRITE: nazwa stałej
+    \end{itemize}
 
 
 
-\subsubsection{Simulation}
-Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
-pozwalająca w prosty sposób na wykonywanie iteracji algorytmu i analizy danych. Jest tworzona tak przy
-uruchamianiu symulacji, jak i przy wczytywaniu danych z plików .hdf5.
+    \subsubsection{Simulation}
+    Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
+    pozwalająca w prosty sposób na wykonywanie iteracji algorytmu i analizy danych. Jest tworzona tak przy
+    uruchamianiu symulacji, jak i przy wczytywaniu danych z plików .hdf5.
 
-\begin{itemize}
-\item $\Delta t$ - krok czasowy
-\item $N_T$ - liczba iteracji w symulacji
-\item \emph{grid} - obiekt siatki
-\item \emph{list\_species} - lista grup makrocząstek w symulacji
-\end{itemize}
+    \begin{itemize}
+        \item $\Delta t$ - krok czasowy
+        \item $N_T$ - liczba iteracji w symulacji
+        \item \emph{grid} - obiekt siatki
+        \item \emph{list\_species} - lista grup makrocząstek w symulacji
+    \end{itemize}
 
-\subsubsection{Pliki pomocnicze}
-Poza powyższymi program jest podzielony na pliki:
-\begin{itemize}
-\item algorithms\_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
-\item algorithms\_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
-\item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
-\item animation - tworzy animacje dla celów analizy danych
-\item static\_plots - tworzy statyczne wykresy dla celów analizy danych
-\item Plotting - zawiera ustawienia dot. analizy danych % czy to można przenieść do simulation czy gdzieś?
-\end{itemize}
+    \subsubsection{Pliki pomocnicze}
+    Poza powyższymi program jest podzielony na pliki:
+    \begin{itemize}
+        \item algorithms\_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
+        \item algorithms\_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
+        \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
+        \item animation - tworzy animacje dla celów analizy danych
+        \item static\_plots - tworzy statyczne wykresy dla celów analizy danych
+        \item Plotting - zawiera ustawienia dot. analizy danych % czy to można przenieść do simulation czy gdzieś?
+    \end{itemize}
 
-Configi testowe są zawarte w plikach run\_*: % przeformułować
-\begin{itemize}
-\item run\_coldplasma
-\item run\_twostream
-\item run\_wave
-\item run\_beam
-\end{itemize}
+    Configi testowe są zawarte w plikach run\_*: % przeformułować
+    \begin{itemize}
+        \item run\_coldplasma
+        \item run\_twostream
+        \item run\_wave
+        \item run\_beam
+    \end{itemize}
 
-Testy jednostkowe są zawarte w katalogu tests:
+    Testy jednostkowe są zawarte w katalogu tests:
 
-\subsection{Zastosowane algorytmy}
+    \subsection{Zastosowane algorytmy}
 
-\subsubsection{Leapfrog oraz Borys} % REWRITE
-Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
-prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
-z wykorzystaniem prędkości znanej w połowie kroku czasowego między kolejnymi iteracjami czasowymi. Jest to tzw. algorytm
-leapfrog % reference
-stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % READ
-tego rodzaju integratorów równań ruchu (w przeciwieństwie do, na przykład, standardowej metody Runge-Kutta 4, która
-mimo swej większej dokładności nie zachowuje energii cząstek.
+    \subsubsection{Leapfrog oraz Borys} % REWRITE
+    Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
+    prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
+    z wykorzystaniem prędkości znanej w połowie kroku czasowego między kolejnymi iteracjami czasowymi. Jest to tzw. algorytm
+    leapfrog % reference
+    stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % READ
+    tego rodzaju integratorów równań ruchu (w przeciwieństwie do, na przykład, standardowej metody Runge-Kutta 4, która
+    mimo swej większej dokładności nie zachowuje energii cząstek.
 
-W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć zwykłego algorytmu leapfrog. % READ
-Używa się tutaj specjanej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu elektromagnetycznym,
-tzw pushera % REWRITE
-Borysa % REFERENCE
-który rozbija pole elektryczne na dwa impulsy, między którymi następują dwie % REWRITE
-rotacje polem magnetycznym. Algorytm jest w ten sposób symplektyczny % REWRITE
-i długofalowo zachowuje energię cząstek.
+    W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć zwykłego algorytmu leapfrog. % READ
+    Używa się tutaj specjanej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu elektromagnetycznym,
+    tzw pushera % REWRITE
+    Borysa % REFERENCE
+    który rozbija pole elektryczne na dwa impulsy, między którymi następują dwie % REWRITE
+    rotacje polem magnetycznym. Algorytm jest w ten sposób symplektyczny % REWRITE
+    i długofalowo zachowuje energię cząstek.
 
-W tym przypadku stosuje się relatywistyczny algorytm Borysa, w którym jedyną faktyczną poprawką względem
-nierelatywistycznego jest operowanie na pędach oraz sprowadzanie pędów do prędkości jako $\vec{v} = \vec{p} / \gamma$ %REWRITE
+    W tym przypadku stosuje się relatywistyczny algorytm Borysa, w którym jedyną faktyczną poprawką względem
+    nierelatywistycznego jest operowanie na pędach oraz sprowadzanie pędów do prędkości jako $\vec{v} = \vec{p} / \gamma$ %REWRITE
 
-\subsubsection{Depozycja gęstości ładunku i prądu}
-Depozycja ładunku odbywa się w prosty sposób, przy następujących założeniach:
-\begin{itemize}
-    \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species}) ładunek $q$ oraz parametr \code{scaling} (również) % TODO STYLE?
-    decydujący o tym, ile rzeczywistych cząstek reprezentuje. Sumaryczny ładunek makrocząstki wynosi więc \code{q*scaling}
-    \item Każda makrocząstka ma szerokość jednej komórki siatki $\Delta x$. Cząstka zlokalizowana więc środkiem
-    w połowie długości komórki będzie w niej całkowicie zawarata.
-    \item W ten sposób możemy stwierdzić, % TODO CONTINUE
+    \subsubsection{Depozycja gęstości ładunku i prądu}
+    Depozycja ładunku odbywa się w prosty sposób, przy następujących założeniach:
+    \begin{itemize}
+        \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species}) ładunek $q$ oraz parametr \code{scaling} (również) % TODO STYLE?
+            decydujący o tym, ile rzeczywistych cząstek reprezentuje. Sumaryczny ładunek makrocząstki wynosi więc \code{q*scaling}
+        \item Każda makrocząstka ma szerokość jednej komórki siatki $\Delta x$. Cząstka zlokalizowana więc środkiem
+            w połowie długości komórki będzie w niej całkowicie zawarata.
+        \item W ten sposób możemy stwierdzić, % TODO CONTINUE
 
 % TODO: popatrzec do Bunemana i zobaczyc jakiej depozycji ladunku uzywali.
 
-\end{itemize}
-\subsubsection{Interpolacja pól elektrycznego i magnetycznego}
-Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
-Wartosci pol sa liniowo skalowane do pozycji czastek wedlug ich wzglednych położeń wewnątrz komórek.
+    \end{itemize}
+    \subsubsection{Interpolacja pól elektrycznego i magnetycznego}
+    Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
+    Wartosci pol sa liniowo skalowane do pozycji czastek wedlug ich wzglednych położeń wewnątrz komórek.
 % TODO CONTINUE
-\subsubsection{Field solver} %TODO: przerobić
+    \subsubsection{Field solver} %TODO: przerobić
 
-Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
-numerycznie można zastosować dwa główne podejścia: % zredagować
-1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
-algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
+    Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
+    numerycznie można zastosować dwa główne podejścia: % zredagować
+    1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
+    algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
 % alternatywa na słowo "oczko"?
-2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
-dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
+    2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
+    dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
 
-Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
-ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
-* algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia %poprawić
-* algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
-jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % jak to faktycznie wygląda z tym algo?
-co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
-warunku Couranta.
+    Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
+    ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
+    * algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia %poprawić
+    * algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
+    jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % jak to faktycznie wygląda z tym algo?
+    co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
+    warunku Couranta.
 
 % TODO: gładsze przejście tutaj
-W 1D można dokonać dekompozycji składowych poprzecznych pola elektromagnetycznego (tutaj oznaczanych $y$, $z$) na
-propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane poprzez zamianę zmiennych
-w dwie wielkości elektrodynamiczne $F^+$, $F^-$.
+    W 1D można dokonać dekompozycji składowych poprzecznych pola elektromagnetycznego (tutaj oznaczanych $y$, $z$) na
+    propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane poprzez zamianę zmiennych
+    w dwie wielkości elektrodynamiczne $F^+$, $F^-$.
 
-Wychodzimy z rotacyjnych równań Maxwella:
+    Wychodzimy z rotacyjnych równań Maxwella:
 
-\begin{equation}
-    \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
-    \nabla \times \vec{B} = \mu_0 (\vec{j} + \epsilon_0 \frac{\partial \vec{E}}{\partial t})
-    \label{eqn:Maxwell-rotation-derivation}
-\end{equation}
+    \begin{equation}
+        \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
+        \nabla \times \vec{B} = \mu_0 (\vec{j} + \epsilon_0 \frac{\partial \vec{E}}{\partial t})
+        \label{eqn:Maxwell-rotation-derivation}
+    \end{equation}
 
 % TODO: skończyć wyprowadzenie
 
-\begin{equation}
-    F^{+} = E_y + c B_z
-    F^{-} = E_y - c B_z
-    \label{eqn:Birdsall-electromagnetic-quantities}
-\end{equation}
-Analogicznie, dla składowych $E_z$, $B_y$:
+    \begin{equation}
+        F^{+} = E_y + c B_z
+        F^{-} = E_y - c B_z
+        \label{eqn:Birdsall-electromagnetic-quantities}
+    \end{equation}
+    Analogicznie, dla składowych $E_z$, $B_y$:
 
 % TODO: zweryfikować znaki i czy c nie jest w mianowniku
-\begin{equation}
-    G^{+} = E_z - c B_y
-    G^{-} = E_z + c B_y
-    \label{eqn:Birdsall-electromagnetic-quantities-alternate-axes}
-\end{equation}
-Wyrazem ``źródłowym'' dla F, G jest prąd poprzeczny. Po dyskretyzacji równania, wyrażenie na ewolucję pól F, G między
-iteracjami przybiera postać:
+    \begin{equation}
+        G^{+} = E_z - c B_y
+        G^{-} = E_z + c B_y
+        \label{eqn:Birdsall-electromagnetic-quantities-alternate-axes}
+    \end{equation}
+    Wyrazem ``źródłowym'' dla F, G jest prąd poprzeczny. Po dyskretyzacji równania, wyrażenie na ewolucję pól F, G między
+    iteracjami przybiera postać:
 
-\begin{equation}
-    {F^{+}}^{n+1}_{i+1} = F^{+}_{n} + j%sprawdzić
-\end{equation}
+    \begin{equation}
+        {F^{+}}^{n+1}_{i+1} = F^{+}_{n} + j%sprawdzić
+    \end{equation}
 
-Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
-aby był robiony w sposób który spełnia zachowanie ładunku.
+    Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
+    aby był robiony w sposób który spełnia zachowanie ładunku.
 
-Składowa podłużna pola jest obliczana poprzez wyrażenie
+    Składowa podłużna pola jest obliczana poprzez wyrażenie
 
-\begin{equation}
+    \begin{equation}
     % TODO
-\end{equation}
+    \end{equation}
 
-oraz jej dyskretny odpowiednik
+    oraz jej dyskretny odpowiednik
 
-\begin{equation}
+    \begin{equation}
 % TODO
-\end{equation}
+    \end{equation}
 
-\subsection{Warunki początkowe dla cząstek}
+    \subsection{Warunki początkowe dla cząstek}
 
-W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w .% TODO: Birdsall Langdon
-Jego działanie można łatwo zilustrować na przykładzie początkowej funkcji gęstości cząstek zadanej
-dowolną funkcją analityczną. % TODO: czy analityczna nie jest słowem zarezerwowanych dla tych na szeregi
-Używając funkcji dystrybucji w jednym wymiarze zależnej jedynie od położenia znormalizowanej do
-liczby cząstek $N$, można wykonać całkowanie kumulatywne po siatce gęstszej niż liczba cząstek
-na wybranym przedziale, po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
-przybiera kolejne większe całkowite wartości.
+    W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w .% TODO: Birdsall Langdon
+    Jego działanie można łatwo zilustrować na przykładzie początkowej funkcji gęstości cząstek zadanej
+    dowolną funkcją analityczną. % TODO: czy analityczna nie jest słowem zarezerwowanych dla tych na szeregi
+    Używając funkcji dystrybucji w jednym wymiarze zależnej jedynie od położenia znormalizowanej do
+    liczby cząstek $N$, można wykonać całkowanie kumulatywne po siatce gęstszej niż liczba cząstek
+    na wybranym przedziale, po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
+    przybiera kolejne większe całkowite wartości.
 
 % TODO: rysunek: przykład z ipynb
 
-Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną % TODO: czy nie przesadzam?
-i zrenormalizować ją tak, aby $\int_0^L f(x) dx = N$. W praktyce wykorzystuje się wartości marginalnie większe
-niż $N$, mianowicie $N+0.1$, co pozwala na uniknięcie problemów ze skończoną dokładnością obliczeń
-na liczbach zmiennoprzecinkowych.
+    Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną % TODO: czy nie przesadzam?
+    i zrenormalizować ją tak, aby $\int_0^L f(x) dx = N$. W praktyce wykorzystuje się wartości marginalnie większe
+    niż $N$, mianowicie $N+0.1$, co pozwala na uniknięcie problemów ze skończoną dokładnością obliczeń
+    na liczbach zmiennoprzecinkowych.
 
-Aby uniknąć problemu w przypadku dwóch \code{Species} cząstek o identycznej liczbie makrocząstek i przeciwnym znaku
-które według powyższego algorytmu zostałyby rozłożone w identycznych miejscach z powodu niezależnego
-stosowania algorytmu dla każdej grupy cząstek, co prowadziłoby do neutralizacji ładunku na całej symulacji,
-na położenia cząstek nakłada się dodatkowy gaussowski szum o niewielkiej intensywności.
+    Aby uniknąć problemu w przypadku dwóch \code{Species} cząstek o identycznej liczbie makrocząstek i przeciwnym znaku
+    które według powyższego algorytmu zostałyby rozłożone w identycznych miejscach z powodu niezależnego
+    stosowania algorytmu dla każdej grupy cząstek, co prowadziłoby do neutralizacji ładunku na całej symulacji,
+    na położenia cząstek nakłada się dodatkowy gaussowski szum o niewielkiej intensywności.
 
-Analogiczny algorytm znajduje zastosowanie w obliczaniu początkowych wartości prędkości dla cząstek.
-Wykorzystuje się relatywistyczny rozkład Maxwella
+    Analogiczny algorytm znajduje zastosowanie w obliczaniu początkowych wartości prędkości dla cząstek.
+    Wykorzystuje się relatywistyczny rozkład Maxwella
 
-\begin{equation}
-f(p) = \frac{N}{2 \pi} \frac{mc^2}{T} \frac{1}{1+T/mc^2} \exp \Big (\frac{-mc^2}{T}(\gamma -1))
+    \begin{equation}
+        f(p) = \frac{N}{2 \pi} \frac{mc^2}{T} \frac{1}{1+T/mc^2} \exp \Big (\frac{-mc^2}{T}(\gamma -1))
 
-\gamma = \sqrt{1+p^2}
-\label{relativistic-maxwell-distribution}
-\end{equation}
+        \gamma = \sqrt{1+p^2}
+        \label{relativistic-maxwell-distribution}
+    \end{equation}
 
-Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane % TODO: czy to jest słowo
-należy zadbać o zdekorelowanie ich prędkości między sobą. Naiwne zastosowanie algorytmu na położenia
-prowadzi zaś do rozłożenia cząstek rosnąco numeracją w kierunku rosnącego położenia $x$.
+    Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane % TODO: czy to jest słowo
+    należy zadbać o zdekorelowanie ich prędkości między sobą. Naiwne zastosowanie algorytmu na położenia
+    prowadzi zaś do rozłożenia cząstek rosnąco numeracją w kierunku rosnącego położenia $x$.
 
-Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo wybranymi cząstkami.
+    Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo wybranymi cząstkami.
 % TODO: dopisać jak będzie zrobione.
 
-\subsection{Wykorzystane biblioteki i technologie}
+    \subsection{Wykorzystane biblioteki i technologie}
 
-\subsubsection{Numpy}
-Numpy to biblioteka umożliwiająca wykonywanie obliczeń macierzowych. Pod zewnętrzną powłoką zawiera odwołania do
-wypróbowanych modułów LAPACK, BLAS %itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
+    \subsubsection{Numpy}
+    Numpy to biblioteka umożliwiająca wykonywanie obliczeń macierzowych. Pod zewnętrzną powłoką zawiera odwołania do
+    wypróbowanych modułów LAPACK, BLAS %itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
 % w ogóle stoi numpy
-napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de facto standard większości obliczeń
-numerycznych w Pythonie.
+    napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de facto standard większości obliczeń
+    numerycznych w Pythonie.
 
-\subsubsection{scipy}
-Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy}, biblioteka
-zawierająca wydajne implementacje wielu podstawowych algorytmów numerycznych służących
-między innymi całkowaniu, optymalizacji, algebrze liniowej czy transformatom Fouriera.
+    \subsubsection{scipy}
+    Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy}, biblioteka
+    zawierająca wydajne implementacje wielu podstawowych algorytmów numerycznych służących
+    między innymi całkowaniu, optymalizacji, algebrze liniowej czy transformatom Fouriera.
 
-\subsubsection{Numba}
-Numba to biblioteka służąca do kompilacji just-in-time kodu. % ogarnąć jak właściwie działa numba
-W wielu przypadkach % odniesienie
-pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie niższej bądź nawet równej do analogicznego
-programu w C. % czy były takie testy z fortranem
-Jednocześnie
+    \subsubsection{Numba}
+    Numba to biblioteka służąca do kompilacji just-in-time kodu. % ogarnąć jak właściwie działa numba
+    W wielu przypadkach % odniesienie
+    pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie niższej bądź nawet równej do analogicznego
+    programu w C. % czy były takie testy z fortranem
+    Jednocześnie
 % \subsubsection{Numba}
 
 % Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
-\subsubsection{HDF5}
-HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej,
-skompresowanej strukturze danych.
-W Pythonie implementuje go biblioteka h5py.
-Używa się go na przykład w % lista miejsc gdzie używają hdf5
-W bieżącej pracy wykorzystuje się go do przechowywania danych dot. symulacji,
-pozwalających na ich postprocessing do dalszej analizy.
+    \subsubsection{HDF5}
+    HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej,
+    skompresowanej strukturze danych.
+    W Pythonie implementuje go biblioteka h5py.
+    Używa się go na przykład w % lista miejsc gdzie używają hdf5
+    W bieżącej pracy wykorzystuje się go do przechowywania danych dot. symulacji,
+    pozwalających na ich postprocessing do dalszej analizy.
 
-\subsubsection{matplotlib}
-Do wizualizacji danych z symulacji
-(oraz tworzenia schematów w sekcji teoretycznej niniejszej pracy)
-użyto własnoręcznie napisanych wykresów w uniwersalnym
-pakiecie graficznym \code{matplotlib}. \code{matplotlib} zapewnie wsparcia zarówno
-dla grafik statycznych w różnych układach współrzędnych (w tym 3D), jak również dla
-dynamicznie generowanych animacji przedstawiających przebiegi czasowe symulacji.
+    \subsubsection{matplotlib}
+    Do wizualizacji danych z symulacji
+    (oraz tworzenia schematów w sekcji teoretycznej niniejszej pracy)
+    użyto własnoręcznie napisanych wykresów w uniwersalnym
+    pakiecie graficznym \code{matplotlib}. \code{matplotlib} zapewnie wsparcia zarówno
+    dla grafik statycznych w różnych układach współrzędnych (w tym 3D), jak również dla
+    dynamicznie generowanych animacji przedstawiających przebiegi czasowe symulacji.
 
-\subsubsection{py.test}
-Przy pracy nad kodem użyto frameworku testowego py.test %link w stopce
-Obsługa testów jest trywialna:
+    \subsubsection{py.test}
+    Przy pracy nad kodem użyto frameworku testowego py.test %link w stopce
+    Obsługa testów jest trywialna:
 
 % przykład kodu
 
-Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie objawia się
-zazwyczaj błędem wykonywania programu, a jedynie błędnymi wynikami, dobrze zautomatyzowane
-testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na debugowaniu
-poprzez automatyzację uruchamiania kolejnych partii kodu i lokalizację błędnie działających
-części algorytmu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
-czasach, zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
-wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
+    Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie objawia się
+    zazwyczaj błędem wykonywania programu, a jedynie błędnymi wynikami, dobrze zautomatyzowane
+    testy jednostkowe potrafią zaoszczędzić bardzo dużo czasu na debugowaniu
+    poprzez automatyzację uruchamiania kolejnych partii kodu i lokalizację błędnie działających
+    części algorytmu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
+    czasach, zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
+    wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
 
-\subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
-\subsubsection{Depozycja ładunku i prądu}
+    \subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
+    \subsubsection{Depozycja ładunku i prądu}
 
-Depozycja ładunku i prądu polega na obliczeniu na podstawie położenia i prędkości każdej cząstki jej wkładu do
-gęstości prądu i ładunku na siatce, oraz zwiększeniu bieżących wartości o ten wkład.
+    Depozycja ładunku i prądu polega na obliczeniu na podstawie położenia i prędkości każdej cząstki jej wkładu do
+    gęstości prądu i ładunku na siatce, oraz zwiększeniu bieżących wartości o ten wkład.
 
-W symulacji stosowana jest liniowa interpolacja - cząstki mają ``szerokość'' jednej komórki siatki, zaś ich wkład do $i$
-komórki jest proporcjonalny do przekrycia między powierzchnią cząstki a powierzchnią siatki.
+    W symulacji stosowana jest liniowa interpolacja - cząstki mają ``szerokość'' jednej komórki siatki, zaś ich wkład do $i$
+    komórki jest proporcjonalny do przekrycia między powierzchnią cząstki a powierzchnią siatki.
 
-Stosowany algorytm jest rekurencyjny i uwzględnia zachowanie ładunku/prądu %TODO: rewrite
+    Stosowany algorytm jest rekurencyjny i uwzględnia zachowanie ładunku/prądu %TODO: rewrite
 %TODO: villasenor/buneman
-co pozwala na uniknięcie stosowania poprawek % div B, div E
+    co pozwala na uniknięcie stosowania poprawek % div B, div E
 %(co łatwo pokazać, div E\ldots)
-Dzięki temu algorytm obliczania zmian w polu elektromagnetycznym znacznie się upraszcza.
+    Dzięki temu algorytm obliczania zmian w polu elektromagnetycznym znacznie się upraszcza.
 
 
-\begin{equation}
-    \varepsilon_3 = \frac{x_n - (x_i + \frac{dx}{2})}{x_{n+1} - x_n}
-\end{equation}
-\begin{equation}
-    \rho_i^{n+1} = \frac{q}{\Delta x} (x_i + \frac{\Delta x}{2} - x^{n+1})
-\end{equation}
-\begin{equation}
-    \rho_{i-1}^{n+1} = \frac{q}{\Delta x} (x^{n+1} - (x_i - \frac{\Delta x}{2}))
-\end{equation}
-\begin{equation}
-    j_{x,i+1}^{n+1/2} = q (\frac{1}{2} + \frac{x^n - x_{i+1}}{\Delta x})
-\end{equation}
-\begin{equation}
-    j_{x,i}^{n+1/2} = q (\frac{1}{2} - \frac{x^{n+1} - x_i}{\Delta x})
-\end{equation}
-\begin{equation}
-    <\rho_{i+1}> = \frac{q \varepsilon}{2} (\frac{1}{2} - \frac{x_{i+1} - x^n}{\Delta x})
-\end{equation}
-\begin{equation}
-    <\rho_{i-1}> = q \frac{1- \varepsilon}{2} (\frac{1}{2} - \frac{x^n - x_i}{\Delta x})
+    \begin{equation}
+        \varepsilon_3 = \frac{x_n - (x_i + \frac{dx}{2})}{x_{n+1} - x_n}
+    \end{equation}
+    \begin{equation}
+        \rho_i^{n+1} = \frac{q}{\Delta x} (x_i + \frac{\Delta x}{2} - x^{n+1})
+    \end{equation}
+    \begin{equation}
+        \rho_{i-1}^{n+1} = \frac{q}{\Delta x} (x^{n+1} - (x_i - \frac{\Delta x}{2}))
+    \end{equation}
+    \begin{equation}
+        j_{x,i+1}^{n+1/2} = q (\frac{1}{2} + \frac{x^n - x_{i+1}}{\Delta x})
+    \end{equation}
+    \begin{equation}
+        j_{x,i}^{n+1/2} = q (\frac{1}{2} - \frac{x^{n+1} - x_i}{\Delta x})
+    \end{equation}
+    \begin{equation}
+        <\rho_{i+1}> = \frac{q \varepsilon}{2} (\frac{1}{2} - \frac{x_{i+1} - x^n}{\Delta x})
+    \end{equation}
+    \begin{equation}
+        <\rho_{i-1}> = q \frac{1- \varepsilon}{2} (\frac{1}{2} - \frac{x^n - x_i}{\Delta x})
     % todo
-\end{equation}
-\begin{equation}
-    <\rho_{i}> = q \Bigg(\frac{\varepsilon}{2} (\frac{3}{2} + \frac{x^n-x_i}{\Delta x}) +\
-    \frac{1-\varepsilon}{2} (\frac{3}{2} - \frac{x^{n+1} - x_{i+1}}{\Delta x})\Bigg)
-\end{equation}
+    \end{equation}
+    \begin{equation}
+        <\rho_{i}> = q \Bigg(\frac{\varepsilon}{2} (\frac{3}{2} + \frac{x^n-x_i}{\Delta x}) +\
+        \frac{1-\varepsilon}{2} (\frac{3}{2} - \frac{x^{n+1} - x_{i+1}}{\Delta x})\Bigg)
+    \end{equation}
 
-\section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
-Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania niniejszej pracy wersji programu.
-W repozytorium gita na Githubie jest to commit ``placeholder'' % TODO: uzupełnić commita
-identyfikowany również jako wersja 1.0.
+    \section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
+    Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania niniejszej pracy wersji programu.
+    W repozytorium gita na Githubie jest to commit ``placeholder'' % TODO: uzupełnić commita
+    identyfikowany również jako wersja 1.0.
 
-\subsection{Przypadki testowe}
+    \subsection{Przypadki testowe}
 
-Kod przetestowano w dwojaki sposób. Pierwszym z nich są testy jednostkowe.
-Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego pakietu pytest % TODO: pytest reference.
+    Kod przetestowano w dwojaki sposób. Pierwszym z nich są testy jednostkowe.
+    Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego pakietu pytest % TODO: pytest reference.
 
-Testy polegały na przeprowadzeniu fragmentu symulacji - w przypadku testów algorytmów było to na przykład wygenerowanie
-pojedynczej cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na siatkę, co pozwala porównać
-otrzymany wynik z przewidywanym analitycznie dla danego rozmiaru siatki i położenia cząstki. Automatyczne testy
-jednostkowe uruchamiane po każdej wymiernej zmianie kodu pozwalają kontrolować działanie programu znacznie ułatwiają
-zapobieganie błędom.
+    Testy polegały na przeprowadzeniu fragmentu symulacji - w przypadku testów algorytmów było to na przykład wygenerowanie
+    pojedynczej cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na siatkę, co pozwala porównać
+    otrzymany wynik z przewidywanym analitycznie dla danego rozmiaru siatki i położenia cząstki. Automatyczne testy
+    jednostkowe uruchamiane po każdej wymiernej zmianie kodu pozwalają kontrolować działanie programu znacznie ułatwiają
+    zapobieganie błędom.
 
-\begin{enumerate}
-    \itemi Gather
     \begin{enumerate}
+        \itemi Gather
+            \begin{enumerate}
         % TODO: itemii?
-        \itemii Depozycja prądu z pojedynczej cząstki na niewielką siatkę
-        \itemii Depozycja prądu z dwóch pojedynczych cząstek na niewielką siatkę
-              i porównanie z sumą prądów dla obu pojedynczyczh cząstek
-        \itemii Depozycja prądu z dużej ilości równomiernie rozłożonych cząstek
+                \itemii Depozycja prądu z pojedynczej cząstki na niewielką siatkę
+                \itemii Depozycja prądu z dwóch pojedynczych cząstek na niewielką siatkę
+                    i porównanie z sumą prądów dla obu pojedynczyczh cząstek
+                \itemii Depozycja prądu z dużej ilości równomiernie rozłożonych cząstek
+            \end{enumerate}
+
+        \itemi Solve
+            \begin{enumerate}
+                \itemii Symulacja fali sinusoidalnej, obwiedni impulsu i złożenia tych dwóch
+                    propagujących się w próżni
+            \end{enumerate}
+
+        \itemi Scatter
+            \begin{enumerate}
+                \itemii % TODO: write these
+            \end{enumerate}
+
+        \itemi Push
+            \begin{enumerate}
+                \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
+                \itemii Ruch w jednorodnym polu magnetycznym z polem magnetycznym
+            \end{enumerate}
     \end{enumerate}
 
-    \itemi Solve
-    \begin{enumerate}
-        \itemii Symulacja fali sinusoidalnej, obwiedni impulsu i złożenia tych dwóch
-              propagujących się w próżni
-    \end{enumerate}
+    Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
+    \subsubsection{oscylacje zimnej plazmy}
+    \subsubsection{niestabilność dwóch strumieni}
 
-    \itemi Scatter
-    \begin{enumerate}
-        \itemii % TODO: write these
-    \end{enumerate}
+    \subsection{Symulacja oddziaływania lasera z tarczą wodorową}
 
-    \itemi Push
-    \begin{enumerate}
-        \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
-        \itemii Ruch w jednorodnym polu magnetycznym z polem magnetycznym
-    \end{enumerate}
-\end{enumerate}
+    Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją rozkładu gęstości (jest to tak zwany obszar prejonizacji) %TODO: preplazmy?
 
-Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
-\subsubsection{oscylacje zimnej plazmy}
-\subsubsection{niestabilność dwóch strumieni}
+    Gęstość rozkładu plazmy przyjęto jako
 
-\subsection{Symulacja oddziaływania lasera z tarczą wodorową}
+    Początkowe prędkości cząstek przyjęto jako zerowe. % TODO: wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z
 
-Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją rozkładu gęstości (jest to tak zwany obszar prejonizacji) %TODO: preplazmy?
+    Za moc lasera przyjęto $10^{23} W/m^2$, % TODO ASK: czy to nie jest za dużo?
+    zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
 
-Gęstość rozkładu plazmy przyjęto jako
+    Długość obszaru symulacji to % TODO
 
-Początkowe prędkości cząstek przyjęto jako zerowe. % TODO: wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z
-
-Za moc lasera przyjęto $10^{23} W/m^2$, % TODO ASK: czy to nie jest za dużo?
-zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
-
-Długość obszaru symulacji to % TODO
-
-Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według tablic,
-jak obrazuje następująca tabela:
+    Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według tablic,
+    jak obrazuje następująca tabela:
 
 % TODO: zrobić tabelkę na stałe
 
-\subsection{Benchmarki - szybkość, zasobożerność} %fix
-Do przeprowadzenia testów wydajności kodu użyto % TODO:
-\subsection{Problemy napotkane w trakcie pisania kodu}
+    \subsection{Benchmarki - szybkość, zasobożerność} %fix
+    Do przeprowadzenia testów wydajności kodu użyto % TODO:
+    \subsection{Problemy napotkane w trakcie pisania kodu}
 
-\section[Zakończenie]{Zakończenie} % 3-5 stron
-Utworzono kod symulacyjny implementacyjny algorytm particle-in-cell w Pythonie przy użyciu wszystkich dostępnych
-możliwości, jakie daje ekosystem open-source. Kod zoptymalizowano przy użyciu % TODO: zoptymalizować.
-Otrzymane wyniki benchmarków pozwalają sądzić, że % jest moc
+    \section[Zakończenie]{Zakończenie} % 3-5 stron
+    Utworzono kod symulacyjny implementacyjny algorytm particle-in-cell w Pythonie przy użyciu wszystkich dostępnych
+    możliwości, jakie daje ekosystem open-source. Kod zoptymalizowano przy użyciu % TODO: zoptymalizować.
+    Otrzymane wyniki benchmarków pozwalają sądzić, że % jest moc
