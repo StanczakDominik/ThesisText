@@ -1,7 +1,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 
 \section[Wstęp]{Wstęp} %2-3 strony wprowadzenie w temat, motywacja, teza (cel)
-Algorytmy Particle-in-Cell ("cząstka w komórce") to jedne z najbardziej zbliżonych do fundamentalnej fizyki
+Algorytmy Particle-in-Cell (cząstka w komórce) to jedne z najbardziej zbliżonych do fundamentalnej fizyki
 metod symulacji materii w stanie plazmy. Zastosowany w nich lagranżowski opis cząsteczek pozwala na dokładne
 odwzorowanie dynamiki ruchu elektronów i jonów. Jednocześnie, ewolucja pola elektromagnetycznego na Eulerowskiej
 siatce dokonywana zamiast bezpośredniego obliczania oddziaływań międzycząsteczkowych pozwala na znaczące
@@ -74,7 +74,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 
 
     \begin{equation}
-        \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1 % normalizacja?
+        \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1 % TODO normalizacja?
         \label{eqn:distribution-function}
     \end{equation}
 
@@ -220,12 +220,11 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
         \item odpowiadające poprzednio wymienionym tablice rozmiaru $N_T * N$
     \end{itemize}
 
-%TODO: jeżeli liczba makrocząstek lub iteracji przekracza pewną stałą, dane zapisywane są jedynie co tyle
-% iteracji, aby zebrać właśnie tyle snapshotów cząstek. % REWRITE
+    Jeżeli liczba makrocząstek lub iteracji przekracza pewną stałą, dane zapisywane są jedynie co tyle
+    % iteracji, aby zebrać właśnie tyle snapshotów cząstek. % REWRITE
 
     \subsubsection{Grid}
     Klasa reprezentująca dyskretną siatkę, na której dokonywane są obliczenia dot. pól elektromagnetycznych.
-
     Klasa zawiera:
     \begin{itemize}
         \item $x_i$ - tablicę położeń lewych krawędzi komórek siatki
@@ -238,7 +237,6 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
         \item $n_{\text{species}}$ - liczbę rodzajów cząstek w symulacji, na potrzeby wykresów
         \item $c$, $\epsilon_0$ - stałe fizyczne - prędkość światła oraz przepuszczalność elektryczną próżni % REWRITE: nazwa stałej
     \end{itemize}
-
 
 
     \subsubsection{Simulation}
@@ -261,10 +259,10 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
         \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
         \item animation - tworzy animacje dla celów analizy danych
         \item static\_plots - tworzy statyczne wykresy dla celów analizy danych
-        \item Plotting - zawiera ustawienia dot. analizy danych % czy to można przenieść do simulation czy gdzieś?
+        \item Plotting - zawiera ustawienia dot. analizy danych % TODO czy to można przenieść do simulation czy gdzieś?
     \end{itemize}
 
-    Configi testowe są zawarte w plikach run\_*: % przeformułować
+    Configi testowe są zawarte w plikach run\_*: % TODO przeformułować
     \begin{itemize}
         \item run\_coldplasma
         \item run\_twostream
@@ -280,23 +278,24 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     Należy zauważyć, że w inicjalizacyjnej iteracji algorytmu pomija się przesunięcie cząstek w przestrzeni, aktualizując jedynie
     prędkości. Krok czasowy jest wtedy ustawiany na minus połowę swojej zwykłej wartości, co pozwala na obliczenia
     z wykorzystaniem prędkości znanej w połowie kroku czasowego między kolejnymi iteracjami czasowymi. Jest to tzw. algorytm
-    leapfrog % reference
-    stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % READ
+    leapfrog % TODO reference
+    stosowany tam, gdzie potrzebna jest długofalowa stałość energii symulacji. Wynika to z symplektyczności % TODO READ
     tego rodzaju integratorów równań ruchu (w przeciwieństwie do, na przykład, standardowej metody Runge-Kutta 4, która
     mimo swej większej dokładności nie zachowuje energii cząstek.
 
-    W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć zwykłego algorytmu leapfrog. % READ
-    Używa się tutaj specjanej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu elektromagnetycznym,
-    tzw pushera % REWRITE
-    Borysa % REFERENCE
-    który rozbija pole elektryczne na dwa impulsy, między którymi następują dwie % REWRITE
-    rotacje polem magnetycznym. Algorytm jest w ten sposób symplektyczny % REWRITE
+    W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć zwykłego algorytmu leapfrog. % TODO READ
+    Używa się tutaj specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu elektromagnetycznym,
+    tzw pushera % TODO REWRITE
+    Borysa % TODO REFERENCE
+    który rozbija pole elektryczne na dwa impulsy, między którymi następują dwie % TODO REWRITE
+    rotacje polem magnetycznym. Algorytm jest w ten sposób symplektyczny % TODO REWRITE
     i długofalowo zachowuje energię cząstek.
 
     W tym przypadku stosuje się relatywistyczny algorytm Borysa, w którym jedyną faktyczną poprawką względem
-    nierelatywistycznego jest operowanie na pędach oraz sprowadzanie pędów do prędkości jako $\vec{v} = \vec{p} / \gamma$ %REWRITE
+    nierelatywistycznego jest operowanie na pędach oraz sprowadzanie pędów do prędkości jako $\vec{v} = \vec{p} / \gamma$
+    %TODO REWRITE
 
-    \subsubsection{Depozycja gęstości ładunku i prądu}
+    \subsubsection{Depozycja gęstości ładunku i prądu} # TODO MERGE
     Depozycja ładunku odbywa się w prosty sposób, przy następujących założeniach:
     \begin{itemize}
         \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species}) ładunek $q$ oraz parametr \code{scaling} (również) % TODO STYLE?
@@ -311,26 +310,26 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     \subsubsection{Interpolacja pól elektrycznego i magnetycznego}
     Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
     Wartosci pol sa liniowo skalowane do pozycji czastek wedlug ich wzglednych położeń wewnątrz komórek.
-% TODO CONTINUE
+% TODO CONTINUE opowiadanie o interpolacji
     \subsubsection{Field solver} %TODO: przerobić
 
-    Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Ville % nazwisko
-    numerycznie można zastosować dwa główne podejścia: % zredagować
+    Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Villasenor,
+    numerycznie można zastosować dwa główne podejścia: % TODO zredagować
     1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
     algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
-% alternatywa na słowo "oczko"?
+% TODO alternatywa na słowo "oczko"?
     2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
     dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
 
     Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
     ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
-    * algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia %poprawić
+    * algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia % TODOpoprawić
     * algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
-    jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % jak to faktycznie wygląda z tym algo?
+    jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % TODO jak to faktycznie wygląda z tym algo?
     co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
     warunku Couranta.
 
-% TODO: gładsze przejście tutaj
+% TODO: gładsze przejście tutaj - wyprowadzenie field solvera
     W 1D można dokonać dekompozycji składowych poprzecznych pola elektromagnetycznego (tutaj oznaczanych $y$, $z$) na
     propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane poprzez zamianę zmiennych
     w dwie wielkości elektrodynamiczne $F^+$, $F^-$.
@@ -366,19 +365,25 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     \end{equation}
 
     Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
-    aby był robiony w sposób który spełnia zachowanie ładunku.
+    aby był robiony w sposób który spełnia zachowanie ładunku. Inaczej koniecznym staje się aplikowanie tak zwanej
+    poprawki Borysa, % TODO źródło - prezentacja
+    aby upewnić się, że warunek z równań Maxwella $\nabla \rho / \varepsilon_0 = \nabla \cdot \vec{E}$ jest
+    wciąż spełniony.
 
     Składowa podłużna pola jest obliczana poprzez wyrażenie
 
     \begin{equation}
-    % TODO
+    \frac{\partial E_x}{\partial t} = - \frac{j_x}{\varepsilon_0}
+    \label{longitudinal-field-differential}
     \end{equation}
 
-    oraz jej dyskretny odpowiednik
+    czy raczej jej dyskretny odpowiednik
 
     \begin{equation}
-% TODO
+        E_i^{n+1} = E_i^n - \frac{\Delta t}{\varepsilon_0} j_{x,i}^{n+1/2}
+    \label{longitudinal-field-finite-differential}
     \end{equation}
+
 
     \subsection{Warunki początkowe dla cząstek}
 
@@ -405,28 +410,32 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     Analogiczny algorytm znajduje zastosowanie w obliczaniu początkowych wartości prędkości dla cząstek.
     Wykorzystuje się relatywistyczny rozkład Maxwella
 
-    \begin{equation}
-        f(p) = \frac{N}{2 \pi} \frac{mc^2}{T} \frac{1}{1+T/mc^2} \exp \Big (\frac{-mc^2}{T}(\gamma -1))
-
+    \begin{align}
+        f(p) = \frac{N}{2 \pi} \frac{mc^2}{T} \frac{1}{1+T/mc^2} \exp \Big (\frac{-mc^2}{T}(\gamma -1) \Big)
         \gamma = \sqrt{1+p^2}
         \label{relativistic-maxwell-distribution}
-    \end{equation}
+    \end{align}
 
     Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane % TODO: czy to jest słowo
     należy zadbać o zdekorelowanie ich prędkości między sobą. Naiwne zastosowanie algorytmu na położenia
     prowadzi zaś do rozłożenia cząstek rosnąco numeracją w kierunku rosnącego położenia $x$.
 
     Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo wybranymi cząstkami.
-% TODO: dopisać jak będzie zrobione.
+    % TODO: dopisać jak będzie zrobione.
 
     \subsection{Wykorzystane biblioteki i technologie}
 
     \subsubsection{Numpy}
-    Numpy to biblioteka umożliwiająca wykonywanie obliczeń macierzowych. Pod zewnętrzną powłoką zawiera odwołania do
-    wypróbowanych modułów LAPACK, BLAS %itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
-% w ogóle stoi numpy
-    napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to de facto standard większości obliczeń
-    numerycznych w Pythonie.
+    \code{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na wielowymiarowych macierzach
+    oraz tablicach.
+    Pod zewnętrzną powłoką zawiera odwołania do
+    znanych, wypróbowanych i sprawdzonych w numeryce modułów LAPACK, BLAS
+    % TODO itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
+    % w ogóle stoi numpy
+    napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to \emph{de facto}
+    standard większości obliczeń numerycznych w Pythonie.
+
+    Numpy jest oprogramowaniem otwartym na licencji BSD. % TODO refka
 
     \subsubsection{scipy}
     Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy}, biblioteka
@@ -434,19 +443,20 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     między innymi całkowaniu, optymalizacji, algebrze liniowej czy transformatom Fouriera.
 
     \subsubsection{Numba}
-    Numba to biblioteka służąca do kompilacji just-in-time kodu. % ogarnąć jak właściwie działa numba
-    W wielu przypadkach % odniesienie
-    pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie niższej bądź nawet równej do analogicznego
-    programu w C. % czy były takie testy z fortranem
-    Jednocześnie
-% \subsubsection{Numba}
+    \code{numba} to biblioteka służąca do kompilacji just-in-time kodu. % TODO ogarnąć jak właściwie działa numba
+    W wielu przypadkach % TODO odniesienie
+    pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie
+    niższej bądź nawet równej do analogicznego programu w C. % TODO czy były takie testy z fortranem
+    Jednocześnie należy zaznaczyć prostotę jej użycia: %TODO
 
-% Innym podejściem do optymalizacji kodu napisanego w Pythonie jest kompilacja Just-In-Time, polegająca na % TODO: JIT
+    % TODO fragment kodu
+
+
     \subsubsection{HDF5}
     HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej,
     skompresowanej strukturze danych.
     W Pythonie implementuje go biblioteka h5py.
-    Używa się go na przykład w % lista miejsc gdzie używają hdf5
+    Używa się go na przykład w % TODO lista miejsc gdzie używają hdf5
     W bieżącej pracy wykorzystuje się go do przechowywania danych dot. symulacji,
     pozwalających na ich postprocessing do dalszej analizy.
 
@@ -459,7 +469,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     dynamicznie generowanych animacji przedstawiających przebiegi czasowe symulacji.
 
     \subsubsection{py.test}
-    Przy pracy nad kodem użyto frameworku testowego py.test %link w stopce
+    Przy pracy nad kodem użyto frameworku testowego py.test % TODO link w stopce
     Obsługa testów jest trywialna:
 
 % przykład kodu
@@ -472,48 +482,6 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     czasach, zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
     wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
 
-    \subsection{Implementacja podstawowych algorytmów numerycznych stosowanych w symulacji}
-    \subsubsection{Depozycja ładunku i prądu}
-
-    Depozycja ładunku i prądu polega na obliczeniu na podstawie położenia i prędkości każdej cząstki jej wkładu do
-    gęstości prądu i ładunku na siatce, oraz zwiększeniu bieżących wartości o ten wkład.
-
-    W symulacji stosowana jest liniowa interpolacja - cząstki mają ``szerokość'' jednej komórki siatki, zaś ich wkład do $i$
-    komórki jest proporcjonalny do przekrycia między powierzchnią cząstki a powierzchnią siatki.
-
-    Stosowany algorytm jest rekurencyjny i uwzględnia zachowanie ładunku/prądu %TODO: rewrite
-%TODO: villasenor/buneman
-    co pozwala na uniknięcie stosowania poprawek % div B, div E
-%(co łatwo pokazać, div E\ldots)
-    Dzięki temu algorytm obliczania zmian w polu elektromagnetycznym znacznie się upraszcza.
-
-
-    \begin{equation}
-        \varepsilon_3 = \frac{x_n - (x_i + \frac{dx}{2})}{x_{n+1} - x_n}
-    \end{equation}
-    \begin{equation}
-        \rho_i^{n+1} = \frac{q}{\Delta x} (x_i + \frac{\Delta x}{2} - x^{n+1})
-    \end{equation}
-    \begin{equation}
-        \rho_{i-1}^{n+1} = \frac{q}{\Delta x} (x^{n+1} - (x_i - \frac{\Delta x}{2}))
-    \end{equation}
-    \begin{equation}
-        j_{x,i+1}^{n+1/2} = q (\frac{1}{2} + \frac{x^n - x_{i+1}}{\Delta x})
-    \end{equation}
-    \begin{equation}
-        j_{x,i}^{n+1/2} = q (\frac{1}{2} - \frac{x^{n+1} - x_i}{\Delta x})
-    \end{equation}
-    \begin{equation}
-        <\rho_{i+1}> = \frac{q \varepsilon}{2} (\frac{1}{2} - \frac{x_{i+1} - x^n}{\Delta x})
-    \end{equation}
-    \begin{equation}
-        <\rho_{i-1}> = q \frac{1- \varepsilon}{2} (\frac{1}{2} - \frac{x^n - x_i}{\Delta x})
-    % todo
-    \end{equation}
-    \begin{equation}
-        <\rho_{i}> = q \Bigg(\frac{\varepsilon}{2} (\frac{3}{2} + \frac{x^n-x_i}{\Delta x}) +\
-        \frac{1-\varepsilon}{2} (\frac{3}{2} - \frac{x^{n+1} - x_{i+1}}{\Delta x})\Bigg)
-    \end{equation}
 
     \section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
     Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania niniejszej pracy wersji programu.
