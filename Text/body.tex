@@ -310,6 +310,9 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     \subsubsection{Interpolacja pól elektrycznego i magnetycznego}
     Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
     Wartosci pol sa liniowo skalowane do pozycji czastek wedlug ich wzglednych położeń wewnątrz komórek.
+
+    W celu przyśpieszenia działania programu stosuje się istniejącą metodę
+    \code{RegularGridInterpolator} z biblioteki \code{scipy.interpolate}. % TODO: zaimplementować i sprawdzić
 % TODO CONTINUE opowiadanie o interpolacji
     \subsubsection{Field solver} %TODO: przerobić
 
