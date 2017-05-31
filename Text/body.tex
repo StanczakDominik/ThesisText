@@ -326,7 +326,8 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 
     Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na podstawie warunków brzegowych i początkowych (gęstości
     ładunku), możemy już dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące zalety:
-    * algorytm ewolucji pola staje się trywialny, zwłaszcza w 1D - ogranicza się do elementarnego dodawania i mnożenia % TODOpoprawić
+    * algorytm ewolucji pola staje się trywialny obliczeniowo, zwłaszcza w 1D -
+        ogranicza się bowiem do elementarnych operacji lokalnego dodawania i mnożenia.
     * algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
     jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach % TODO jak to faktycznie wygląda z tym algo?
     co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
@@ -429,16 +430,17 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     \subsection{Wykorzystane biblioteki i technologie}
 
     \subsubsection{Numpy}
-    \code{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na wielowymiarowych macierzach
-    oraz tablicach.
+    \code{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na n-wymiarowych macierzach
+    bądź tablicach, utworzona w celu umożlwiienia zastąpienia operacjami wektorowymi iteracji po tablicach,
+    powszechnie stosowanych w metodach numerycznych i będących znanym słabym punktem Pythona.
+    % TODO REFERENCE źródło na powolność pętli
+
     Pod zewnętrzną powłoką zawiera odwołania do
     znanych, wypróbowanych i sprawdzonych w numeryce modułów LAPACK, BLAS
-    % TODO itd - dopisać przykłady pozostałych bibliotek algebraicznych oraz zweryfikować na czym
-    % w ogóle stoi numpy
     napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to \emph{de facto}
     standard większości obliczeń numerycznych w Pythonie.
 
-    Numpy jest oprogramowaniem otwartym na licencji BSD. % TODO refka
+    Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD. % TODO refka
 
     \subsubsection{scipy}
     Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy}, biblioteka
