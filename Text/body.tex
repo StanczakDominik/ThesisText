@@ -460,24 +460,30 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     \subsubsection{HDF5}
     HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej,
     skompresowanej strukturze danych.
-    W Pythonie implementuje go biblioteka h5py.
+    W Pythonie implementuje go biblioteka h5py. % TODO reference h5py
     Używa się go na przykład w % TODO lista miejsc gdzie używają hdf5
-    W bieżącej pracy wykorzystuje się go do przechowywania danych dot. symulacji,
-    pozwalających na ich postprocessing do dalszej analizy.
+    % TODO https://github.com/PPPLDeepLearning/plasma-python
+
+    W bieżącej pracy wykorzystuje się go do przechowywania danych numerycznych dotyczących
+    przebiegu symulacji, pozwalających na ich dalsze przetwarzanie i analizę poprzez
+    wizualizację.
 
     \subsubsection{matplotlib}
     Do wizualizacji danych z symulacji
     (oraz tworzenia schematów w sekcji teoretycznej niniejszej pracy)
-    użyto własnoręcznie napisanych wykresów w uniwersalnym
-    pakiecie graficznym \code{matplotlib}. \code{matplotlib} zapewnie wsparcia zarówno
+    użyto własnoręcznie napisanych skryptów w uniwersalnej bibliotece graficznej
+    \code{matplotlib}. \code{matplotlib} zapewnie wsparcia zarówno
     dla grafik statycznych w różnych układach współrzędnych (w tym 3D), jak również dla
     dynamicznie generowanych animacji przedstawiających przebiegi czasowe symulacji.
 
+    Matplotlib również jest oprogramowaniem otwartym, udostępnianym na licencji
+    % TODO matplotlib license, reference
+
     \subsubsection{py.test}
-    Przy pracy nad kodem użyto frameworku testowego py.test % TODO link w stopce
+    Przy pracy nad kodem użyto frameworku testowego \code{py.test} % TODO refenrece
     Obsługa testów jest trywialna:
 
-% przykład kodu
+    % przykład kodu
 
     Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie objawia się
     zazwyczaj błędem wykonywania programu, a jedynie błędnymi wynikami, dobrze zautomatyzowane
@@ -486,6 +492,8 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     części algorytmu. Dobrze napisane testy są praktycznie koniecznością w dzisiejszych
     czasach, zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
     wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
+
+    \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji % TODO
 
 
     \section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
