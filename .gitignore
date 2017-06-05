@@ -10,3 +10,5 @@
 *.synctex.gz
 Source/*.pdf
 *.swp
+diff_build
+diff.tex
