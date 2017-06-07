@@ -9,7 +9,7 @@ przyspieszenie etapu obliczenia oddziaływań międzycząsteczkowych. W większo
 ten etap jest najbardziej krytyczny dla wydajności progamu.
 
 W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
-\item symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER %TODO: źródło,
+\item symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER %TODO: źródło, grupa Hammeta
 \item modelowania rekonekcji linii magnetycznych w polu gwiazdy %TODO: źródło
 \item projektowania silników jonowych (Halla) %TODO: źródło
 \item badania interakcji laserów z plazmą w kontekście tworzenia niewielkich,
@@ -17,6 +17,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 
     Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych
     możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich zastosowań.
+    Przykładem takiego projektu jest PIConGPU % TODO: źródło PIConGPU
 
     Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych,
     jak również w ogólności nowoczesnych symulacji wykorzystujących dobrodziejstwa nowych technologii
@@ -32,35 +33,61 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     \begin{itemize}
         \item brak dostępności kodu źródłowego
         \item niedostateczna dokumentacja
-        \item brak jasno postawionych testów pokazujących, kiedy algorytm działa zgodnie ze swoim przeznaczeniem
+        \item brak jasno postawionych testów pokazujących, kiedy algorytm działa zgodnie z zamiarami twórców
         \item zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
     \end{itemize}
 
-    Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell w popularnym języku
-    wysokopoziomowym (Pythonie) przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
-    i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej.
+    Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell
+    do symulacji oddziaływania wiązki laserowej z tarczą wodorową w popularnym języku
+    wysokopoziomowym Python, przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
+    i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej. Może to też oczywiście
+    pozwolić na dalsze
+    zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie z użyciem kart graficznych.
+    Ostatecznie, jest to również test wydajnościowy możliwości Pythona w symulacjach % TODO: słowo ostatecznie
+    numerycznych.
 
-% TODO: pick up here
-    Ma to dwojaki sens:
-    \begin{enumerate}
-        \item zweryfikowanie możliwości leżących w obecnych językach wysokopoziomowych bez wykorzystywania kart graficznych
-        \item położenie fundamentów pod
-    \end{enumerate}
     \section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
 
-    \subsection{Fizyka plazmy}
+    \subsection{Plazma - czwarty stan materii}
 
     Plazma, powszechnie nazywana czwartym stanem materii, to zbiór zjonizowanych %TODO: formalna definicja plazmy
-    cząstek oraz elektronów. Plazmy występują w całym wszechświecie, od materii międzygwiezdnej po błyskawice.
+    cząstek oraz elektronów przejawiających jako grupa globalną obojętność elektryczną. Innymi słowy, od gazu plazmy
+    odróżnia fakt, że cząstki są zjonizowane, więc oddziałują kolektywnie między sobą na odległość,
+    ale ich pola elektryczne wzajemnie się neutralizują na długich dystansach.
+
+    Plazmy występują w całym wszechświecie, od materii międzygwiezdnej po błyskawice.
     Ich istnienie uwarunkowane jest obecnością wysokich energii, wystarczających do zjonizowania atomów gazu.
 
-    Fizyka plazmy jest stosunkowo młodą nauką, której rozwój nastąpił dopiero w ostatnim stuleciu, zaczynając od badań Alfvena. %TODO reference
-    Globalny wzrost zainteresowania fizyką plazmy rozpoczął się w latach '50 ubiegłego wieku, %TODO - zweryfikować
+    Fizyka plazmy jest stosunkowo młodą nauką, której rozwój nastąpił dopiero w ostatnim stuleciu, zaczynając od badań
+    Langmuira (1928), który eksperymentował z jonizowaniem gazów w szklanych rurach zwanych rurami Crookesa. % TODO reference
+    
+    Globalny wzrost zainteresowania fizyką plazmy na arenie geopoliycznej ozpoczął się w latach '50 ubiegłego wieku, %TODO - zweryfikować
     gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, % TODO: reference: fusion in europe history of fusion
     które mogą mieć zastosowania w energetyce jako następny etap rozwoju po reakcjach rozpadu wykorzystywanych
-    w "klasycznych" elektrowniach jądrowych.
+    w "klasycznych" elektrowniach jądrowych. Był to jeden z elementów zimnowojennego wyścigu technologicznego
+    międzu Stanami Zjednoczonymi a ZSRR, % TODO reference
+    jak również jeden z projektów mających na celu ponowne nawiązanie współpracy naukowej między supermocarstwami
+    po zakończeniu tego konfliktu. % TODO reference fusion for energy history of fusion
 
-    Poza tym plazmy mają szerokie zastosowanie w przemyśle metalurgicznym, elektronicznym, kosmicznym itp. %TODO: to potrzebuje źródła
+    Poza tym ogromnym projektem plazmy mają szerokie zastosowania w obecnym przemyśle, na przykład:
+    \begin{itemize}
+        \item metalurgicznym - przecinaki plazmowe % TODO: sprawdzić nazwę - łukowe coś?
+        \item elektronicznym - nacinanie powierzchni urządzeń półprzewodnikowych %TODO: przeformułować
+        \item materiałowym - powierzchniowa obróbka materiałów, % TODO ref
+              CVD % TODO ref
+        \item kosmicznym - silniki plazmowe, interakcja z rozgrzanym powietrzem podczas powtórnego wchodzenia 
+              w atmosferę %TODO: to potrzebuje źródła
+        \item użytkowym - ekrany telewizorów, oświetlenie (świetlówki)
+        \item utylizacja odpadów % TODO ref
+        \item czyszczenie powierzchni % TODO ref
+        % TODO coś jeszcze?
+    \end{itemize}
+
+    Należy też zwrócić uwagę, że ze względu na złożoność układów plazmowych pre-komputerowa fizyka miała ogromne
+    problemy z merytorycznymi badaniami zachowania plazmy poza wybranymi, mocno uproszczonymi reżimami. Postęp w badaniach
+    plazmy, jak sugeruje rozwój technologii fuzyjnej, % TODO słowo fuzyjnej?
+    jest silnie skorelowany % TODO ref youtube wykład
+    z rozwojem mocy obliczeniowej oraz algorytmów symulacyjnych.
 
     \subsection{Modelowanie i symulacja plazmy}
 
