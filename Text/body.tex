@@ -94,14 +94,17 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     Zjawiska z zakresu fizyki plazmy są jednymi z bardziej złożonych problemów modelowanie komputerowej.
     Głównym, koncepcyjnie, powodem uniemożliwiającym zastosowanie prostych metod symulacji
     znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałowuje
-    z każdą inną nawzajem poprzez niepomijalne na dużych odległościach oddziaływania kulombowskie $\approx r^{-2}$.
+    z każdą inną nawzajem poprzez niepomijalne oddziaływania kulombowskie, skalujące się z odległością jak
+    $\approx r^{-2}$.
 
-    Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami są opisy statystyczne,
+    Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami fundamentalnymi
+    (jako opierającymi się na fundamentalnej fizyce) % TODO styl?
+    są opisy statystyczne,
     opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako
-
-
+    % TODO: dodać reference na opis statystyczny
     \begin{equation}
         \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1 % TODO normalizacja?
+        % TODO: napisać wzór
         \label{eqn:distribution-function}
     \end{equation}
 
@@ -109,8 +112,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
     oraz prędkości, powielone dla każdej z N cząstek).
 
-% TODO: dodać reference na opis statystyczny
-
+    % TODO poczytać o tym żeby mieć sposób na przejście
     Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova % TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego
 
     \begin{equation}
@@ -123,13 +125,14 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
     przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. Należy zauważyć, że skalowanie
     liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$, gdzie $N_r$ to liczba punktów przestrzennych, zaś
-    $N_v$ to liczba punktów na siatce prędkości. Jest to więc % intractable
-    obliczeniowo. % TODO: przeformułować
+    $N_v$ to liczba punktów na siatce prędkości. Jest to więc niepraktyczne
+    obliczeniowo, % TODO: przeformułować
     między innymi ze względu na istotne w plazmach zjawisko ``uciekających elektronów'' o dużych prędkościach.
 % TODO: runaway electrons - przeformułować
 
     W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
     \begin{enumerate}
+        \item modele kinetyczne % TODO
         \item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
             wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę %TODO: reformulate
         \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
