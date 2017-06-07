@@ -215,93 +215,6 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
 
 
     \section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
-    \subsection{Opis i treść kodu}
-    Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github %link
-
-    \subsection{Struktura i hierarchia kodu}
-
-    Program ma obiektową strukturę zewnątrzą, którą w celu łatwości zrozumienia jego działania nakrywa wewnętrzną warstwę
-    składającą się głównie z n-wymiarowych tablic \emph{NumPy} oraz zwektoryzowanych operacji na nich.
-
-    Kod składa się z kilku prostych koncepcyjnie elementów:
-
-    \subsubsection{Species}
-    Klasa reprezentująca pewną grupę makrocząstek (np. odpowiadające elektronom w symulacji).
-
-    Zawiera skalary:
-    \begin{itemize}
-        \item $N$ - liczba makrocząstek
-        \item $q$ - ładunek makrocząstki
-        \item $m$ - masa makrocząstki
-        \item $c$ - prędkość światła
-    \end{itemize}
-
-    Zawiera tablice rozmiaru $N$:
-    \begin{itemize}
-        \item jednowymiarowych położeń makrocząstek $x^n$, zapisywanych w iteracjach $n, n+1, n+2$...
-        \item trójwymiarowych prędkości makrocząstek $\vec{v}^{n+\frac{1}{2}}$, zapisywanych w iteracjach $n+\frac{1}{2}, n+{3}{2}, n+{5}{2}$...
-        \item stanu makrocząstek (flagi boolowskie oznaczające cząstki aktywne bądź usunięte z obszaru symulacji)
-    \end{itemize}
-
-    Poza tym, zawiera też informacje dotyczące zbierania danych dot. cząstek:
-    \begin{itemize}
-        \item stringowy identyfikator grupy cząstek, dla potrzeb legend wykresów
-        \item $N_T$ - liczbę iteracji czasowych w symulacji
-        \item odpowiadające poprzednio wymienionym tablice rozmiaru $N_T * N$
-    \end{itemize}
-
-    Jeżeli liczba makrocząstek lub iteracji przekracza pewną stałą, dane zapisywane są jedynie co tyle
-    % iteracji, aby zebrać właśnie tyle snapshotów cząstek. % REWRITE
-
-    \subsubsection{Grid}
-    Klasa reprezentująca dyskretną siatkę, na której dokonywane są obliczenia dot. pól elektromagnetycznych.
-    Klasa zawiera:
-    \begin{itemize}
-        \item $x_i$ - tablicę położeń lewych krawędzi komórek siatki
-        \item $N_G$ - liczbę komórek siatki
-        \item $\Delta x$ - krok przestrzenny siatki - $N_G * \Delta x$ daje długość obszaru symulacji
-        \item $\rho_i$ - tablicę gęstości ładunku na siatce
-        \item $\vec{j}_{i,j}$ - tablicę gęstości prądu na siatce
-        \item $E_{i,j}$ - tablicę pola elektrycznego na siatce
-        \item $B_{i,j}$ - tablicę pola magnetycznego na siatce
-        \item $n_{\text{species}}$ - liczbę rodzajów cząstek w symulacji, na potrzeby wykresów
-        \item $c$, $\epsilon_0$ - stałe fizyczne - prędkość światła oraz przepuszczalność elektryczną próżni % REWRITE: nazwa stałej
-    \end{itemize}
-
-
-    \subsubsection{Simulation}
-    Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
-    pozwalająca w prosty sposób na wykonywanie iteracji algorytmu i analizy danych. Jest tworzona tak przy
-    uruchamianiu symulacji, jak i przy wczytywaniu danych z plików .hdf5.
-
-    \begin{itemize}
-        \item $\Delta t$ - krok czasowy
-        \item $N_T$ - liczba iteracji w symulacji
-        \item \emph{grid} - obiekt siatki
-        \item \emph{list\_species} - lista grup makrocząstek w symulacji
-    \end{itemize}
-
-    \subsubsection{Pliki pomocnicze}
-    Poza powyższymi program jest podzielony na pliki:
-    \begin{itemize}
-        \item algorithms\_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
-        \item algorithms\_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
-        \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
-        \item animation - tworzy animacje dla celów analizy danych
-        \item static\_plots - tworzy statyczne wykresy dla celów analizy danych
-        \item Plotting - zawiera ustawienia dot. analizy danych % TODO czy to można przenieść do simulation czy gdzieś?
-    \end{itemize}
-
-    Configi testowe są zawarte w plikach run\_*: % TODO przeformułować
-    \begin{itemize}
-        \item run\_coldplasma
-        \item run\_twostream
-        \item run\_wave
-        \item run\_beam
-    \end{itemize}
-
-    Testy jednostkowe są zawarte w katalogu tests:
-
     \subsection{Zastosowane algorytmy}
 
     \subsubsection{Leapfrog oraz Borys} % REWRITE
@@ -457,6 +370,9 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo wybranymi cząstkami.
     % TODO: dopisać jak będzie zrobione.
 
+    \subsection{Opis i treść kodu}
+    Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github %TODO: link
+
     \subsection{Wykorzystane biblioteki i technologie}
 
     \subsubsection{Numpy}
@@ -530,6 +446,123 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane m.in. do
     % TravisCI jest darmową dla oprogramowania \emph{open source} usługą zapewniającą
     % ciągłą integrację. Każda
     % TODO: travis CI
+
+    \subsection{Struktura i hierarchia kodu}
+
+    Program ma obiektową strukturę zewnętrzną, którą w celu łatwości zrozumienia jego działania nakrywa wewnętrzną warstwę
+    składającą się głównie z n-wymiarowych tablic \code{numpy.ndarray} oraz zwektoryzowanych operacji na nich.
+
+    Część symulacyjna kodu składa się z kilku prostych koncepcyjnie elementów:
+
+    \subsubsection{Grid}
+    Klasa reprezentująca dyskretną siatkę Eulera, na której dokonywane są obliczenia dotyczące
+    pól elektromagnetycznych oraz gęstości ładunku i prądu.
+    Zawiera:
+    \begin{itemize}
+        \item $x_i$ - tablicę położeń lewych krawędzi komórek siatki
+        \item $N_G$ - liczbę komórek siatki
+        \item $T$ - sumaryczny czas trwania symulacji
+        \item $\Delta x$ - krok przestrzenny siatki - $N_G * \Delta x$ daje długość obszaru symulacji
+        \item $\rho_i$ - tablicę gęstości ładunku na siatce.
+        \item $\vec{j}_{i,j}$ - tablicę gęstości prądu na siatce.
+        \item $E_{i,j}$ - tablicę pola elektrycznego na siatce.
+        \item $B_{i,j}$ - tablicę pola magnetycznego na siatce.
+        \item $c$, $\varepsilon_0$ - stałe fizyczne - prędkość światła oraz przenikalność elektryczną próżni.
+        \item $\Delta t$ - krok czasowy symulacji, obliczony jako $\Delta t = \Delta x / c$.
+        \item $N_T$ - liczbę iteracji czasowych symulacji.
+        \item \code{BC} - \emph{Boundary Condition}, funkcję czasu określającą wartość warunku brzegowego dotyczącego
+            natężenia fali elektromagnetycznej (laserowej) wchodzącej do pola symulacji z lewej strony.
+    \end{itemize}
+
+    Istotne metody klasy \code{Grid}, o których należy wspomnieć, to:
+    \begin{itemize}
+         \item \code{apply\_bc} - aktualizuje krańcowe wartości tablic $E$, $B$ w oparciu o podany warunek brzegowy.
+         \item gather\_current % TODO: finish these
+         \item gather\_charge
+         \item solve
+         \item field\_solve
+         \item electric\_field\_function, magnetic
+         \item save\_to\_h5py
+    \end{itemize}
+
+    \subsubsection{Species}
+    Klasa reprezentująca pewną grupę makrocząstek o wspólnych cechach, takich jak ładunek bądź masa.
+    Przykładowo, w symulacji oddziaływania lasera z tarczą wodorową jedną grupą są protony, zaś drugą - elektrony.
+    Do zainicjalizowania wymaga instancji \code{Grid}, z której pobiera informacje takie jak stałe fizyczne $c$,
+    $\varepsilon_0$, liczbę iteracji czasowych $N_T$ i czas trwania iteracji $\Delta t$.
+
+    Zawiera skalary:
+    \begin{itemize}
+        \item $N$ - liczba makrocząstek
+        \item $q$ - ładunek cząstki
+        \item $m$ - masa cząstki
+        \item \code{scaling} - liczba rzeczywistych cząstek, jakie reprezentuje sobą makrocząstka. Jej sumaryczny ładunek
+             wynosi $q * $\code{scaling}, masa $m * $\code{scaling}.
+        \item \code{N\_alive} - liczba cząstek obecnie aktywnych w symulacji. Zmniejsza się w miarę usuwania cząstek przez
+            warunki brzegowe.
+    \end{itemize}
+
+    Poza skalarami zawiera tablice rozmiaru $N$:
+    \begin{itemize}
+        \item jednowymiarowych położeń makrocząstek $x^n$, zapisywanych w iteracjach $n, n+1, n+2$...
+        \item trójwymiarowych prędkości makrocząstek $\vec{v}^{n+\frac{1}{2}}$, zapisywanych w iteracjach $n+\frac{1}{2}, n+{3}{2}, n+{5}{2}$...
+        \item stanu makrocząstek (flagi boolowskie oznaczające cząstki aktywne bądź usunięte z obszaru symulacji)
+    \end{itemize}
+
+    Poza tym, zawiera też informacje dotyczące zbierania danych dot. cząstek:
+    \begin{itemize}
+        \item \code{name} - słowny identyfikator grupy cząstek, dla potrzeb legend wykresów
+        \item $N_T$ - liczbę iteracji czasowych w symulacji
+        \item $N_T^s$ - zmniejszoną liczbę iteracji, w których następuje pełne zapisanie położeń i prędkości cząstek.
+            Dane te są wykorzystywane do tworzenia diagramów fazowych cząstek.
+        \item odpowiadające poprzednio wymienionym tablice rozmiaru $(N_T^s, N)$, $(N_T^s, N, 3)$.
+        \item jedną tablicę rozmiaru $(N_T, N_G)$ dotyczącą zebranym podczas depozycji ładunku informacjom diagnostycznym
+            o przestrzennej gęstości cząstek.
+        \item trzy tablice rozmiaru $(N_T)$ dotyczącą średnich prędkości, średnich kwadratów prędkości i odchyleń
+            standardowych prędkości.
+    \end{itemize}
+
+    Jeżeli liczba makrocząstek lub iteracji przekracza pewną stałą, dane zapisywane są jedynie dla co $n$-tej cząstki,
+    gdzie $n$ jest najniższą liczbą całkowitą która pozwala na zmniejszenie tablic poniżej tej stałej.
+
+    Warto wspomnieć o metodach klasy \code{Species}:
+    \begin{itemize}
+        \item push % TODO: fill these
+    \end{itemize}
+
+    \subsubsection{Simulation}
+    Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
+    pozwalająca w prosty sposób na wykonywanie iteracji algorytmu i analizy danych. Jest tworzona tak przy
+    uruchamianiu symulacji, jak i przy wczytywaniu danych z plików .hdf5.
+
+    \begin{itemize}
+        \item $\Delta t$ - krok czasowy
+        \item $N_T$ - liczba iteracji w symulacji
+        \item \code{Grid} - obiekt siatki
+        \item \code{list\_species} - lista grup makrocząstek w symulacji
+    \end{itemize}
+
+    \subsubsection{Pliki pomocnicze}
+    Poza powyższymi program jest podzielony na pliki:
+    \begin{itemize}
+        \item algorithms\_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
+        \item algorithms\_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
+        \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
+        \item animation - tworzy animacje dla celów analizy danych
+        \item static\_plots - tworzy statyczne wykresy dla celów analizy danych
+        \item Plotting - zawiera ustawienia dot. analizy danych % TODO czy to można przenieść do simulation czy gdzieś?
+    \end{itemize}
+
+    Configi testowe są zawarte w plikach run\_*: % TODO przeformułować
+    \begin{itemize}
+        \item run\_coldplasma
+        \item run\_twostream
+        \item run\_wave
+        \item run\_beam
+        \item run\_laser
+    \end{itemize}
+
+    Testy jednostkowe są zawarte w katalogu tests:
 
 
 
