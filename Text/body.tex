@@ -643,10 +643,8 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
          \item \code{test\_run} - obliczenia oraz obróbka danych na potrzeby analizy, głównie stosowana w testach
          \item \code{lazy\_run} - \code{test\_run} z zapisem do pliku oraz wczytaniem z pliku \emph{.hdf5},
              jeżeli początkowe
-             warunki oraz wersja kodu zgadzają się. W przeciwnym razie symulacja zostaje uruchomiona na nowo
+             warunki oraz wersja kodu zgadzają się. W przeciwnym razie symulacja zostaje uruchomiona na nowo.
     \end{itemize}
-
-   
 
     \subsubsection{Pliki pomocnicze}
     Poza powyższymi program jest podzielony na pliki: \todo{aktualizacja}
@@ -656,10 +654,10 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
         \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
         \item animation - tworzy animacje dla celów analizy danych
         \item static\_plots - tworzy statyczne wykresy dla celów analizy danych
-        \item Plotting - zawiera ustawienia dot. analizy danych \todo{TODO czy to można przenieść do simulation czy gdzieś?}
+        \item plotting - zawiera ustawienia dotyczące analizy danych \todo{TODO czy to można przenieść do simulation czy gdzieś?}
     \end{itemize}
 
-    Configi testowe są zawarte w plikach run\_*: \todo{TODO przeformułować}
+    Przygotowane konfiguracje istniejących symulacji są zawarte w plikach \code{configs/run\_*}: \todo{TODO przeformułować}
     \begin{itemize}
         \item run\_coldplasma
         \item run\_twostream
@@ -668,26 +666,31 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
         \item run\_laser
     \end{itemize}
 
-    Testy jednostkowe są zawarte w katalogu tests:
-
-
+    Algorytmiczne testy jednostkowe są zawarte w katalogu \code{tests}.
 
 \section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
     Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania niniejszej pracy wersji programu.
-    W repozytorium gita na Githubie jest to commit ``placeholder'' \todo{TODO: uzupełnić commita}
+    W repozytorium Git na Githubie jest to commit ``placeholder'' \todo{TODO: uzupełnić commita}
     identyfikowany również jako wersja 1.0.
 
     \subsection{Przypadki testowe}
 
     Kod przetestowano w dwojaki sposób. Pierwszym z nich są testy jednostkowe.
-    Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego pakietu pytest \todo{TODO: pytest reference.}
+    Automatyczne testy jednostkowe uruchamiane po każdej wymiernej zmianie kodu
+    pozwalają kontrolować działanie programu znacznie ułatwiają zapobieganie
+    błędom.
 
-    Testy polegały na przeprowadzeniu fragmentu symulacji - w przypadku testów algorytmów było to na przykład wygenerowanie
-    pojedynczej cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na siatkę, co pozwala porównać
-    otrzymany wynik z przewidywanym analitycznie dla danego rozmiaru siatki i położenia cząstki. Automatyczne testy
-    jednostkowe uruchamiane po każdej wymiernej zmianie kodu pozwalają kontrolować działanie programu znacznie ułatwiają
-    zapobieganie błędom.
+    Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego
+    pakietu \code{pytest} \todo{TODO: pytest reference.} i większości były
+    uruchamiane na platformie TravisCI.
 
+    \subsubsection{Testy algorytmiczne}
+    Testy algorytmiczne polegały na przeprowadzeniu fragmentu symulacji - w
+    przypadku testów algorytmów było to na przykład wygenerowanie pojedynczej
+    cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na
+    siatkę, co pozwala porównać otrzymany wynik z przewidywanym analitycznie
+    dla danego rozmiaru siatki i położenia cząstki. 
+    \todo{sprawdzić listę testów}
     \begin{enumerate}
         \itemi Gather
             \begin{enumerate}
@@ -715,7 +718,11 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
             \end{enumerate}
     \end{enumerate}
 
-    Aby zweryfikować działanie kodu, zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
+    \subsubsection{Testy symulacyjne}
+    Testy symulacyjne polegały na uruchomieniu niewielkiej symulacji testowej z różnymi warunkami brzegowymi
+    i ilościowym, automatycznym zweryfikowaniu dynamiki zjawisk w niej zachodzących.
+
+    Zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
     \subsubsection{oscylacje zimnej plazmy}
     Jest to efektywnie fala stojąca. Jednorodne rozmieszczenie cząstek z zerową prędkością początkową (stąd określenie
     "zimna plazma" jako nietermalna)
@@ -729,7 +736,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     obserwuje się nieliniowy reżim \todo{TODO: i co}
 
     Jest to też łoże testowe \todo{TODO sformułowanie}
-    dla innych przypadków, takich jak niestabilność Kaiser-Wilhelm \todo{TODO: sformułowanie z BL}
+    dla innych przypadków, takich jak efekt Kaiser-Wilhelm \todo{TODO: sformułowanie z BL}
     oraz \todo{TODO czegoś jeszcze.}
     \subsubsection{niestabilność dwóch strumieni} \todo{TODO}
     Różnice między tym a poprzednim przypadkiem to obecność dwóch jednorodnie rozłożonych strumieni cząstek
