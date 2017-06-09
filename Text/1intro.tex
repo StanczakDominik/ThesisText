@@ -1,0 +1,47 @@
+\section[Wstęp]{Wstęp} %2-3 strony wprowadzenie w temat, motywacja, teza (cel)
+Algorytmy Particle-in-Cell (cząstka w komórce) to jedne z najbardziej zbliżonych do fundamentalnej fizyki
+metod symulacji materii w stanie plazmy. Zastosowany w nich lagranżowski opis cząsteczek pozwala na dokładne
+odwzorowanie dynamiki ruchu elektronów i jonów. Jednocześnie, ewolucja pola elektromagnetycznego na Eulerowskiej
+siatce dokonywana zamiast bezpośredniego obliczania oddziaływań międzycząsteczkowych pozwala na znaczące
+przyspieszenie etapu obliczenia oddziaływań międzycząsteczkowych. W większości symulacji cząsteczkowych właśnie
+ten etap jest najbardziej krytyczny dla wydajności progamu.
+
+W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między innymi do
+\item symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER \todo[inline]{TODO: źródło, grupa Hammeta}
+\item modelowania rekonekcji linii magnetycznych w polu gwiazdy \todo[inline]{TODO: źródło}
+\item projektowania silników jonowych (Halla) \todo[inline]{TODO: źródło}
+\item badania interakcji laserów z plazmą w kontekście tworzenia niewielkich,
+    wysokowydajnych akceleratorów cząstek \todo[inline]{TODO: źródło}
+
+    Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych
+    możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich zastosowań.
+    Przykładem takiego projektu jest PIConGPU \todo[inline]{TODO: źródło PIConGPU}
+
+    Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych,
+    jak również w ogólności nowoczesnych symulacji wykorzystujących dobrodziejstwa nowych technologii
+    jest jednak utrudniona poprzez niskopoziomowość istniejących języków klasycznie
+    kojarzonych z symulacją numeryczną (C, FORTRAN) oraz istniejących technologii zrównoleglania
+    algorytmów (MPI, CUDA, OpenCL).
+
+    To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
+    zajmujące się głównie pracą badawczą (na przykład fizyką), a nie
+    tylko programowaniem,
+    jest znacznie utrudnione. Należy też zauważyć, że programy takie często są
+    trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
+    i modyfikacji przez osoby niezwiązane z oryginalnym autorem z powodów takich jak
+    \begin{itemize}
+        \item brak dostępności kodu źródłowego
+        \item niedostateczna dokumentacja
+        \item brak jasno postawionych testów pokazujących, kiedy algorytm działa zgodnie z zamiarami twórców
+        \item zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
+    \end{itemize}
+
+    Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell
+    do symulacji oddziaływania wiązki laserowej z tarczą wodorową w popularnym języku
+    wysokopoziomowym Python, przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
+    i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej. Może to też oczywiście
+    pozwolić na dalsze
+    zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie z użyciem kart graficznych.
+    Ostatecznie, jest to również test wydajnościowy możliwości Pythona w symulacjach \todo[inline]{Zamiast ostatecznie chciałbym
+    dać coś typu last but not least}
+    numerycznych.
