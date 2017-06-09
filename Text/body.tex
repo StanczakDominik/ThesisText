@@ -17,7 +17,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 
     Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych
     możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich zastosowań.
-    Przykładem takiego projektu jest PIConGPU \todo{ TODO: źródło PIConGPU}
+    Przykładem takiego projektu jest PIConGPU \todo{TODO: źródło PIConGPU}
 
     Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych,
     jak również w ogólności nowoczesnych symulacji wykorzystujących dobrodziejstwa nowych technologii
@@ -44,10 +44,10 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej. Może to też oczywiście
     pozwolić na dalsze
     zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie z użyciem kart graficznych.
-    Ostatecznie, jest to również test wydajnościowy możliwości Pythona w symulacjach \todo{ TODO: słowo ostatecznie}
+    Ostatecznie, jest to również test wydajnościowy możliwości Pythona w symulacjach \todo{TODO: słowo ostatecznie}
     numerycznych.
 
-    \section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
+\section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
 
     \subsection{Plazma - czwarty stan materii}
 
@@ -60,28 +60,28 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     Ich istnienie uwarunkowane jest obecnością wysokich energii, wystarczających do zjonizowania atomów gazu.
 
     Fizyka plazmy jest stosunkowo młodą nauką, której rozwój nastąpił dopiero w ostatnim stuleciu, zaczynając od badań
-    Langmuira (1928), który eksperymentował z jonizowaniem gazów w szklanych rurach zwanych rurami Crookesa. \todo{ TODO reference}
+    Langmuira (1928), który eksperymentował z jonizowaniem gazów w szklanych rurach zwanych rurami Crookesa. \todo{TODO reference}
     
     Globalny wzrost zainteresowania fizyką plazmy na arenie geopoliycznej ozpoczął się w latach '50 ubiegłego wieku, \todo{TODO - zweryfikować}
-    gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, \todo{ TODO: reference: fusion in europe history of fusion}
+    gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, \todo{TODO: reference: fusion in europe history of fusion}
     które mogą mieć zastosowania w energetyce jako następny etap rozwoju po reakcjach rozpadu wykorzystywanych
     w "klasycznych" elektrowniach jądrowych. Był to jeden z elementów zimnowojennego wyścigu technologicznego
-    międzu Stanami Zjednoczonymi a ZSRR, \todo{ TODO reference}
+    międzu Stanami Zjednoczonymi a ZSRR, \todo{TODO reference}
     jak również jeden z projektów mających na celu ponowne nawiązanie współpracy naukowej między supermocarstwami
-    po zakończeniu tego konfliktu. \todo{ TODO reference fusion for energy history of fusion}
+    po zakończeniu tego konfliktu. \todo{TODO reference fusion for energy history of fusion}
 
     Poza tym ogromnym projektem plazmy mają szerokie zastosowania w obecnym przemyśle, na przykład:
     \begin{itemize}
-        \item metalurgicznym - przecinaki plazmowe \todo{ TODO: sprawdzić nazwę - łukowe coś?}
+        \item metalurgicznym - przecinaki plazmowe \todo{TODO: sprawdzić nazwę - łukowe coś?}
         \item elektronicznym - nacinanie powierzchni urządzeń półprzewodnikowych \todo{TODO: przeformułować}
-        \item materiałowym - powierzchniowa obróbka materiałów, \todo{ TODO ref}
-            CVD \todo{ TODO ref}
+        \item materiałowym - powierzchniowa obróbka materiałów, \todo{TODO ref}
+            CVD \todo{TODO ref}
         \item kosmicznym - silniki plazmowe, interakcja z rozgrzanym powietrzem podczas powtórnego wchodzenia 
             w atmosferę \todo{TODO: to potrzebuje źródła}
         \item użytkowym - ekrany telewizorów, oświetlenie (świetlówki)
-        \item utylizacja odpadów \todo{ TODO ref}
-        \item czyszczenie powierzchni \todo{ TODO ref}
-            \todo{ TODO coś jeszcze?}
+        \item utylizacja odpadów \todo{TODO ref}
+        \item czyszczenie powierzchni \todo{TODO ref}
+            \todo{TODO coś jeszcze?}
     \end{itemize}
 
     Należy też zwrócić uwagę, że ze względu na złożoność układów plazmowych pre-komputerowa fizyka miała ogromne
@@ -99,41 +99,42 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     $\approx r^{-2}$.
 
     Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami fundamentalnymi
-    (jako opierającymi się na fundamentalnej fizyce) \todo{ TODO styl?}
+    (jako opierającymi się na fundamentalnej fizyce) \todo{TODO styl?}
     są opisy statystyczne,
     opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako
-    \todo{ TODO: dodać reference na opis statystyczny}
+    \todo{TODO: dodać reference na opis statystyczny}
     \begin{equation}
         \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1
         \label{eqn:distribution-function}
     \end{equation}
 
-        \todo{ TODO: napisać wzór. normalizacja?}
+        \todo{TODO: napisać wzór. normalizacja?}
     opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
     oraz prędkości, powielone dla każdej z N cząstek).
 
-    \todo{ TODO poczytać o tym żeby mieć sposób na przejście}
-    Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova \todo{ TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego}
+    \todo{TODO poczytać o tym żeby mieć sposób na przejście}
+    Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova \todo{TODO: może zacząć od Klimontowicza, jest wyprowadzalne z niego}
 
     \begin{equation}
         \frac{d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_{\vec{v}} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
         \label{eqn:Vlasov}
     \end{equation}
-        \todo{ TODO: wzór na równanie Vlasova}
+        \todo{TODO: wzór na równanie Vlasova}
 
     W praktyce jest ono również nierozwiązywalne poza trywialnymi przypadkami o ułatwiających problem symetriach.
     Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
     przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. Należy zauważyć, że skalowanie
     liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$, gdzie $N_r$ to liczba punktów przestrzennych, zaś
     $N_v$ to liczba punktów na siatce prędkości. Jest to więc niepraktyczne
-    obliczeniowo, \todo{ TODO: przeformułować}
+    obliczeniowo, \todo{TODO: przeformułować}
     między innymi ze względu na istotne w plazmach zjawisko ``uciekających elektronów'' o dużych prędkościach.
+    \todo{zweryfikować słabości lattice boltzmann}
 
-    \todo{ TODO: runaway electrons - przeformułować}
+    \todo{TODO: runaway electrons - przeformułować}
 
     W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
     \begin{enumerate}
-        \item modele kinetyczne \todo{ TODO}
+        \item modele kinetyczne \todo{TODO}
         \item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
             wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę \todo{TODO: reformulate}
         \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
@@ -149,23 +150,26 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     Ich ruch wykorzystywany jest do zebrania informacji dotyczącej gęstości ładunku i prądu na dyskretną, Eulerowską siatkę. Na siatce rozwiązane
     są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane
     do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
-    do $n \log{n}$ z $n^2$ \todo{ TODO: wyrazić złożoność PIC przez rozmiar siatki}
+    do $n \log{n}$ z $n^2$ \todo{TODO: wyrazić złożoność PIC przez rozmiar siatki}
 
-    Algorytm particle-in-cell składa się z czterech elementów \todo{ GRAFIKA: cykliczny schemacik}
+    Algorytm particle-in-cell składa się z czterech elementów \todo{GRAFIKA: cykliczny schemacik}
     \subsubsection{GATHER}
     Depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
     co pozwala na sprawne rozwiązanie na tej siatce
     równań Maxwella jako układu różnicowych równań cząstkowych zamiast obliczania skalujących się kwadratowo w liczbie cząstek
     oddziaływań kulombowskich między nimi.
-    $1 = \sum_i S_i$ \todo{ TODO: dokończyć wzór}
-    W naszym przypadku najbardziej istotnym 
+    W naszym elektromagnetycznym przypadku bardziej istotną jest depozycja prądu na siatkę, co szerzej tłumaczy następny
+    fragment. \todo{słowo fragment}
     \subsubsection{SOLVE}
-    Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce;
-    znalezienie pól elektrycznego i magnetycznego
+    Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce.
+    Znalezienie pól elektrycznego i magnetycznego
     na podstawie gęstości ładunku i prądu na siatce.
     Istnieją dwie główne szkoły rozwiązywania tych równań: metody globalne i lokalne. Metody globalne wykorzystują
-    zazwyczaj równania dywergencyjne, rozwiązywane iteracyjnie lub spektralnie,
-    zaś lokalne - równania rotacyjne. Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
+    zazwyczaj równania dywergencyjne (prawo Gaussa) rozwiązywane iteracyjnie (metody takie jak Gaussa-Seidela)
+    lub spektralnie.
+    Metody lokalne z kolei wykorzystują równania rotacyjne (prawo Ampera) \todo{nie Faradaya?}
+
+    Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
     Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
     metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
     \subsubsection{SCATTER}
@@ -184,7 +188,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     W tym kontekście bardzo szczęśliwym jest fakt, że wszystkie istotne wielkości zależą nie od ładunku ani masy,
     ale od stosunku $q/m$. W praktyce stosuje się więc \emph{makrocząstki}, obdarzone ładunkiem i masą będące wielokrotnościami
     tych wielkości dla cząstek występujących w naturze (jak jony i elektrony, pozwalając jednocześnie zachować gęstości
-    cząstek i ładunku \todo{ oraz inne wielkości fizyczne)}
+    cząstek i ładunku \todo{oraz inne wielkości fizyczne)}
     zbliżone do rzeczywistych.
 
     Zazwyczaj (``tradycyjnie'') stosuje się gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej gęstości krytycznej plazmy,
@@ -209,34 +213,34 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
 
     Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
-    w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice płynów \todo{ TODO: PyFR}
+    w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice płynów \todo{TODO: PyFR}
 
     Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
     na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
     napisanych w C.
 
 
-    \section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
+\section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
     \subsection{Zastosowane algorytmy}
-    \subsubsection{Leapfrog oraz Borys} \todo{ REWRITE}
+    \subsubsection{Leapfrog oraz Borys}
     Każda symulacja cząstek wymaga zastosowania integratora równań ruchu. Tradycyjnym przykładem takiego
     integratora jest integrator Rungego-Kutty czwartego rzędu, znajdujący zastosowanie w wielorakich
-    symulacjach. \todo{ TODO: reference}
+    symulacjach. \todo{TODO: reference}
 
     Niestety, w bieżącym kodzie nie można go zastosować ze względu na jego niesymplektyczność:
-    mimo ogromnej dokładności jest on niestabilny pod względem energii cząstek. \todo{ TODO reference}
+    mimo ogromnej dokładności jest on niestabilny pod względem energii cząstek. \todo{TODO reference}
     W symulacjach typu Particle-in-cell konieczne jest zastosowanie innych algorytmów. Dobrym algorytmem
     symplektycznym jest na przykład powszechnie znany \emph{leapfrog}, polegający na
-    przesunięciu prędkości o połowę iteracji czasowej względem położeń.\todo{ TODO: reference}
+    przesunięciu prędkości o połowę iteracji czasowej względem położeń.\todo{TODO: reference}
     Mimo tego, że energie cząstek w ruchu obliczonym tym integratorem nie są lokalnie stałe na krótkich skalach
     czasowych, to jednak zachowują energię na skali globalnej.
 
-    \todo{ TODO IMAGE: chyba miałem to na coldplasma}
+    \todo{TODO IMAGE: chyba miałem to na coldplasma}
 
-    W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć zwykłego algorytmu \emph{leapfrog}. \todo{ TODO READ}
+    W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć zwykłego algorytmu \emph{leapfrog}. \todo{TODO READ}
     Używa się tutaj specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu elektromagnetycznym,
-    tak zwanego integratora Borysa, \todo{ TODO REFERENCE}
-    który rozbija pole elektryczne na dwa impulsy, między którymi następują dwie \todo{ TODO CHECK}
+    tak zwanego integratora Borysa, \todo{TODO REFERENCE}
+    który rozbija pole elektryczne na dwa impulsy, między którymi następują dwie \todo{TODO CHECK}
     rotacje polem magnetycznym. Algorytm jest dzięki temu symplektyczny
     i długofalowo zachowuje energię cząstek.
     
@@ -244,8 +248,8 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
         bo = ris
         \label{eqn:boris-pusher}
     \end{equation}
- \todo{ TODO: boris pusher equation}
-    W naszym przypadku dochodzi jeszcze jedno utrudnienie związane z relatywistycznością symulacji. \todo{ TODO stylistyka}
+ \todo{TODO: boris pusher equation}
+    W naszym przypadku dochodzi jeszcze jedno utrudnienie związane z relatywistycznością symulacji. \todo{TODO stylistyka}
     Przed obliczeniem korekty prędkości konieczne jest przetransformowanie prędkości z układu ``laboratoryjnego'' $\vec{v}$
     na prędkość w układzie poruszającym się z cząstką $\vec{u}$, czego dokonuje się poprzez parę transformacji:
 
@@ -253,30 +257,39 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
         \vec{u} = \vec{v} \gamma
         \label{eqn:gamma-transformation}
     \end{align}
- \todo{ TODO: finish this eq}
-    \subsubsection{Depozycja gęstości ładunku i prądu} \todo{ TODO pick up here}
+ \todo{TODO: finish this eq}
+    \subsubsection{Depozycja gęstości ładunku i prądu} \todo{TODO pick up here}
     Depozycja ładunku odbywa się w prosty sposób, przy następujących założeniach:
     \begin{itemize}
-        \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species}) ładunek $q$ oraz parametr \code{scaling} (również) \todo{ TODO STYLE?}
+        \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species}) ładunek $q$ oraz parametr \code{scaling} (również) \todo{TODO STYLE?}
             decydujący o tym, ile rzeczywistych cząstek reprezentuje. Sumaryczny ładunek makrocząstki wynosi więc \code{q*scaling}
         \item Każda makrocząstka ma szerokość jednej komórki siatki $\Delta x$. Cząstka zlokalizowana więc środkiem
             w połowie długości komórki będzie w niej całkowicie zawarata.
-        \item W ten sposób możemy stwierdzić, \todo{ TODO CONTINUE}
+        \item W ten sposób możemy stwierdzić, \todo{TODO CONTINUE}
     \end{itemize}
+
+    Powszechnie stosowana od zarania dziejów metod particle-in-cell \todo{refka: Dawson}
+    jest interpolacja liniowa, polegająca na zdepozytowaniu w $i$-tej komórce siatki \todo{dokończyć}
+
+    $1 = \sum_i S_i$ \todo{TODO: dokończyć wzór}
+
+    W naszym przypadku wymagamy również, żeby depozycja prądu była spójna z depozycją ładunku, to znaczy
+    zachowywała ładunek. 
+
     \subsubsection{Interpolacja pól elektrycznego i magnetycznego}
     Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
     Wartosci pol sa liniowo skalowane do pozycji czastek wedlug ich wzglednych położeń wewnątrz komórek.
 
     W celu przyśpieszenia działania programu stosuje się istniejącą metodę
-    \code{RegularGridInterpolator} z biblioteki \code{scipy.interpolate}. \todo{ TODO: zaimplementować i sprawdzić}
-    \todo{ TODO CONTINUE opowiadanie o interpolacji}
+    \code{RegularGridInterpolator} z biblioteki \code{scipy.interpolate}. \todo{TODO: zaimplementować i sprawdzić}
+    \todo{TODO CONTINUE opowiadanie o interpolacji}
     \subsubsection{Field solver} \todo{TODO: przerobić}
 
     Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella. Jak pokazują Buneman i Villasenor,
-    numerycznie można zastosować dwa główne podejścia: \todo{ TODO zredagować}
+    numerycznie można zastosować dwa główne podejścia: \todo{TODO zredagować}
     1. wykorzystać równania na dywergencję pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
     algorytm inherentnie globalny, w którym informacja o warunkach brzegowych jest konieczna w każdym oczku siatki
-    \todo{ TODO alternatywa na słowo "oczko"?}
+    \todo{TODO alternatywa na słowo "oczko"?}
     2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
     dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
 
@@ -285,11 +298,11 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     * algorytm ewolucji pola staje się trywialny obliczeniowo, zwłaszcza w 1D -
         ogranicza się bowiem do elementarnych operacji lokalnego dodawania i mnożenia.
     * algorytm ewolucji pola staje się lokalny (do znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
-    jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach \todo{ TODO jak to faktycznie wygląda z tym algo?}
+    jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego sąsiadach \todo{TODO jak to faktycznie wygląda z tym algo?}
     co zapobiega problemowi informacji przebiegającej w symulacji szybciej niż światło oraz zapewnia stabilność na podstawie
     warunku Couranta.
 
-    \todo{ TODO: gładsze przejście tutaj - wyprowadzenie field solvera}
+    \todo{TODO: gładsze przejście tutaj - wyprowadzenie field solvera}
     W 1D można dokonać dekompozycji składowych poprzecznych pola elektromagnetycznego (tutaj oznaczanych $y$, $z$) na
     propagujące się w przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są zebrane poprzez zamianę zmiennych
     w dwie wielkości elektrodynamiczne $F^+$, $F^-$.
@@ -302,7 +315,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
         \label{eqn:Maxwell-rotation-derivation}
     \end{equation}
 
-    \todo{ TODO: skończyć wyprowadzenie}
+    \todo{TODO: skończyć wyprowadzenie}
 
     \begin{equation}
         F^{+} = E_y + c B_z
@@ -311,7 +324,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     \end{equation}
     Analogicznie, dla składowych $E_z$, $B_y$:
 
-    \todo{ TODO: zweryfikować znaki i czy c nie jest w mianowniku}
+    \todo{TODO: zweryfikować znaki i czy c nie jest w mianowniku}
     \begin{equation}
         G^{+} = E_z - c B_y
         G^{-} = E_z + c B_y
@@ -326,7 +339,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 \todo{sprawdzić}
     Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje się sposób depozycji ładunku - należy pilnować,
     aby był robiony w sposób który spełnia zachowanie ładunku. Inaczej koniecznym staje się aplikowanie tak zwanej
-    poprawki Borysa, \todo{ TODO źródło - prezentacja}
+    poprawki Borysa, \todo{TODO źródło - prezentacja}
     aby upewnić się, że warunek z równań Maxwella $\nabla \rho / \varepsilon_0 = \nabla \cdot \vec{E}$ jest
     wciąż spełniony.
 
@@ -347,17 +360,17 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 
     \subsection{Warunki początkowe dla cząstek}
 
-    W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w .\todo{ TODO: Birdsall Langdon}
+    W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w .\todo{TODO: Birdsall Langdon}
     Jego działanie można łatwo zilustrować na przykładzie początkowej funkcji gęstości cząstek zadanej
-    dowolną funkcją analityczną. \todo{ TODO: czy analityczna nie jest słowem zarezerwowanych dla tych na szeregi}
+    dowolną funkcją analityczną. \todo{TODO: czy analityczna nie jest słowem zarezerwowanych dla tych na szeregi}
     Używając funkcji dystrybucji w jednym wymiarze zależnej jedynie od położenia znormalizowanej do
     liczby cząstek $N$, można wykonać całkowanie kumulatywne po siatce gęstszej niż liczba cząstek
     na wybranym przedziale, po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
     przybiera kolejne większe całkowite wartości.
 
-    \todo{ TODO: rysunek: przykład z ipynb}
+    \todo{TODO: rysunek: przykład z ipynb}
 
-    Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną \todo{ TODO: czy nie przesadzam?}
+    Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną \todo{TODO: czy nie przesadzam?}
     i zrenormalizować ją tak, aby $\int_0^L f(x) dx = N$. W praktyce wykorzystuje się wartości marginalnie większe
     niż $N$, mianowicie $N+0.1$, co pozwala na uniknięcie problemów ze skończoną dokładnością obliczeń
     na liczbach zmiennoprzecinkowych.
@@ -376,12 +389,12 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
         \label{relativistic-maxwell-distribution}
     \end{align}
 
-    Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane \todo{ TODO: czy to jest słowo}
+    Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane \todo{TODO: czy to jest słowo}
     należy zadbać o zdekorelowanie ich prędkości między sobą. Naiwne zastosowanie algorytmu na położenia
     prowadzi zaś do rozłożenia cząstek rosnąco numeracją w kierunku rosnącego położenia $x$.
 
     Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo wybranymi cząstkami.
-    \todo{ TODO: dopisać jak będzie zrobione.}
+    \todo{TODO: dopisać jak będzie zrobione.}
 
     \subsection{Opis i treść kodu}
     Cały kod programu w celu reprodukowalności wyników tworzony był i jest dostępny na platformie Github \todo{TODO: link}
@@ -392,36 +405,41 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     \code{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na n-wymiarowych macierzach
     bądź tablicach, utworzona w celu umożlwiienia zastąpienia operacjami wektorowymi iteracji po tablicach,
     powszechnie stosowanych w metodach numerycznych i będących znanym słabym punktem Pythona.
-    \todo{ TODO REFERENCE źródło na powolność pętli}
+    \todo{REFERENCE źródło na powolność pętli}
 
     Pod zewnętrzną powłoką zawiera odwołania do
     znanych, wypróbowanych i sprawdzonych w numeryce modułów LAPACK, BLAS
-    napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN. Jest to \emph{de facto}
+    napisanych w szybkich, niskopoziomowych językach C oraz FORTRAN.
+    Jest to \emph{de facto}
     standard większości obliczeń numerycznych w Pythonie.
 
-    Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD. % TODO refka
+    Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD. \todo{refka}
 
     \subsubsection{scipy}
     Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy}, biblioteka
     zawierająca wydajne implementacje wielu podstawowych algorytmów numerycznych służących
     między innymi całkowaniu, optymalizacji, algebrze liniowej czy transformatom Fouriera.
+    W naszym przypadku stosujemy zawarte w tej bibliotece funkcje całkujące do określenia
+    początkowego profilu gęstości plazmy.
+    \todo{czy stosuję scipy gdzieś jeszcze}
 
     \subsubsection{Numba}
-    \code{numba} to biblioteka służąca do kompilacji just-in-time kodu. \todo{ TODO ogarnąć jak właściwie działa numba}
-    W wielu przypadkach \todo{ TODO odniesienie}
+    \code{numba} to biblioteka służąca do kompilacji just-in-time kodu.
+    \todo{Przerobić wyjaśnienie działania Numba}
+    W wielu przypadkach
     pozwala na osiągnięcie kodem napisanym w czystym Pythonie wydajności marginalnie
-    niższej bądź nawet równej do analogicznego programu w C. \todo{ TODO czy były takie testy z fortranem}
-    Jednocześnie należy zaznaczyć prostotę jej użycia: \todo{TODO}
+    niższej bądź nawet równej do analogicznego programu w C bądź Fortranie. \todo{refka}
+    Jednocześnie należy zaznaczyć prostotę jej użycia:
 
-    \todo{ TODO fragment kodu}
+    \todo{TODO fragment kodu. @jit przed kodem}
 
 
     \subsubsection{HDF5}
     HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych liczbowych w drzewiastej,
-    skompresowanej strukturze danych.
-    W Pythonie implementuje go biblioteka h5py. \todo{ TODO reference h5py}
-    Używa się go na przykład w \todo{ TODO lista miejsc gdzie używają hdf5}
-    \todo{ TODO https://github.com/PPPLDeepLearning/plasma-python}
+    skompresowanej strukturze danych, razem z równoległym, wielowątkowym zapisem tych danych.
+    W Pythonie implementuje go biblioteka h5py. \todo{TODO reference h5py}
+    Używa się go na przykład w \todo{TODO lista miejsc gdzie używają hdf5}
+    \todo{TODO https://github.com/PPPLDeepLearning/plasma-python}
 
     W bieżącej pracy wykorzystuje się go do przechowywania danych numerycznych dotyczących
     przebiegu symulacji, pozwalających na ich dalsze przetwarzanie i analizę poprzez
@@ -436,13 +454,13 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     dynamicznie generowanych animacji przedstawiających przebiegi czasowe symulacji.
 
     Matplotlib również jest oprogramowaniem otwartym, udostępnianym na licencji
-    \todo{ TODO matplotlib license, reference}
+    \todo{TODO matplotlib license, reference}
 
     \subsubsection{py.test}
-    Przy pracy nad kodem użyto frameworku testowego \code{py.test} \todo{ TODO refenrece}
+    Przy pracy nad kodem użyto frameworku testowego \code{py.test} \todo{TODO refenrece}
     Obsługa testów jest trywialna:
 
-    \todo{ przykład kodu}
+    \todo{przykład testu z programu}
 
     Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie objawia się
     zazwyczaj błędem wykonywania programu, a jedynie błędnymi wynikami, dobrze zautomatyzowane
@@ -452,14 +470,29 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     czasach, zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
     wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
 
-    \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji \todo{ TODO}
+    Dobrym przykładem skutecznego testu jednostkowego jest porównanie wyników z fragmentu
+    algorytmu (na przykład depozycji ładunku, który to test zawarty jest w pliku)
+    \code{pythonpic/tests/test\_current\_deposition.py} \todo{sprawdzić urla}
+    z wynikami z poprzedniego, zweryfikowanego programu, bądź z obliczeniem ręcznym.
 
-    % \subsubsection{Travis CI}
-    % \code{py.test} doskonale łączy się również z
-    % TravisCI jest darmową dla oprogramowania \emph{open source} usługą zapewniającą
-    % ciągłą integrację. Każda
-    \todo{ TODO: travis CI}
-    \todo{ TODO: snakeviz}
+    \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji \todo{sprawdzić licencję}
+
+    \subsubsection{Travis CI}
+    Nieocenionym narzędziem w pracy nad kodem był system ciągłej integracji (\emph{continuous integration})
+    Travis CI \todo{refka}
+    dostępny za darmo dla projektów open-source. Travis pobiera aktualne wersje kodu przy każdej aktualizacji
+    wersji dostępnej na serwerze GitHub i uruchamia testy, zwracając komunikat o ewentualnym niepowodzeniu i
+    pozwalając na jednoczesne uruchamianie bieżących, intensywnych symulacji przy jednoczesnym uruchamianiu
+    lżejszych, acz wciąż zasobożernych \todo[inline]{to słowo}
+    symulacji testowych i testów algorytmicznych.
+
+    \subsection{snakeviz}
+    W optymalizacji przydatny okazał się program \code{snakeviz} dostępny na licencji opensource i pozwalający na
+    wizualizację wyników z profilowania symulacji. Pozwala w wygodny sposób zbadać, które fragmenty kodu najbardziej
+    spowalniają symulację, które są najlepszymi kandydatami do optymalizacji, oraz jak skuteczne (bądź nieskuteczne)
+    okazują się próby polepszenia ich wydajności.
+    \todo{refka}
+    \todo{grafika snakeviz}
 
     \subsection{Struktura i hierarchia kodu}
 
@@ -491,7 +524,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     Istotne metody klasy \code{Grid}, o których należy wspomnieć, to:
     \begin{itemize}
          \item \code{apply\_bc} - aktualizuje krańcowe wartości tablic $E$, $B$ w oparciu o podany warunek brzegowy.
-         \item gather\_current \todo{ TODO: finish these}
+         \item gather\_current \todo{TODO: finish these}
          \item gather\_charge
          \item solve
          \item field\_solve
@@ -518,12 +551,13 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 
     Poza skalarami zawiera tablice rozmiaru $N$:
     \begin{itemize}
-        \item jednowymiarowych położeń makrocząstek $x^n$, zapisywanych w iteracjach $n, n+1, n+2$...
-        \item trójwymiarowych prędkości makrocząstek $\vec{v}^{n+\frac{1}{2}}$, zapisywanych w iteracjach $n+\frac{1}{2}, n+{3}{2}, n+{5}{2}$...
+        \item jednowymiarowych położeń makrocząstek $x^n$, zapisywanych w iteracjach $n, n+1, n+2$\ldots
+        \item trójwymiarowych prędkości makrocząstek $\vec{v}^{n+\frac{1}{2}}$, zapisywanych w iteracjach $n+\frac{1}{2}, n+{3}{2}, n+{5}{2}$\ldots
         \item stanu makrocząstek (flagi boolowskie oznaczające cząstki aktywne bądź usunięte z obszaru symulacji)
     \end{itemize}
 
-    Poza tym, zawiera też informacje dotyczące zbierania danych dot. cząstek:
+    Poza tym, zawiera też informacje dotyczące zbierania danych diagnostycznych dla cząstek, niepotrzebnych
+    bezpośrednio w czasie symulacji:
     \begin{itemize}
         \item \code{name} - słowny identyfikator grupy cząstek, dla potrzeb legend wykresów
         \item $N_T$ - liczbę iteracji czasowych w symulacji
@@ -541,13 +575,13 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 
     Warto wspomnieć o metodach klasy \code{Species}:
     \begin{itemize}
-        \item push \todo{ TODO: fill these}
+        \item push \todo{TODO: fill these}
     \end{itemize}
 
     \subsubsection{Simulation}
     Klasa zbierająca w całość Grid oraz dowolną liczbę Species zawartych w symulacji, jak również
     pozwalająca w prosty sposób na wykonywanie iteracji algorytmu i analizy danych. Jest tworzona tak przy
-    uruchamianiu symulacji, jak i przy wczytywaniu danych z plików .hdf5.
+    uruchamianiu symulacji, jak i przy wczytywaniu danych z plików \code{.hdf5}.
 
     \begin{itemize}
         \item $\Delta t$ - krok czasowy
@@ -557,17 +591,17 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     \end{itemize}
 
     \subsubsection{Pliki pomocnicze}
-    Poza powyższymi program jest podzielony na pliki:
+    Poza powyższymi program jest podzielony na pliki: \todo{aktualizacja}
     \begin{itemize}
-        \item algorithms\_grid - zawiera algorytmy dot. rozwiązywania równań Maxwella na dyskretnej siatce
-        \item algorithms\_interpolation - zawiera algorytmy dot. interpolacji z cząstek na siatkę i odwrotnie
+        \item algorithms\_grid - zawiera algorytmy dotyczące rozwiązywania równań Maxwella na dyskretnej siatce
+        \item algorithms\_interpolation - zawiera algorytmy interpolujące pola z cząstek na siatkę i odwrotnie
         \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie równania ruchu cząstek
         \item animation - tworzy animacje dla celów analizy danych
         \item static\_plots - tworzy statyczne wykresy dla celów analizy danych
-        \item Plotting - zawiera ustawienia dot. analizy danych \todo{ TODO czy to można przenieść do simulation czy gdzieś?}
+        \item Plotting - zawiera ustawienia dot. analizy danych \todo{TODO czy to można przenieść do simulation czy gdzieś?}
     \end{itemize}
 
-    Configi testowe są zawarte w plikach run\_*: \todo{ TODO przeformułować}
+    Configi testowe są zawarte w plikach run\_*: \todo{TODO przeformułować}
     \begin{itemize}
         \item run\_coldplasma
         \item run\_twostream
@@ -580,15 +614,15 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 
 
 
-    \section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
+\section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
     Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania niniejszej pracy wersji programu.
-    W repozytorium gita na Githubie jest to commit ``placeholder'' \todo{ TODO: uzupełnić commita}
+    W repozytorium gita na Githubie jest to commit ``placeholder'' \todo{TODO: uzupełnić commita}
     identyfikowany również jako wersja 1.0.
 
     \subsection{Przypadki testowe}
 
     Kod przetestowano w dwojaki sposób. Pierwszym z nich są testy jednostkowe.
-    Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego pakietu pytest \todo{ TODO: pytest reference.}
+    Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego pakietu pytest \todo{TODO: pytest reference.}
 
     Testy polegały na przeprowadzeniu fragmentu symulacji - w przypadku testów algorytmów było to na przykład wygenerowanie
     pojedynczej cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na siatkę, co pozwala porównać
@@ -613,7 +647,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 
         \itemi Scatter
             \begin{enumerate}
-                \item \ldots \todo{ TODO: write these}
+                \item \ldots \todo{TODO: write these}
             \end{enumerate}
 
         \itemi Push
@@ -627,51 +661,51 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     \subsubsection{oscylacje zimnej plazmy}
     Jest to efektywnie fala stojąca. Jednorodne rozmieszczenie cząstek z zerową prędkością początkową (stąd określenie
     "zimna plazma" jako nietermalna)
-    \todo{ TODO: czy ja ruszam prędkości czy położenia i czy to nie powinno zmienić fazy}
+    \todo{TODO: czy ja ruszam prędkości czy położenia i czy to nie powinno zmienić fazy}
     jednego typu na okresowej siatce z jednoczesnym wysunięciem ich z położeń równowagi o $\Delta x = A \sin(kx)$,
     gdzie $k = n 2 \pi / L$, pozwala na obserwację
     oscylacji cząstek wokół ich stabilnych położeń równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
     elipsy, co pozwala wnioskować że ruch ten jest harmoniczny.
 
-    Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to dx$ \todo{ TODO dx}
+    Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to dx$ \todo{TODO dx}
     obserwuje się nieliniowy reżim \todo{TODO: i co}
 
     Jest to też łoże testowe \todo{TODO sformułowanie}
-    dla innych przypadków, takich jak niestabilność Kaiser-Wilhelm \todo{ TODO: sformułowanie z BL}
-    oraz \todo{ TODO czegoś jeszcze.}
-    \subsubsection{niestabilność dwóch strumieni} \todo{ TODO}
+    dla innych przypadków, takich jak niestabilność Kaiser-Wilhelm \todo{TODO: sformułowanie z BL}
+    oraz \todo{TODO czegoś jeszcze.}
+    \subsubsection{niestabilność dwóch strumieni} \todo{TODO}
     Różnice między tym a poprzednim przypadkiem to obecność dwóch jednorodnie rozłożonych strumieni cząstek
     z przeciwnie skierowanymi prędkościami wzdłuż osi układu.
 
-    Dla niewielkich prędkości \todo{ TODO: sparametryzować}
+    Dla niewielkich prędkości \todo{TODO: sparametryzować}
     obserwuje się liniowy reżim \todo{TODO bunchingu}
 
-    Dla dużych prędkości \todo{ TODO sprawdzić}
+    Dla dużych prędkości \todo{TODO sprawdzić}
      obserwuje się nieliniowe zachowanie cząstek, które zaczynają się mieszać ze sobą, zaś cały układ się termalizuje.
-     \todo{ TODO: opisać dalej}
+     \todo{TODO: opisać dalej}
     \subsection{Symulacja oddziaływania lasera z tarczą wodorową}
 
     Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją rozkładu gęstości (jest to tak zwany obszar prejonizacji) \todo{TODO: preplazmy?}
 
     Gęstość rozkładu plazmy przyjęto jako
 
-    Początkowe prędkości cząstek przyjęto jako zerowe. \todo{ TODO: wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z}
+    Początkowe prędkości cząstek przyjęto jako zerowe. \todo{TODO: wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z}
 
-    Za moc lasera przyjęto $10^{23} W/m^2$, \todo{ TODO ASK: czy to nie jest za dużo?}
+    Za moc lasera przyjęto $10^{23} W/m^2$, \todo{TODO ASK: czy to nie jest za dużo?}
     zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
 
-    Długość obszaru symulacji to \todo{ TODO}
+    Długość obszaru symulacji to \todo{TODO}
 
     Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według tablic,
     jak obrazuje następująca tabela:
 
-    \todo{ TODO: zrobić tabelkę na stałe}
+    \todo{TODO: zrobić tabelkę na stałe}
 
     \subsection{Benchmarki - szybkość, zasobożerność} \todo{fix}
-    Do przeprowadzenia testów wydajności kodu użyto \todo{ TODO:}
+    Do przeprowadzenia testów wydajności kodu użyto \todo{TODO:}
     \subsection{Problemy napotkane w trakcie pisania kodu}
 
-    \section[Zakończenie]{Zakończenie} % 3-5 stron
+\section[Zakończenie]{Zakończenie} % 3-5 stron
     Utworzono kod symulacyjny implementacyjny algorytm particle-in-cell w Pythonie przy użyciu wszystkich dostępnych
     możliwości, jakie daje ekosystem open-source. Kod zoptymalizowano przy użyciu % TODO: zoptymalizować.
-    Otrzymane wyniki benchmarków pozwalają sądzić, że % jest moc
+    Otrzymane wyniki benchmarków pozwalają sądzić, że \todo{dokończyć}
