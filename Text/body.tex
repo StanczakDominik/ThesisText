@@ -26,7 +26,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     algorytmów (MPI, CUDA, OpenCL).
 
     To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
-    zajmujące się głównie pracą badawczą (na przykład fizyką eksperymentalną), a nie
+    zajmujące się głównie pracą badawczą (na przykład fizyką), a nie
     tylko programowaniem,
     jest znacznie utrudnione. Należy też zauważyć, że programy takie często są
     trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
@@ -128,9 +128,8 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     $N_v$ to liczba punktów na siatce prędkości. Jest to więc niepraktyczne
     obliczeniowo, \todo{TODO: przeformułować}
     między innymi ze względu na istotne w plazmach zjawisko ``uciekających elektronów'' o dużych prędkościach.
-    \todo{zweryfikować słabości lattice boltzmann}
-
     \todo{TODO: runaway electrons - przeformułować}
+    \todo{zweryfikować słabości lattice boltzmann}
 
     W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
     \begin{enumerate}
@@ -143,7 +142,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
 
     Prawdopodobnie najpopoularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell.
 
-    \subsection{Modele Particle-in-cell}
+    \section{Modele Particle-in-cell}
 
     Idea modelu particle-in-cell jest wyjątkowo prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo kroku
     symulacji dynamiki molekularnej, czyli obliczania sił międzycząsteczkowych. Cząstki poruszają się w ciągłej, Lagrange'owskiej przestrzeni.
@@ -152,6 +151,7 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
     do $n \log{n}$ z $n^2$ \todo{TODO: wyrazić złożoność PIC przez rozmiar siatki}
 
+    \subsection{Pętla obliczeniowa PIC}
     Algorytm particle-in-cell składa się z czterech elementów \todo{GRAFIKA: cykliczny schemacik}
     \subsubsection{GATHER}
     Depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej siatce poprzez interpolację,
@@ -165,11 +165,21 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     Znalezienie pól elektrycznego i magnetycznego
     na podstawie gęstości ładunku i prądu na siatce.
     Istnieją dwie główne szkoły rozwiązywania tych równań: metody globalne i lokalne. Metody globalne wykorzystują
-    zazwyczaj równania dywergencyjne (prawo Gaussa) rozwiązywane iteracyjnie (metody takie jak Gaussa-Seidela)
+    zazwyczaj równania dywergencyjne (prawo Gaussa)
+    \begin{equation}
+        \rho / \varepsilon_0 = \nabla \cdot \vec{E}
+        \label{poisson-eq}    
+    \end{equation}
+    rozwiązywane iteracyjnie (metody takie jak Gaussa-Seidela)
     lub spektralnie.
     Metody lokalne z kolei wykorzystują równania rotacyjne (prawo Ampera) \todo{nie Faradaya?}
+    \begin{equation}
+        \partial \vec{E} / \partial t = \mu_0(\nabla \times \vec{B} + \vec{j})
+        \label{FIXME}
+    \end{equation}
+    \todo{poprawić równanko}
 
-    Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych.
+    Metody globalne nadają się do modeli elektrostatycznych, nierelatywistycznych. 
     Metody lokalne pozwalają na ograniczenie szybkości propagacji zaburzeń do prędkości światła, co przybliża
     metodę numeryczną do fizyki zachodzącej w rzeczywistym układzie tego typu.
     \subsubsection{SCATTER}
@@ -179,10 +189,21 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     nadają się do zrównoleglania (problem jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego powodu algorytmy
     Particle-in-cell nadają się doskonale do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU.
     \subsubsection{PUSH}
-    iteracja równań ruchu cząstek na podstawie ich prędkości (aktualizacja położeń)
-    oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości).
+    iteracja równań ruchu cząstek
+    \begin{equation}
+        d \vec{p}/dt = \vec{F} = q (\vec{E} + \vec{v} \times \vec{B}
+        \label{eq-of-motion}
+    \end{equation}
+    
+    na podstawie ich prędkości (aktualizacja położeń)
+    oraz działających na nie sił elektromagnetycznych (aktualizacja prędkości). Należy zauważyć, że modele PIC
+    nie modelują bezpośrednich kolizji między cząstkami - mogą one jednak zostać dodane niebezpośrednio, na przykład
+    poprzez metody Monte Carlo. \todo{refka}
 
-    \subsubsection{Makrocząstki}
+    Jako że każda cząstka, zakładając znane pola elektromagnetyczne w jej położeniu, porusza się niezależnie,
+    jest to kolejny fragment doskonale nadający się do zrównoleglenia.
+
+    \subsection{Makrocząstki}
     Należy zauważyć, że obecnie nie jest możliwe dokładne odwzorowanie dynamiki układów plazmowych w sensie interakcji
     między poszczególnymi cząstkami ze względu na liczbę cząstek rzędu liczby Avogadro $\approx 10^{23}$.
     W tym kontekście bardzo szczęśliwym jest fakt, że wszystkie istotne wielkości zależą nie od ładunku ani masy,
@@ -191,33 +212,48 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     cząstek i ładunku \todo{oraz inne wielkości fizyczne)}
     zbliżone do rzeczywistych.
 
-    Zazwyczaj (``tradycyjnie'') stosuje się gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej gęstości krytycznej plazmy,
-    która jest opisana wzorem
+    W symulacjach elektromagnetycznych zazwyczaj (``tradycyjnie'') stosuje się gęstości cząstek (rzeczywistych)
+    rzędu jednej dziesiątej bądź setnej gęstości
+    krytycznej plazmy $n_c$, która oznacza taką koncentrację elektronów, przy której \todo{zweryfikować}
+    fala laserowa zostaje całkowicie wytłumiona i nie propaguje się dalej przez plazmę.
 
     \begin{equation}
         n_c = m_e \varepsilon_0 * (\frac{2 \pi c}{e \lambda})^2
         \label{eqn:critical-density}
     \end{equation}
+    gdzie $m_e$ to masa spoczynkowa elektronu, $\varepsilon_0$ to przenikalność elektryczna próżni, \todo{przenikalność?}
+    $c$ to prędkość światła w próżni, $e$ to ładunek elementarny, zaś $\lambda$ to długość fali.
+
+    Gęstość takiej makrocząstki, oznaczana $n_{pic}$, oznacza innymi słowy liczbę rzeczywistych cząstek, jakie reprezentuje
+    sobą jedna makroczątka. \todo[inline]{To jest generalnie moja własna analiza i nie jestem jej w 100% pewien, ale tak
+    80% to dałbym.}
 
     \subsection{Problem testowy}
 
-    Problemem testowym, jakiego używamy do przetestowania wydajności działania algorytmu jest
+    Problemem testowym, jakiego używamy do przetestowania dokładności i wydajności działania algorytmu jest
     interakcja impulsu laserowego z tarczą składającą się ze zjonizowanego wodoru i elektronów.
 
-    Układ ten modelowany jest jako jednowymiarowy. Jest to tak zwany w literaturze model 1D-3D. O ile położenia cząstek
-    są jednowymiarowe ze względu na znaczną symetrię
+    Układ ten modelowany jest jako jednowymiarowy. Jest to tak zwany w literaturze model 1D-3D.
+    O ile położenia cząstek są jednowymiarowe ze względu na znaczną symetrię
     cylindryczną układu, cząstki mają prędkości w pełnych trzech wymiarach. Jest to konieczne ze względu
     na oddziaływania cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu.
+
+    Układ ten jest silnie zbliżony do rzeczywistych eksperymentów prowadzonych w IFPiLM.
+    \todo[inline]{Tu bym chciał prosić o weryfikację.}
 
     \subsection{Python}
     Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
 
     Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
-    w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice płynów \todo{TODO: PyFR}
+    w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice płynów.
+    Nie można tu nie wspomnieć o utworzonym ostatnio kodzie \code{PyFR},
+    \todo{refka i opis PyFR}
 
     Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
     na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
-    napisanych w C.
+    napisanych w językach niskopoziomowych bez faktycznej pracy z tymi językami. Ostatnimi czasy popularną staje się
+    również kompilacja just-in-time wysokopoziomowego kodu Pythona do kodu niskopoziomowego przy pierwszym
+    uruchomieniu programu \todo{numba}
 
 
 \section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
@@ -413,6 +449,9 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     Jest to \emph{de facto}
     standard większości obliczeń numerycznych w Pythonie.
 
+    Należy zauważyć, że operacje matematyczne w Numpy są automatycznie zrównoleglane \todo{refka intel MKL}
+    tam, gdzie pozwala na to niezależność obliczeń.
+
     Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD. \todo{refka}
 
     \subsubsection{scipy}
@@ -589,6 +628,25 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
         \item \code{Grid} - obiekt siatki
         \item \code{list\_species} - lista grup makrocząstek w symulacji
     \end{itemize}
+    \todo{metody simulation}
+
+    Przygotowanie warunków początkowych do danej symulacji polega na utworzeniu nowej klasy dziedziczącej
+    po \code{Simulation}, która przygotowuje siatkę, cząstki i warunki brzegowe zgodnie z założeniami
+    eksperymentu i wywołuje konstruktor \code{Simulation}. Należy również przeciążyć metodę \code{grid_species_init},
+    która przygotowuje warunki początkowe. Domyślna wersja tej metody wykonuje pierwszą, początkową iterację równań ruchu,
+    która pozwala na zachowanie symplektyczności integratora równań ruchu, \todo{stylistyka?}
+    co pomaga zachować energię cząstek w symulacji.
+
+    Aby uruchomić symulację, należy wywołać jedną z metod:
+    \begin{itemize}
+         \item \code{run} - podstawowy cykl obliczeń, używany do pomiarów wydajności programu
+         \item \code{test\_run} - obliczenia oraz obróbka danych na potrzeby analizy, głównie stosowana w testach
+         \item \code{lazy\_run} - \code{test\_run} z zapisem do pliku oraz wczytaniem z pliku \emph{.hdf5},
+             jeżeli początkowe
+             warunki oraz wersja kodu zgadzają się. W przeciwnym razie symulacja zostaje uruchomiona na nowo
+    \end{itemize}
+
+   
 
     \subsubsection{Pliki pomocnicze}
     Poza powyższymi program jest podzielony na pliki: \todo{aktualizacja}
