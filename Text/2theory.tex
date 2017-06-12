@@ -1,5 +1,5 @@
 \section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
-
+    \todo[inline]{coś tutaj może?}
     \subsection{Plazma - czwarty stan materii}
 
     Plazma, powszechnie nazywana czwartym stanem materii, to zbiór zjonizowanych
@@ -14,11 +14,11 @@
     Langmuira (1928), który eksperymentował z jonizowaniem gazów w szklanych rurach zwanych rurami Crookesa,
     służących do generowania promieniowania katodowego, czyli, jak wiemy obecnie, strumieni elektronów.
 
-    Globalny wzrost zainteresowania fizyką plazmy na arenie geopoliycznej ozpoczął się w latach '50 ubiegłego wieku,
+    Globalny wzrost zainteresowania fizyką plazmy na arenie geopolitycznej rozpoczął się w latach '50 ubiegłego wieku,
     gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, \todo[inline]{TODO: reference: fusion in europe history of fusion}
     które mogą mieć zastosowania w energetyce jako następny etap rozwoju po reakcjach rozpadu wykorzystywanych
     w ``klasycznych'' elektrowniach jądrowych. Był to jeden z elementów zimnowojennego wyścigu technologicznego
-    międzu Stanami Zjednoczonymi a ZSRR,
+    między Stanami Zjednoczonymi a ZSRR,
     jak również jeden z projektów mających na celu ponowne nawiązanie współpracy naukowej między supermocarstwami
     po zakończeniu tego konfliktu. \todo[inline]{TODO reference fusion for energy history of fusion}
 
@@ -43,10 +43,12 @@
 
     \subsection{Modelowanie i symulacja plazmy}
 
-    Zjawiska z zakresu fizyki plazmy są jednymi z bardziej złożonych problemów modelowanie komputerowej.
-    Głównym, koncepcyjnie, powodem uniemożliwiającym zastosowanie prostych metod symulacji
-    znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałuje
-    z każdą inną nawzajem poprzez niepomijalne oddziaływania kulombowskie, skalujące się z odległością jak
+    Modelowanie zjawisk z zakresu fizyki plazmy jest jednym z bardziej
+    złożonych problemów fizyki komputerowej.  Głównym, koncepcyjnie, powodem
+    uniemożliwiającym zastosowanie prostych metod symulacji znanych z
+    newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda
+    cząstka oddziałuje z każdą inną nawzajem poprzez niepomijalne oddziaływania
+    kulombowskie, skalujące się z odległością jak
     $\approx r^{-2}$.
 
     Z powodu dużej liczby cząstek w układach plazmowych, jedynymi podejściami
@@ -82,7 +84,7 @@
     między innymi ze względu na istotne w plazmach fuzyjnych zjawisko
     ``uciekających elektronów'' o relatywistycznych prędkościach.
 
-    W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
+    W modelowaniu komputerowym plazmy stosuje się trzy główne koncepcyjne podejścia:
     \begin{enumerate}
         \item modele kinetyczne rozwiązujące bezpośrednio równania typu Vlasova na dyskretnych siatkach
         \item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
@@ -162,11 +164,10 @@
         d \vec{p}/dt = \vec{F} = q (\vec{E} + \vec{v} \times \vec{B}
         \label{eq-of-motion}
     \end{equation}
-
     na podstawie ich prędkości (aktualizacja położeń) oraz działających na nie
     sił elektromagnetycznych (aktualizacja prędkości). Należy zauważyć, że
-    modele PIC nie modelują bezpośrednich kolizji między cząstkami - mogą one
-    jednak zostać dodane niebezpośrednio, na przykład poprzez metody Monte
+    modele PIC nie modelują bezpośrednich kolizji między cząstkami. Kolizje
+    mogą jednak zostać dodane niebezpośrednio, na przykład poprzez metody Monte
     Carlo. \todo[inline]{refka}
 
     Jako że każda cząstka, zakładając znane pola elektromagnetyczne w jej
@@ -192,38 +193,53 @@
     \todo[inline]{zweryfikować}
 
     \begin{equation}
-        n_c = m_e \varepsilon_0 * (\frac{2 \pi c}{e \lambda})^2
+        n_c = m_e \varepsilon_0 * {(\frac{2 \pi c}{e \lambda})}^2
         \label{eqn:critical-density}
     \end{equation}
-    gdzie $m_e$ to masa spoczynkowa elektronu, $\varepsilon_0$ to przenikalność elektryczna próżni, \todo[inline]{przenikalność?}
-    $c$ to prędkość światła w próżni, $e$ to ładunek elementarny, zaś $\lambda$ to długość fali.
+    gdzie $m_e$ to masa spoczynkowa elektronu, $\varepsilon_0$ to przenikalność
+    elektryczna próżni, \todo[inline]{przenikalność?} $c$ to prędkość światła w
+    próżni, $e$ to ładunek elementarny, zaś $\lambda$ to długość fali.
 
-    Gęstość takiej makrocząstki, oznaczana $n_{pic}$, oznacza innymi słowy liczbę rzeczywistych cząstek, jakie reprezentuje
-    sobą jedna makrocząstka. \todo[inline]{To jest generalnie moja własna analiza i nie jestem jej w 100\% pewien, ale tak 80\% to dałbym.}
+    Gęstość takiej makrocząstki, oznaczana $n_{pic}$, oznacza innymi słowy
+    liczbę rzeczywistych cząstek, jakie reprezentuje sobą jedna makrocząstka.
+    \todo[inline]{To jest generalnie moja własna analiza i nie jestem jej w
+    100\% pewien, ale tak 80\% to dałbym.}
 
     \subsection{Problem testowy}
 
-    Problemem testowym, jakiego używamy do przetestowania dokładności i wydajności działania algorytmu jest
-    interakcja impulsu laserowego z tarczą składającą się ze zjonizowanego wodoru i elektronów.
+    Problemem testowym, jakiego używamy do przetestowania dokładności i
+    wydajności działania algorytmu jest interakcja impulsu laserowego z tarczą
+    składającą się ze zjonizowanego wodoru i elektronów.
 
-    Układ ten modelowany jest jako jednowymiarowy. Jest to tak zwany w literaturze model 1D-3D.
-    O ile położenia cząstek są jednowymiarowe ze względu na znaczną symetrię
-    cylindryczną układu, cząstki mają prędkości w pełnych trzech wymiarach. Jest to konieczne ze względu
-    na oddziaływania cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu.
+    Układ ten modelowany jest jako jednowymiarowy. Jest to tak zwany w
+    literaturze model 1D-3D.  O ile położenia cząstek są jednowymiarowe ze
+    względu na znaczną symetrię cylindryczną układu, cząstki mają prędkości w
+    pełnych trzech wymiarach. Jest to konieczne ze względu na oddziaływania
+    cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu.
 
-    Układ ten jest silnie zbliżony do rzeczywistych eksperymentów prowadzonych w IFPiLM.
+    Układ ten jest silnie zbliżony do rzeczywistych eksperymentów prowadzonych
+    w Instytucie Fizyki Plazmy i Laserowej Mikrosyntezy.
     \todo[inline]{Tu bym chciał prosić o weryfikację.}
 
     \subsection{Python}
-    Python jest wysokopoziomowym, interpretowanym językiem programowania, którego atutami są szybkie prototypowanie,
+    Python jest wysokopoziomowym, interpretowanym językiem programowania,
+    którego atutami są szybkie prototypowanie, bogaty zestaw bibliotek
+    numerycznych\todo[inline]{dopisać zalety}
 
-    Python znajduje zastosowania w analizie danych, uczeniu maszynowym (zwłaszcza w astronomii). W zakresie symulacji
-    w ostatnich czasach powstały kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice płynów.
-    Nie można tu nie wspomnieć o utworzonym ostatnio kodzie \code{PyFR},
-    \todo[inline]{refka i opis PyFR}
+    Python znajduje zastosowania w analizie danych, uczeniu maszynowym
+    (zwłaszcza w astronomii). W zakresie symulacji w ostatnich czasach powstały
+    kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice
+    płynów.  Nie można tu nie wspomnieć o utworzonym ostatnio kodzie
+    \code{PyFR}, \todo[inline]{refka i opis PyFR}
 
-    Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w nim zewnętrznych bibliotek napisanych
-    na przykład w C lub Fortranie, co pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
-    napisanych w językach niskopoziomowych bez faktycznej pracy z tymi językami. Ostatnimi czasy popularną staje się
-    również kompilacja just-in-time wysokopoziomowego kodu Pythona do kodu niskopoziomowego przy pierwszym
-    uruchomieniu programu \todo[inline]{numba}
+    Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w
+    nim zewnętrznych bibliotek napisanych na przykład w C lub Fortranie, co
+    pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
+    napisanych w językach niskopoziomowych bez faktycznej pracy z tymi
+    językami.
+    
+    Ostatnimi czasy popularną staje się również kompilacja
+    Just-in-time wysokopoziomowego kodu Pythona do kodu niskopoziomowego przy
+    pierwszym uruchomieniu programu \todo[inline]{numba}.
+
+    Istniejącym od niedawna kodem implementującym tą metodę jest FBPIC \todo[inline]{refka}
