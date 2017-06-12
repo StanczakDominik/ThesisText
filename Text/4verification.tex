@@ -1,7 +1,8 @@
 \section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
-    Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania niniejszej pracy wersji programu.
-    W repozytorium Git na Githubie jest to commit ``placeholder'' \todo[inline]{uzupełnić commita}
-    identyfikowany również jako wersja 1.0.
+    Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania
+    niniejszej pracy wersji programu.  W repozytorium Git na Githubie jest to
+    commit ``placeholder'' \todo[inline]{uzupełnić commita} identyfikowany
+    również jako wersja 1.0.
 
     \subsection{Przypadki testowe}
 
@@ -25,15 +26,17 @@
         \itemi Gather
             \begin{enumerate}
                 \item Depozycja prądu z pojedynczej cząstki na niewielką siatkę
-                \item Depozycja prądu z dwóch pojedynczych cząstek na niewielką siatkę
-                    i porównanie z sumą prądów dla obu pojedynczyczh cząstek
-                \item Depozycja prądu z dużej ilości równomiernie rozłożonych cząstek
+                \item Depozycja prądu z dwóch pojedynczych cząstek na niewielką
+                    siatkę i porównanie z sumą prądów dla obu pojedynczyczh
+                    cząstek
+                \item Depozycja prądu z dużej ilości równomiernie rozłożonych
+                    cząstek
             \end{enumerate}
 
         \itemi Solve
             \begin{enumerate}
-                \item Symulacja fali sinusoidalnej, obwiedni impulsu i złożenia tych dwóch
-                    propagujących się w próżni
+                \item Symulacja fali sinusoidalnej, obwiedni impulsu i złożenia
+                    tych dwóch propagujących się w próżni
             \end{enumerate}
 
         \itemi Scatter
@@ -44,59 +47,69 @@
         \itemi Push
             \begin{enumerate}
                 \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
-                \itemii Ruch w jednorodnym polu magnetycznym z polem magnetycznym
+                \itemii Ruch w jednorodnym polu magnetycznym z polem
+                    magnetycznym
             \end{enumerate}
     \end{enumerate}
 
     \subsubsection{Testy symulacyjne}
-    Testy symulacyjne polegały na uruchomieniu niewielkiej symulacji testowej z różnymi warunkami brzegowymi
-    i ilościowym, automatycznym zweryfikowaniu dynamiki zjawisk w niej zachodzących.
+    Testy symulacyjne polegały na uruchomieniu niewielkiej symulacji testowej z
+    różnymi warunkami brzegowymi i ilościowym, automatycznym zweryfikowaniu
+    dynamiki zjawisk w niej zachodzących.
 
     Zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
     \subsubsection{oscylacje zimnej plazmy}
-    Jest to efektywnie fala stojąca. Jednorodne rozmieszczenie cząstek z zerową prędkością początkową (stąd określenie
-    "zimna plazma" jako nietermalna)
-    \todo[inline]{czy ja ruszam prędkości czy położenia i czy to nie powinno zmienić fazy}
-    jednego typu na okresowej siatce z jednoczesnym wysunięciem ich z położeń równowagi o $\Delta x = A \sin(kx)$,
-    gdzie $k = n 2 \pi / L$, pozwala na obserwację
-    oscylacji cząstek wokół ich stabilnych położeń równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
+    Jest to efektywnie fala stojąca. Jednorodne rozmieszczenie cząstek z zerową
+    prędkością początkową (stąd określenie "zimna plazma" jako nietermalna)
+    \todo[inline]{czy ja ruszam prędkości czy położenia i czy to nie powinno
+    zmienić fazy} jednego typu na okresowej siatce z jednoczesnym wysunięciem
+    ich z położeń równowagi o $\Delta x = A \sin(kx)$, gdzie $k = n 2 \pi / L$,
+    pozwala na obserwację oscylacji cząstek wokół ich stabilnych położeń
+    równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
     elipsy, co pozwala wnioskować że ruch ten jest harmoniczny.
 
-    Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to dx$ \todo[inline]{dx}
-    obserwuje się nieliniowy reżim \todo[inline]{i co}
+    Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
+    dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim \todo[inline]{i co}
 
-    Jest to też łoże testowe \todo[inline]{sformułowanie}
-    dla innych przypadków, takich jak efekt Kaiser-Wilhelm \todo[inline]{sformułowanie z BL}
+    Jest to też łoże testowe \todo[inline]{sformułowanie} dla innych
+    przypadków, takich jak efekt Kaiser-Wilhelm
+    \todo[inline]{sformułowanie z BL}
     oraz \todo[inline]{czegoś jeszcze.}
     \subsubsection{niestabilność dwóch strumieni}
     \todo[inline]{przeformułować}
-    Różnice między tym a poprzednim przypadkiem to obecność dwóch jednorodnie rozłożonych strumieni cząstek
-    z przeciwnie skierowanymi prędkościami wzdłuż osi układu.
+    Różnice między tym a poprzednim przypadkiem to obecność dwóch jednorodnie
+    rozłożonych strumieni cząstek z przeciwnie skierowanymi prędkościami wzdłuż
+    osi układu.
 
-    Dla niewielkich prędkości \todo[inline]{sparametryzować}
-    obserwuje się liniowy reżim \todo[inline]{bunchingu}
+    Dla niewielkich prędkości \todo[inline]{sparametryzować} obserwuje się
+    liniowy reżim \todo[inline]{bunchingu}
 
-    Dla dużych prędkości \todo[inline]{sprawdzić}
-     obserwuje się nieliniowe zachowanie cząstek, które zaczynają się mieszać ze sobą, zaś cały układ się termalizuje.
+    Dla dużych prędkości \todo[inline]{sprawdzić} obserwuje się nieliniowe
+    zachowanie cząstek, które zaczynają się mieszać ze sobą, zaś cały układ się
+    termalizuje.
      \todo[inline]{opisać dalej}
     \subsection{Symulacja oddziaływania lasera z tarczą wodorową}
 
-    Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją rozkładu gęstości (jest to tak zwany obszar prejonizacji) \todo[inline]{preplazmy?}
+    Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją
+    rozkładu gęstości (jest to tak zwany obszar prejonizacji)
+    \todo[inline]{preplazmy?}
 
     Gęstość rozkładu plazmy przyjęto jako
 
-    Początkowe prędkości cząstek przyjęto jako zerowe. \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z}
+    Początkowe prędkości cząstek przyjęto jako zerowe.
+    \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z}
 
-    Za moc lasera przyjęto $10^{23} W/m^2$, \todo[inline]{ASK: czy to nie jest za dużo?}
-    zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
+    Za moc lasera przyjęto $10^{23} W/m^2$, \todo[inline]{ASK: czy to nie jest
+    za dużo?} zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
 
     Długość obszaru symulacji to \todo[inline]{wstawić}.
 
-    Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według tablic,
-    jak obrazuje następująca tabela:
+    Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek
+    elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według
+    tablic, jak obrazuje następująca tabela:
 
     \todo[inline]{zrobić tabelkę na stałe}
 
     \subsection{Benchmarki - szybkość, zasobożerność} \todo[inline]{fix}
-    Do przeprowadzenia testów wydajności kodu użyto \todo[inline]{cProfile}
+     Do przeprowadzenia testów wydajności kodu użyto \todo[inline]{cProfile}
     \subsection{Problemy napotkane w trakcie pisania kodu}
