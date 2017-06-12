@@ -1,4 +1,3 @@
-
 \section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
 
     \subsection{Plazma - czwarty stan materii}
@@ -12,60 +11,58 @@
     Ich istnienie uwarunkowane jest obecnością wysokich energii, wystarczających do zjonizowania atomów gazu.
 
     Fizyka plazmy jest stosunkowo młodą nauką, której rozwój nastąpił dopiero w ostatnim stuleciu, zaczynając od badań
-    Langmuira (1928), który eksperymentował z jonizowaniem gazów w szklanych rurach zwanych rurami Crookesa. \todo[inline]{TODO reference}
+    Langmuira (1928), który eksperymentował z jonizowaniem gazów w szklanych rurach zwanych rurami Crookesa,
+    służących do generowania promieniowania katodowego, czyli, jak wiemy obecnie, strumieni elektronów.
 
-    Globalny wzrost zainteresowania fizyką plazmy na arenie geopoliycznej ozpoczął się w latach '50 ubiegłego wieku, \todo[inline]{TODO - zweryfikować}
+    Globalny wzrost zainteresowania fizyką plazmy na arenie geopoliycznej ozpoczął się w latach '50 ubiegłego wieku,
     gdy uświadomiono sobie, że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy jądrowej, \todo[inline]{TODO: reference: fusion in europe history of fusion}
     które mogą mieć zastosowania w energetyce jako następny etap rozwoju po reakcjach rozpadu wykorzystywanych
-    w "klasycznych" elektrowniach jądrowych. Był to jeden z elementów zimnowojennego wyścigu technologicznego
-    międzu Stanami Zjednoczonymi a ZSRR, \todo[inline]{TODO reference}
+    w ``klasycznych'' elektrowniach jądrowych. Był to jeden z elementów zimnowojennego wyścigu technologicznego
+    międzu Stanami Zjednoczonymi a ZSRR,
     jak również jeden z projektów mających na celu ponowne nawiązanie współpracy naukowej między supermocarstwami
     po zakończeniu tego konfliktu. \todo[inline]{TODO reference fusion for energy history of fusion}
 
     Poza tym ogromnym projektem plazmy mają szerokie zastosowania w obecnym przemyśle, na przykład:
     \begin{itemize}
-        \item metalurgicznym - przecinaki plazmowe \todo[inline]{TODO: sprawdzić nazwę - łukowe coś?}
-        \item elektronicznym - nacinanie powierzchni urządzeń półprzewodnikowych \todo[inline]{TODO: przeformułować}
-        \item materiałowym - powierzchniowa obróbka materiałów, \todo[inline]{TODO ref}
-            CVD \todo[inline]{TODO ref}
+        \item metalurgicznym - cięcie metalu przy użyciu łuków plazmowych
+        \item elektronicznym i materiałowym - żłobienie powierzchni urządzeń
+            półprzewodnikowych, powierzchniowa obróbka materiałów, depozycja
+            aktywnych jonów pod powierzchnią czyszczenie powierzchni, depozycja
+            cienkich warstw związków chemicznych na powierzchniach (CVD)
         \item kosmicznym - silniki plazmowe, interakcja z rozgrzanym powietrzem podczas powtórnego wchodzenia
-            w atmosferę \todo[inline]{TODO: to potrzebuje źródła}
+            w atmosferę 
         \item użytkowym - ekrany telewizorów, oświetlenie (świetlówki)
-        \item utylizacja odpadów \todo[inline]{TODO ref}
-        \item czyszczenie powierzchni \todo[inline]{TODO ref}
-            \todo[inline]{TODO coś jeszcze?}
     \end{itemize}
 
-    Należy też zwrócić uwagę, że ze względu na złożoność układów plazmowych pre-komputerowa fizyka miała ogromne
-    problemy z merytorycznymi badaniami zachowania plazmy poza wybranymi, mocno uproszczonymi reżimami. Postęp w badaniach
-    plazmy, jak sugeruje rozwój technologii kontrolowanej syntezy jądrowej,
-    jest silnie skorelowany \todo[inline]{ref youtube wykład}
-    z rozwojem mocy obliczeniowej oraz algorytmów symulacyjnych.
+    Należy też zwrócić uwagę, że ze względu na złożoność układów plazmowych
+    pra-komputerowa fizyka miała ogromne problemy z merytorycznymi badaniami
+    zachowania plazmy poza wybranymi, mocno uproszczonymi reżimami. Postęp w
+    badaniach plazmy, jak sugeruje rozwój technologii kontrolowanej syntezy
+    jądrowej, jest silnie skorelowany \todo[inline]{ref youtube wykład} z
+    rozwojem mocy obliczeniowej oraz algorytmów symulacyjnych.
 
     \subsection{Modelowanie i symulacja plazmy}
 
     Zjawiska z zakresu fizyki plazmy są jednymi z bardziej złożonych problemów modelowanie komputerowej.
     Głównym, koncepcyjnie, powodem uniemożliwiającym zastosowanie prostych metod symulacji
-    znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałowuje
+    znanych z newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda cząstka oddziałuje
     z każdą inną nawzajem poprzez niepomijalne oddziaływania kulombowskie, skalujące się z odległością jak
     $\approx r^{-2}$.
 
-    Z powodu dużej liczby cząstek w układach plazmowych, jedynymi praktycznymi podejściami fundamentalnymi
-    (jako opierającymi się na fundamentalnej fizyce) \todo[inline]{styl?}
-    są opisy statystyczne,
-    opierające się na modelach kinetycznych. Wielkością opisującą plazmę jest tu funkcja dystrybucji zdefiniowana jako
-    \todo[inline]{dodać reference na opis statystyczny}
-    \begin{equation}
-        \int \int f(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v} = 1
-        \label{eqn:distribution-function}
-    \end{equation}
+    Z powodu dużej liczby cząstek w układach plazmowych, jedynymi podejściami
+    fundamentalnymi (jako opierającymi się na fundamentalnej fizyce) są opisy
+    kinetyczne. Wielkością opisującą plazmę jest tu funkcja dystrybucji (zwana
+    też funkcją rozkładu) zdefiniowana jako $f_s(\vec{x}, \vec{v}, t) d\vec{x}
+    d\vec{v}$ opisująca gęstość rozkładu danej grupy cząstek $s$ plazmy w
+    sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz
+    prędkości). Ewolucja czasowa funkcji rozkładu dokonuje się poprzez
+    rozwiązanie wariantu równania Boltzmanna zwanego równaniem Vlasova,
+    \todo[inline]{Włazowa?}
+    które sprzęga gęstości ładunku i prądu otrzymywane z funkcji dystrybucji
+    z równaniami Maxwella na ewolucję pola elektromagnetycznego. Równanie
+    Vlasova może zostać rozszerzone do równania Fokkera-Plancka uwzględniającego
+    bezpośrednie kolizje międzycząsteczkowe.
 
-        \todo[inline]{napisać wzór; Normalizacja?}
-    opisująca gęstość prawdopodobieństwa rozkładu plazmy w N-sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia
-    oraz prędkości, powielone dla każdej z N cząstek).
-
-    \todo[inline]{poczytać o tym żeby mieć sposób na przejście}
-    Podstawowym równaniem statystycznym opisującym plazmę jest równanie Vlasova \todo[inline]{może zacząć od Klimontowicza, jest wyprowadzalne z niego}
 
     \begin{equation}
         \frac{d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_{\vec{v}} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
@@ -73,35 +70,46 @@
     \end{equation}
         \todo[inline]{wzór na równanie Vlasova}
 
-    W praktyce jest ono również nierozwiązywalne poza trywialnymi przypadkami o ułatwiających problem symetriach.
-    Jednym z powodów jest koniecznośc uzyskania dobrej rozdzielczości prędkości
-    przy jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne. Należy zauważyć, że skalowanie
-    liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$, gdzie $N_r$ to liczba punktów przestrzennych, zaś
-    $N_v$ to liczba punktów na siatce prędkości. Jest to więc niepraktyczne
-    obliczeniowo, \todo[inline]{przeformułować}
-    między innymi ze względu na istotne w plazmach zjawisko ``uciekających elektronów'' o dużych prędkościach.
-    \todo[inline]{runaway electrons - przeformułować}
-    \todo[inline]{zweryfikować słabości lattice boltzmann}
+    W praktyce równanie Vlasova jest trudne do rozwiązania poza trywialnymi
+    przypadkami o ułatwiających problem symetriach.  Jednym z powodów tej
+    trudności jest konieczność uzyskania dobrej rozdzielczości prędkości przy
+    jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne.
+    Jako równanie różniczkowe cząstkowe, równanie Vlasova jest rozwiązywane na
+    dyskretnych siatkach, należy zauważyć zaś, należy zauważyć, że skalowanie
+    liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$,
+    gdzie $N_r$ to liczba punktów przestrzennych, zaś $N_v$ to liczba punktów
+    na siatce prędkości. Jest to więc często niepraktyczne obliczeniowo,
+    między innymi ze względu na istotne w plazmach fuzyjnych zjawisko
+    ``uciekających elektronów'' o relatywistycznych prędkościach.
 
     W modelowaniu komputerowym plazmy stosuje się dwa główne podejścia:
     \begin{enumerate}
-        \item modele kinetyczne \todo[inline]{do napisania}
+        \item modele kinetyczne rozwiązujące bezpośrednio równania typu Vlasova na dyskretnych siatkach
         \item modele płynowe oparte na ciągłym opisie plazmy poprzez uśrednienie po dystrybucji
-            wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę \todo[inline]{reformulate}
-        \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek
-            (matematycznie jest to równanie Klimontowicza przybliżające równanie Vlasova) \todo[inline]{read about this}
+            wielkości termodynamicznych, co daje modele takie jak magnetohydrodynamikę. Jest to wciąż
+            układ równań różniczkowych cząstkowych, lecz na mniej wymiarowej siatce. Niestety,
+            nie nadają się one do badań plazmy daleko od równowagi z powodu czynionych przy nich
+            założeń takich jak maxwellowski rozkład prędkości.
+        \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy użyciu dyskretnych cząstek,
+            pozwalające w prosty sposób uzyskać dobre przybliżenie faktycznego ruchu cząstek w plazmie
+            i prądów generowanych tym ruchem.
     \end{enumerate}
 
-    Prawdopodobnie najpopoularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell.
+    Prawdopodobnie najpopularniejszym modelem z tej drugiej kategorii są modele Particle-in-cell.
 
     \subsection{Modele Particle-in-cell}
 
-    Idea modelu particle-in-cell jest wyjątkowo prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo kroku
-    symulacji dynamiki molekularnej, czyli obliczania sił międzycząsteczkowych. Cząstki poruszają się w ciągłej, Lagrange'owskiej przestrzeni.
-    Ich ruch wykorzystywany jest do zebrania informacji dotyczącej gęstości ładunku i prądu na dyskretną, Eulerowską siatkę. Na siatce rozwiązane
-    są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane
-    do położeń cząstek. Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
-    do $n \log{n}$ z $n^2$ \todo[inline]{wyrazić złożoność PIC przez rozmiar siatki}
+    Idea modelu particle-in-cell (\emph{PIC}) jest wyjątkowo prosta i opiera się na idei
+    przyspieszenia najbardziej złożonego obliczeniowo kroku symulacji dynamiki
+    molekularnej, czyli obliczania sił międzycząsteczkowych. Cząstki poruszają
+    się w ciągłej, Lagrange'owskiej przestrzeni.  Ich ruch wykorzystywany jest
+    do zebrania informacji dotyczącej gęstości ładunku i prądu na dyskretną,
+    Eulerowską siatkę. Na siatce rozwiązane są (jako równania różniczkowe
+    cząstkowe) równania Maxwella, dzięki którym otrzymuje się pola elektryczne
+    i magnetyczne, które z powrotem są przekazane do położeń cząstek.
+    Obliczeniowo, uwzględniając koszty odpowiednich interpolacji, pozwala to
+    zredukować złożoność kroku obliczenia sił międzycząsteczkowych do $n
+    \log{n}$ z $n^2$ \todo[inline]{wyrazić złożoność PIC przez rozmiar siatki}
 
     \subsubsection{Pętla obliczeniowa PIC}
     Algorytm particle-in-cell składa się z czterech elementów \todo[inline]{GRAFIKA: cykliczny schemacik}
