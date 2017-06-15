@@ -27,10 +27,16 @@
     magnetycznym. Algorytm jest dzięki temu symplektyczny i długofalowo
     zachowuje energię cząstek.
 
-    \begin{equation}
-        bo = ris
+    \begin{align}
+        \vec{v}^- = \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n
+        \vec{t} = \frac{q dt} {2 m} \vec{B}^n
+        \vec{v'} = \vec{v}^- + \vec{v}^- \times \vec{t}
+        \vec{s} = \vec{t} / {(1 + t^2)}
+        \vec{v}^+ = \vec{v}^- + \vec{v'} \times \vec{s}
+        \vec{v}^{n+1/2} = \vec{v}^+ + \frac{q dt}{2m} \vec{E}^n
+        \vec{x}^{n+1} = \vec{x}^{n} + \vec{v}^{n+1/2} dt
         \label{eqn:boris-pusher}
-    \end{equation}
+    \end{align}
  \todo[inline]{boris pusher equation}
     W naszym przypadku dochodzi jeszcze jedno utrudnienie związane z
     relatywistycznością symulacji. \todo[inline]{stylistyka} Przed obliczeniem
