@@ -50,54 +50,98 @@
     \end{align}
 
     \subsection{Depozycja gęstości prądu}
-    
-    Kolejnym krokiem pętli obliczeniowej po rozwiązaniu równań ruchu na aktualizację prędkości,
-    po której - przypomnijmy - dysponujemy położeniami cząstek $x^n$ w chwilach $n$ oraz ich prędkościami
-    $v^{n+1/2}$ w chwilach $n+1/2$  \todo[inline]{CHECK} jest obliczenie prądów podłużnych i poprzecznych
-    potrzebnych do obliczenia wartości pól elektromagnetycznych w kolejnej iteracji.
 
-    W bieżącym programie gęstość ładunku jest tak naprawdę niepotrzebna w trakcie symulacji.
-    Ewolucja pola następuje poprzez znajomość gęstości prądu. Jeżeli zaś pole elektromagnetyczne spełniało
-    warunek \todo[inline]{prawa Gaussa} na początku, depozycja prądu w sposób zachowujący ładunek
-    zapewni dalsze zachowanie tego warunku w koeljnych iteracjach.
+    Kolejnym krokiem pętli obliczeniowej po rozwiązaniu równań ruchu na
+    aktualizację prędkości, po której - przypomnijmy - dysponujemy położeniami
+    cząstek $x^n$ w chwilach $n$ oraz ich prędkościami $v^{n+1/2}$ w chwilach
+    $n+1/2$  \todo[inline]{CHECK} jest obliczenie prądów podłużnych i
+    poprzecznych potrzebnych do obliczenia wartości pól elektromagnetycznych w
+    kolejnej iteracji.
 
-    Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać obliczone od podstaw na podstawie
-    gęstości ładunku. \code{PythonPIC} pozwala poradzić sobie z tym problemem. Pierwszą opcją jest ustawienie
-    początkowych położeń ładunków na identyczne między cząstkami negatywnymi i dodatnimi, co pozwala na siłowe
-    wyzerowanie gęstości ładunku i brak pola elektrycznego w rejonie symulacji. Drugą metodą jest zebranie gęstości
-    ładunku z początkowych położeń
+    W bieżącym programie gęstość ładunku jest tak naprawdę niepotrzebna w
+    trakcie symulacji. Ewolucja pola następuje poprzez znajomość gęstości prądu.
+    Jeżeli zaś pole elektromagnetyczne spełniało warunek \todo[inline]{prawa
+    Gaussa} na początku, depozycja prądu w sposób zachowujący ładunek zapewni
+    dalsze zachowanie tego warunku w koeljnych iteracjach.
 
-    Należy zauważyć, że mimo tego że gęstość ładunku nie jest konieczna w kolejnych iteracjach, jest wciąż
-    zbierana jako wygodna diagnostyka ewolucji przestrzennej plazmy w układzie :
+    Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać
+    obliczone od podstaw na podstawie gęstości ładunku. \code{PythonPIC} pozwala
+    poradzić sobie z tym problemem. Pierwszą opcją jest ustawienie początkowych
+    położeń ładunków na identyczne między cząstkami negatywnymi i dodatnimi, co
+    pozwala na siłowe wyzerowanie gęstości ładunku i brak pola elektrycznego w
+    rejonie symulacji.
 
-    Depozycja ładunku odbywa się w prosty sposób, przy następujących założeniach:
-    \begin{itemize}
-        \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species})
-            ładunek $q$ oraz parametr \code{scaling} (również)
-            \todo[inline]{STYLE?}
-            decydujący o tym, ile rzeczywistych cząstek reprezentuje.
-            Sumaryczny ładunek makrocząstki wynosi więc \code{q*scaling}
-        \item Każda makrocząstka ma szerokość jednej komórki siatki $\Delta x$.
-            Cząstka zlokalizowana więc środkiem
-            w połowie długości komórki będzie w niej całkowicie zawarata.
-        \item W ten sposób możemy stwierdzić, \todo[inline]{CONTINUE}
-    \end{itemize}
+    Drugą, bardziej ogólną metodą pozwalającą na niezerowy rozkład gęstości
+    ładunku  jest zebranie gęstości ładunku z początkowych położeń cząstek i
+    rozwiązanie równań na pola metodą globalną (na przykład spektralnie). Jest
+    to jedyny moment, gdzie zebranie gęstości ładunku jest faktycznie konieczny.
+    Mimo to, gęstość cząstek (proporcjonalna do gęstości ładunku jako $\rho =
+    \sum_s q_s n_s$) jest wciąż zbierana w symulacji jako wygodna diagnostyka
+    ewolucji przestrzennej plazmy w obszarze symulacji. Ze względu na prostotę
+    algorytmu, nie zabiera ona dużo czasu obliczeniowego (do
+    \todo[inline]{sprawdzić dokładnie ile, rzędu 4\%}\%) czasu trwania symulacji).
 
-    Powszechnie stosowaną od zarania dziejów metod particle-in-cell
-    \todo[inline]{refka: Dawson} jest interpolacja liniowa, polegająca na
-    zdepozytowaniu w $i$-tej komórce siatki \todo[inline]{dokończyć}
+    \subsubsection{Depozycja ładunku}
 
-    $1 = \sum_i S_i$ \todo[inline]{dokończyć wzór}
+     Depozycja ładunku odbywa się w prosty sposób. Dla każdego gatunku
+    cząstek obliczana jest ich gęstość liczbowa (koncentracja). Najpierw
+    obliczane jest względne położenie każdej cząstki w komórce, do której
+    przynależy, poprzez $x' = (x/dx) - i_x)$ \todo[inline]{zweryfikować} .
+    Następnie gęstość cząstki jest rozkładana pomiędzy bieżącą komórkę a
+    komórkę następną w stosunku $n_i = x'$, $n_{i+1} = 1-x'$. Cząstka będąca
+    w połowie komórki depozytowałaby więc swój ładunek po równo między obie
+    komórki.
 
-    W naszym przypadku wymagamy również, żeby depozycja prądu była spójna z
-    depozycją ładunku, to znaczy zachowywała ładunek.
+    \todo[inline]{mam wrażenie że jako że tego nie wykorzystuję w symulacji to
+    to może być nieco błędne, środki komórek Eulera wg depozycji ładunku są w
+    połowie. Niemniej jednak, elektrostatyczne symulacje okresowe zdają się
+    działać w ten sposób, nawet gdy liczę ewolucję pól poprzez prądy. To wymaga
+    dalszej weryfikacji.}
 
-    \subsubsection{Interpolacja pól elektrycznego i magnetycznego}
-    Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej zasadzie, co depozycja.
-    Wartosci pol sa liniowo skalowane do pozycji czastek wedlug ich wzglednych położeń wewnątrz komórek.
+    \todo[inline]{RYSUNEK depozycja ładunku}
+
+    Po obliczeniu otrzymana tablica gęstości \emph{makrocząstek} cząstek na
+    siatce jest mnożona przez parametr \code{scaling} cząstek, co pozwala na
+    obliczenie gęstości rzeczywistych cząstek modelowanych przez makrocząstki.
+    Tablica gęstości ładunku jest otrzymywana poprzez zsumowanie tablic gęstości
+    wszystkich gatunków cząstek w układzie.
+
+    % \begin{itemize}
+    %     \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species})
+    %         ładunek $q$ oraz parametr \code{scaling} (również)
+    %         \todo[inline]{STYLE?}
+    %         decydujący o tym, ile rzeczywistych cząstek reprezentuje.
+    %         Sumaryczny ładunek makrocząstki wynosi więc \code{q*scaling}
+    %     \item Każda makrocząstka ma szerokość jednej komórki siatki $\Delta x$.
+    %         Cząstka zlokalizowana więc środkiem
+    %         w połowie długości komórki będzie w niej całkowicie zawarata.
+    %     \item W ten sposób możemy stwierdzić, \todo[inline]{CONTINUE}
+    % \end{itemize}
+
+    % Powszechnie stosowaną od zarania dziejów metod particle-in-cell
+    % \todo[inline]{refka: Dawson} jest interpolacja liniowa, polegająca na
+    % zdepozytowaniu w $i$-tej komórce siatki \todo[inline]{dokończyć}
+    %
+    % $1 = \sum_i S_i$ \todo[inline]{dokończyć wzór}
+    %
+    % \todo[inline]{rysunek}
+    %
+    % W naszym przypadku wymagamy również, żeby depozycja prądu była spójna z
+    % depozycją ładunku, to znaczy zachowywała ładunek.
+
+    \subsubsection{Depozycja prądu}
+
+    \todo[inline]{this}
+
+
+    \subsection{Interpolacja pól elektrycznego i magnetycznego}
+
+    Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej
+    zasadzie, co depozycja ładunku. Wartosci pol sa liniowo skalowane do pozycji
+    czastek wedlug ich wzglednych położeń wewnątrz komórek.
 
     \todo[inline]{CONTINUE opowiadanie o interpolacji}
-    \subsubsection{Field solver} \todo[inline]{przerobić}
+    \subsection{Field solver} \todo[inline]{przerobić}
 
     Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
     Jak pokazują Buneman i Villasenor, numerycznie można zastosować dwa główne
@@ -113,11 +157,11 @@
     podstawie warunków brzegowych i początkowych (gęstości ładunku), możemy już
     dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące
     zalety:
-    
+
     * algorytm ewolucji pola staje się trywialny obliczeniowo,
     zwłaszcza w 1D - ogranicza się bowiem do elementarnych operacji lokalnego
     dodawania i mnożenia.
-    
+
     * algorytm ewolucji pola staje się lokalny (do
     znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
     jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego
@@ -164,7 +208,7 @@
     Po dodaniu i odjęciu stronami:
     \begin{align}
         \nabla \times (\vec{E} + c \vec{B}) = -\frac{\partial \vec{B}}{\partial t} + c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
-        \nabla \times (\vec{E} - c \vec{B}) = -\frac{\partial \vec{B}}{\partial t} - c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t}) 
+        \nabla \times (\vec{E} - c \vec{B}) = -\frac{\partial \vec{B}}{\partial t} - c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
         \label{eqn:Maxwell-rotation-derivation}
     \end{align}
 
