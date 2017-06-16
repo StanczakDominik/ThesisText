@@ -135,12 +135,11 @@
 
     Wychodzimy z rotacyjnych równań Maxwella:
 
-    \begin{equation}
+    \begin{align}
         \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
         \nabla \times \vec{B} = \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
         \label{eqn:Maxwell-rotation-derivation}
-    \end{equation}
-    
+     \end{align}
     Jako że symulacja zakłada symetrię układu wzdłuż osi propagacji lasera $x$,
     możemy przyjąć $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} =
     0 $.  Jednocześnie z prawa Gaussa dla pola magnetycznego wynika $B_x = 0$.
@@ -150,17 +149,24 @@
     \begin{equation}
         (\nabla \times \vec{B})_x = 0 = \mu_0 (j_x + \varepsilon_0 \frac{\partial E_x}{\partial t})
         \label{eqn:longitudinal-field-eq}
-    \end{equation}
+     \end{equation}
 
     Z kolei dla pola poprzecznego, sumując:
     \begin{equation}
         \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
         \nabla \times \vec{B} = \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
         \nabla \times (\vec{E} + \vec{B}) = -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
-        c = 1/{\sqrt{\mu_0 \varepsilon_0}
+        c = 1/{\sqrt{\mu_0 \varepsilon_0}}
         \nabla \times (\vec{E} + \vec{B}) = -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
         \label{eqn:perpendicular-field-eq}
+    \end{equation}
     \todo[inline]{skończyć wyprowadzenie}
+    Po dodaniu i odjęciu stronami:
+    \begin{align}
+        \nabla \times (\vec{E} + c \vec{B}) = -\frac{\partial \vec{B}}{\partial t} + c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
+        \nabla \times (\vec{E} - c \vec{B}) = -\frac{\partial \vec{B}}{\partial t} - c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t}) 
+        \label{eqn:Maxwell-rotation-derivation}
+    \end{align}
 
     \begin{equation}
         F^{+} = E_y + c B_z
@@ -171,8 +177,8 @@
 
     \todo[inline]{zweryfikować znaki i czy c nie jest w mianowniku}
     \begin{equation}
-        G^{+} = E_z - c B_y
-        G^{-} = E_z + c B_y
+        G^{+} = E_z + c B_y
+        G^{-} = E_z - c B_y
         \label{eqn:Birdsall-electromagnetic-quantities-alternate-axes}
     \end{equation}
     Wyrazem ``źródłowym'' dla F, G jest prąd poprzeczny. Po dyskretyzacji
@@ -208,7 +214,7 @@
     \subsection{Warunki początkowe dla cząstek}
 
     W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w
-    .\todo[inline]{Birdsall Langdon} Jego działanie można łatwo zilustrować na
+    \todo[inline]{Birdsall Langdon} Jego działanie można łatwo zilustrować na
     przykładzie początkowej funkcji gęstości cząstek zadanej dowolną funkcją
     analityczną. \todo[inline]{czy analityczna nie jest słowem zarezerwowanych
     dla tych na szeregi}
@@ -355,7 +361,7 @@
     uruchamianiu lżejszych, acz wciąż zasobożernych \todo[inline]{to słowo}
     symulacji testowych i testów algorytmicznych.
 
-    \subsection{snakeviz} W optymalizacji przydatny okazał się program
+    \subsubsection{snakeviz} W optymalizacji przydatny okazał się program
     \code{snakeviz} dostępny na licencji opensource i pozwalający na
     wizualizację wyników z profilowania symulacji. Pozwala w wygodny sposób
     zbadać, które fragmenty kodu najbardziej spowalniają symulację, które są
