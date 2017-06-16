@@ -86,9 +86,13 @@
      Depozycja ładunku odbywa się w prosty sposób. Dla każdego gatunku
     cząstek obliczana jest ich gęstość liczbowa (koncentracja). Najpierw
     obliczane jest względne położenie każdej cząstki w komórce, do której
-    przynależy, poprzez $x' = (x/dx) - i_x)$ \todo[inline]{zweryfikować} .
+    przynależy, poprzez
+    \begin{equation}
+    x' = (x/dx) - i_x
+    \label{eqn:relative-position}
+    \end{equation}
     Następnie gęstość cząstki jest rozkładana pomiędzy bieżącą komórkę a
-    komórkę następną w stosunku $n_i = x'$, $n_{i+1} = 1-x'$. Cząstka będąca
+    komórkę następną w stosunku $n_i = 1-x'$, $n_{i+1} = x'$. Cząstka będąca
     w połowie komórki depozytowałaby więc swój ładunek po równo między obie
     komórki.
 
@@ -129,7 +133,19 @@
     % W naszym przypadku wymagamy również, żeby depozycja prądu była spójna z
     % depozycją ładunku, to znaczy zachowywała ładunek.
 
-    \subsubsection{Dlaczego depozycja prądu jest złożonym zagadnieniem?}
+    \subsection{Interpolacja pól elektrycznego i magnetycznego}
+
+    Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej
+    zasadzie, co depozycja ładunku. Wartosci pól są liniowo skalowane do pozycji
+    makrocząstek według ich względnych położeń (równanie
+    \ref{eqn:relative-position}) wewnątrz komórek.
+
+    \begin{equation}
+        F = F_i * (1-x') + F_{i+1} * x'
+        \label{eqn:field-interpolation}
+    \end{equation}
+
+    \subsection{Depozycja prądu}
 
     Depozycja prądu jest bardziej złożonym zagadnieniem niż depozycja ładunku.
     Prądy wymagają bowiem informacji o prędkości czastek w połówkowych
@@ -172,26 +188,24 @@
     \subsection{Depozycja podłużna}
     \todo[inline]{depozycja podłużna}
 
-    \subsection{Interpolacja pól elektrycznego i magnetycznego}
-
-    Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej
-    zasadzie, co depozycja ładunku. Wartosci pól są liniowo skalowane do pozycji
-    makrocząstek według ich względnych położeń wewnątrz komórek.
-    \todo[inline]{przenieść to do depozycji cząstek bo to ten sam algo, liniowa
-    interpolacja}
-
     \todo[inline]{CONTINUE opowiadanie o interpolacji}
     \subsection{Ewolucja czasowa pola elektromagnetycznego} \todo[inline]{przerobić}
 
     Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
     Jak pokazują Buneman i Villasenor, numerycznie można zastosować dwa główne
-    podejścia: \todo[inline]{zredagować} 1. wykorzystać równania na dywergencję
-    pola (prawa Gaussa) do rozwiązania pola na całej siatce. Niestety, jest to
-    algorytm inherentnie globalny, w którym informacja o warunkach brzegowych
-    jest konieczna w każdym oczku siatki
-    \todo[inline]{alternatywa na słowo "oczko"?}
-    2. wykorzystać równania na rotację pola (prawa Ampera i Faradaya), opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman),
-    dywergencja pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod wpływem tak opisanej ewolucji czasowej:
+    podejścia: \todo[inline]{refka Buneman}
+
+    \begin{enumerate}
+        \item wykorzystać równania na dywergencję pola (prawa Gaussa) do
+        rozwiązania pola na całej siatce. Niestety, jest to algorytm
+        inherentnie globalny, w którym informacja o warunkach brzegowych
+        jest konieczna w każdej komórce siatki.
+
+        \item wykorzystać równania na rotację pola (prawa Ampera i Faradaya),
+        opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman), dywergencja
+        pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod
+        wpływem tak opisanej ewolucji czasowej:
+    \end{enumerate}
 
     Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na
     podstawie warunków brzegowych i początkowych (gęstości ładunku), możemy już
