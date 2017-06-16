@@ -129,19 +129,59 @@
     % W naszym przypadku wymagamy również, żeby depozycja prądu była spójna z
     % depozycją ładunku, to znaczy zachowywała ładunek.
 
-    \subsubsection{Depozycja prądu}
+    \subsubsection{Dlaczego depozycja prądu jest złożonym zagadnieniem?}
 
-    \todo[inline]{this}
+    Depozycja prądu jest bardziej złożonym zagadnieniem niż depozycja ładunku.
+    Prądy wymagają bowiem informacji o prędkości czastek w połówkowych
+    iteracjach $v^{n+1/2}$, ale sama interpolacja do komórek siatki wymaga
+    położeń w iteracji całkowitej $x^{n}$. Poza tym jest też kwestia, że zwykłe
+    liniowe przeskalowanie ładunku i parametru \code{scaling} przez prędkość w
+    danym kierunku nie jest wystarczające z tego powodu, że taki sposób
+    depozycji nie spełnia warunku zachowania ładunku.
 
+    \todo[inline]{jak sformalizować warunek zachowania ładunku}
+
+    \todo[inline]{depozycja ładunku w mojej obecnej wersji nie jestem wcale
+    przekonany że zachowuje ładunek}
+
+    To zaś dyskwalifikuje prostą liniową interpolację jako metodę depozycji
+    prądu, ponieważ chcemy rozwiązywać lokalne równania Ampere'a-Maxwella
+    \todo[inline]{nazwisko} zamiast liczyć globalne równania Poissona i Gaussa.
+    Jeżeli chcemy uniknąć obliczania poprawek korygujących dywergencję pól,
+    musimy to okupić większą złożonością algorytmu depozycji prądu.
+
+    Depozycja prądu jest rozbita na dwie części - prąd podłużny i prąd
+    poprzeczny. Jest to spowodowane tym, że ruch w kierunkach $y$, $z$ nie
+    powoduje w symulacji przesuwania cząstek, a w $x$ już tak. Obliczenie prądu
+    w kierunkach poprzecznych jest więc jednoznaczne z obliczeniem skalowanego
+    \emph{przekrycia} cząstek z komórkami, przez które przechodzą w trakcie
+    ruchu.
+
+    Jako że cząstki mają szerokość równą szerokości komórki $\Delta x$, ich
+    prędkość jest ograniczona przez prędkość światła, zaś za krok czasowy
+    przyjmujemy $\Delta t = \Delta x/c$, można łatwo zauważyć, że maksymalna
+    odległość, jaką cząstka mogłaby przebyć w jednej iteracji, to $\Delta x$.
+    Jeżeli cząstka wystartowałaby środkiem w lewej krawędzi komórki (swoją
+    własną lewą krawędzią sięgając środka poprzedniej komórki, a prawą połowy
+    obecnej komórki), to w czasie ruchu przejechałaby \todo[inline]{spelling}
+    przez łącznie trzy komórki. \todo[inline]{zweryfikować z algorytmem}
+
+    \subsection{Depozycja poprzeczna}
+
+    \todo[inline]{depozycja poprzeczna}
+    \subsection{Depozycja podłużna}
+    \todo[inline]{depozycja podłużna}
 
     \subsection{Interpolacja pól elektrycznego i magnetycznego}
 
     Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej
-    zasadzie, co depozycja ładunku. Wartosci pol sa liniowo skalowane do pozycji
-    czastek wedlug ich wzglednych położeń wewnątrz komórek.
+    zasadzie, co depozycja ładunku. Wartosci pól są liniowo skalowane do pozycji
+    makrocząstek według ich względnych położeń wewnątrz komórek.
+    \todo[inline]{przenieść to do depozycji cząstek bo to ten sam algo, liniowa
+    interpolacja}
 
     \todo[inline]{CONTINUE opowiadanie o interpolacji}
-    \subsection{Field solver} \todo[inline]{przerobić}
+    \subsection{Ewolucja czasowa pola elektromagnetycznego} \todo[inline]{przerobić}
 
     Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
     Jak pokazują Buneman i Villasenor, numerycznie można zastosować dwa główne
