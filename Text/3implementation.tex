@@ -1,6 +1,5 @@
 \section[Implementacja]{Implementacja}% 20-30% - opis przyjętych rozwiązań i uzasadnienie ich wyboru
-    \subsection{Zastosowane algorytmy}
-    \subsubsection{Leapfrog oraz Borys}
+    \subsection{Całkowanie równań ruchu}
     Każda symulacja cząstek wymaga zastosowania integratora równań ruchu.
     Tradycyjnym przykładem takiego integratora jest integrator Rungego-Kutty
     czwartego rzędu, znajdujący zastosowanie w wielorakich symulacjach.
@@ -23,9 +22,8 @@
     specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
     elektromagnetycznym, tak zwanego integratora Borysa,
     \todo[inline]{REFERENCE} który rozbija pole elektryczne na dwa impulsy,
-    między którymi następują dwie \todo[inline]{CHECK} rotacje polem
-    magnetycznym. Algorytm jest dzięki temu symplektyczny i długofalowo
-    zachowuje energię cząstek.
+    między którymi następują dwie rotacje polem magnetycznym. Algorytm jest
+    dzięki temu symplektyczny i długofalowo zachowuje energię cząstek.
 
     \begin{align}
         \vec{v}^- = \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n
@@ -37,19 +35,41 @@
         \vec{x}^{n+1} = \vec{x}^{n} + \vec{v}^{n+1/2} dt
         \label{eqn:boris-pusher}
     \end{align}
- \todo[inline]{boris pusher equation}
+
     W naszym przypadku dochodzi jeszcze jedno utrudnienie związane z
-    relatywistycznością symulacji. \todo[inline]{stylistyka} Przed obliczeniem
-    korekty prędkości konieczne jest przetransformowanie prędkości z układu
-    ``laboratoryjnego'' $\vec{v}$ na prędkość w układzie poruszającym się z
-    cząstką $\vec{u}$, czego dokonuje się poprzez parę transformacji:
+    relatywistycznymi prędkościami osiąganymi przez cząstki (zwłaszcza
+    elektrony) w symulacji. Przed obliczeniem korekty prędkości konieczne jest
+    przetransformowanie prędkości z układu ``laboratoryjnego'' $\vec{v}$ na
+    prędkość w układzie poruszającym się z cząstką $\vec{u}$, czego dokonuje
+    się poprzez prostą transformację:
 
     \begin{align}
         \vec{u} = \vec{v} \gamma
+        \gamma = \sqrt{1+{(u/c)}^2} = 1/\sqrt{1-{(v/2)}^2}
         \label{eqn:gamma-transformation}
     \end{align}
- \todo[inline]{finish this eq}
-    \subsubsection{Depozycja gęstości ładunku i prądu} \todo[inline]{pick up here}
+
+    \subsection{Depozycja gęstości prądu}
+    
+    Kolejnym krokiem pętli obliczeniowej po rozwiązaniu równań ruchu na aktualizację prędkości,
+    po której - przypomnijmy - dysponujemy położeniami cząstek $x^n$ w chwilach $n$ oraz ich prędkościami
+    $v^{n+1/2}$ w chwilach $n+1/2$  \todo[inline]{CHECK} jest obliczenie prądów podłużnych i poprzecznych
+    potrzebnych do obliczenia wartości pól elektromagnetycznych w kolejnej iteracji.
+
+    W bieżącym programie gęstość ładunku jest tak naprawdę niepotrzebna w trakcie symulacji.
+    Ewolucja pola następuje poprzez znajomość gęstości prądu. Jeżeli zaś pole elektromagnetyczne spełniało
+    warunek \todo[inline]{prawa Gaussa} na początku, depozycja prądu w sposób zachowujący ładunek
+    zapewni dalsze zachowanie tego warunku w koeljnych iteracjach.
+
+    Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać obliczone od podstaw na podstawie
+    gęstości ładunku. \code{PythonPIC} pozwala poradzić sobie z tym problemem. Pierwszą opcją jest ustawienie
+    początkowych położeń ładunków na identyczne między cząstkami negatywnymi i dodatnimi, co pozwala na siłowe
+    wyzerowanie gęstości ładunku i brak pola elektrycznego w rejonie symulacji. Drugą metodą jest zebranie gęstości
+    ładunku z początkowych położeń
+
+    Należy zauważyć, że mimo tego że gęstość ładunku nie jest konieczna w kolejnych iteracjach, jest wciąż
+    zbierana jako wygodna diagnostyka ewolucji przestrzennej plazmy w układzie :
+
     Depozycja ładunku odbywa się w prosty sposób, przy następujących założeniach:
     \begin{itemize}
         \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species})
@@ -63,7 +83,7 @@
         \item W ten sposób możemy stwierdzić, \todo[inline]{CONTINUE}
     \end{itemize}
 
-    Powszechnie stosowana od zarania dziejów metod particle-in-cell
+    Powszechnie stosowaną od zarania dziejów metod particle-in-cell
     \todo[inline]{refka: Dawson} jest interpolacja liniowa, polegająca na
     zdepozytowaniu w $i$-tej komórce siatki \todo[inline]{dokończyć}
 
@@ -117,10 +137,29 @@
 
     \begin{equation}
         \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
-        \nabla \times \vec{B} = \mu_0 (\vec{j} + \epsilon_0 \frac{\partial \vec{E}}{\partial t})
+        \nabla \times \vec{B} = \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
         \label{eqn:Maxwell-rotation-derivation}
     \end{equation}
+    
+    Jako że symulacja zakłada symetrię układu wzdłuż osi propagacji lasera $x$,
+    możemy przyjąć $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} =
+    0 $.  Jednocześnie z prawa Gaussa dla pola magnetycznego wynika $B_x = 0$.
+    Stąd równania dla pola elektrycznego podłużnego oraz pola
+    elektromagnetycznego poprzecznego \todo[inline]{słowo - decouple}:
 
+    \begin{equation}
+        (\nabla \times \vec{B})_x = 0 = \mu_0 (j_x + \varepsilon_0 \frac{\partial E_x}{\partial t})
+        \label{eqn:longitudinal-field-eq}
+    \end{equation}
+
+    Z kolei dla pola poprzecznego, sumując:
+    \begin{equation}
+        \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
+        \nabla \times \vec{B} = \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
+        \nabla \times (\vec{E} + \vec{B}) = -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
+        c = 1/{\sqrt{\mu_0 \varepsilon_0}
+        \nabla \times (\vec{E} + \vec{B}) = -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
+        \label{eqn:perpendicular-field-eq}
     \todo[inline]{skończyć wyprowadzenie}
 
     \begin{equation}
