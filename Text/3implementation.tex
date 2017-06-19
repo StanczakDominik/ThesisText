@@ -224,14 +224,41 @@
     \end{enumerate}
 
     W każdej iteracji pętli obliczeniowej prąd ze wszystkich cząstek jest
-    akumulowany do tablicy prądów. Tablica ma rozmiar $NG+2$ \todo[inline]{verify}
+    akumulowany do tablicy prądów. Tablica ma rozmiar \code{NG+2} \todo[inline]{verify}
 
     \subsubsection{Depozycja poprzeczna}
-    Algorytm jest identyczny do depozycji podłużnej poza samym etapem depozycji prądu.
+    Algorytm jest identyczny do depozycji podłużnej poza samym etapem depozycji
+    prądu. Jako że symulacja jest jednowymiarowa i cząstki nie wykonują
+    faktycznego ruchu w kierunkach $y$, $z$, przyjmujemy liniową iterpolację
+    prądów w tych kierunkach jako iloczynów $j=qv$ ważonych przez przekrycie
+    cząstki z komórkami oraz czas, jaki cząstka spędza w ruchu obejmując dane
+    komórki.
 
-    \todo[inline]{depozycja poprzeczna}
+    Przekrycie obliczamy jako
+    \begin{equation}
+        s =
+    \end{equation}
+    \todo[inline]{przekrycie}
 
-    \todo[inline]{CONTINUE opowiadanie o interpolacji}
+    Aby uzyskać wartość średniego przekrycia cząstki z komórką w trakcie ruchu
+    uśredniamy przekrycie na końcu ruchu z przekryciem na początku ruchu,
+    \begin{equation}
+        w = {(s(x^{n+1}) + s(x^n))}
+    \end{equation}
+
+    Ostatecznie wkład do komórki "obecnej" w ciągu jednej iteracji pętli obliczeniowej to \todo[inline]{zweryfikować}
+    to $w * q n v_{y, z} t / \Delta t$.
+    zaś do dalszej, przekrywanej komórki jest to  $(1-w) * q n v_{y, z} t / \Delta t$.
+    \todo[inline]{jakoś poprawić stylistykę chyba}
+
+    Tablica prądów poprzecznych, do których zostają depozytowane, ma rozmiar
+    \code{NG+4, 2}. Jest to spowodowane większą liczbą komórek, przez które liniowa depozycja
+    poprzez przekrycie jest w stanie "sięgnąć".
+
+    \todo[inline]{zdecydowanie stylistyka}
+
+    \todo[inline]{grafika}
+
     \subsection{Ewolucja czasowa pola elektromagnetycznego} \todo[inline]{przerobić}
 
     Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
