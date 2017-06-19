@@ -40,7 +40,7 @@
             aktywnych jonów pod powierzchnią czyszczenie powierzchni, depozycja
             cienkich warstw związków chemicznych na powierzchniach (CVD)
         \item kosmicznym - silniki plazmowe, interakcja z rozgrzanym powietrzem
-            podczas powtórnego wchodzenia w atmosferę 
+            podczas powtórnego wchodzenia w atmosferę
         \item użytkowym - ekrany telewizorów, oświetlenie (świetlówki)
     \end{itemize}
 
@@ -213,7 +213,7 @@
         \label{eqn:critical-density}
     \end{equation}
     gdzie $m_e$ to masa spoczynkowa elektronu, $\varepsilon_0$ to przenikalność
-    elektryczna próżni, \todo[inline]{przenikalność?} $c$ to prędkość światła w
+    elektryczna próżni, $c$ to prędkość światła w
     próżni, $e$ to ładunek elementarny, zaś $\lambda$ to długość fali.
 
     Gęstość takiej makrocząstki, oznaczana $n_{pic}$, oznacza innymi słowy
@@ -253,10 +253,111 @@
     pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
     napisanych w językach niskopoziomowych bez faktycznej pracy z tymi
     językami.
-    
-    Ostatnimi czasy popularną staje się również kompilacja Just-in-time
-    wysokopoziomowego kodu Pythona do kodu niskopoziomowego przy pierwszym
-    uruchomieniu programu \todo[inline]{numba}.
+
+
+
+    \subsubsection{Numpy}
+    \code{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na
+    n-wymiarowych macierzach bądź tablicach, utworzona w celu umożlwiienia
+    zastąpienia operacjami wektorowymi iteracji po tablicach, powszechnie
+    stosowanych w metodach numerycznych i będących znanym słabym punktem
+    Pythona.
+    \todo[inline]{REFERENCE źródło na powolność pętli}
+
+    Pod zewnętrzną powłoką zawiera odwołania do znanych, wypróbowanych i
+    sprawdzonych w numeryce modułów \code{LAPACK}, \code{BLAS} napisanych w
+    szybkich, niskopoziomowych językach C oraz \code{FORTRAN}.  Jest to
+    \emph{de facto} standard większości obliczeń numerycznych w Pythonie.
+
+    Należy zauważyć, że operacje matematyczne w \code{Numpy} są automatycznie
+    zrównoleglane \todo[inline]{refka intel MKL} tam, gdzie pozwala na to
+    niezależność obliczeń.
+
+    Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD.
+    \todo[inline]{refka}
+
+    \subsubsection{scipy}
+    Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy},
+    biblioteka zawierająca wydajne implementacje wielu podstawowych algorytmów
+    numerycznych służących między innymi całkowaniu, optymalizacji, algebrze
+    liniowej czy transformatom Fouriera.  W naszym przypadku stosujemy zawarte
+    w tej bibliotece funkcje całkujące do określenia początkowego profilu
+    gęstości plazmy.  \todo[inline]{czy stosuję scipy gdzieś jeszcze}
+
+    \subsubsection{Numba}
+    \code{numba} to biblioteka służąca do kompilacji just-in-time wysokopoziomowego
+    kodu Pythona do kodu niskopoziomowego przy pierwszym uruchomieniu programu. W
+    wielu przypadkach pozwala na osiągnięcie kodem napisanym w czystym Pythonie
+    wydajności marginalnie niższej bądź nawet równej do analogicznego programu w C
+    bądź Fortranie. \todo[inline]{refka} Jednocześnie należy zaznaczyć prostotę jej
+    użycia:
+
+    \todo[inline]{fragment kodu. @jit przed kodem}
 
     Istniejącym od niedawna kodem implementującym tą metodę jest FBPIC
     \todo[inline]{refka}
+
+    \subsubsection{HDF5}
+    HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych
+    liczbowych w drzewiastej, skompresowanej strukturze danych, razem z
+    równoległym, wielowątkowym zapisem tych danych.  W Pythonie implementuje go
+    biblioteka h5py. \todo[inline]{reference h5py} Używa się go na przykład w
+    \todo[inline]{lista miejsc gdzie używają hdf5}
+    \todo[inline]{https://github.com/PPPLDeepLearning/plasma-python}
+
+    W bieżącej pracy wykorzystuje się go do przechowywania danych numerycznych
+    dotyczących przebiegu symulacji, pozwalających na ich dalsze przetwarzanie
+    i analizę poprzez wizualizację.
+
+    \subsubsection{matplotlib}
+    Do wizualizacji danych z symulacji (oraz tworzenia schematów w sekcji
+    teoretycznej niniejszej pracy) użyto własnoręcznie napisanych skryptów w
+    uniwersalnej bibliotece graficznej \code{matplotlib}. \code{matplotlib}
+    zapewnie wsparcia zarówno dla grafik statycznych w różnych układach
+    współrzędnych (w tym 3D), jak również dla dynamicznie generowanych animacji
+    przedstawiających przebiegi czasowe symulacji.
+
+    Matplotlib również jest oprogramowaniem otwartym, udostępnianym na licencji
+    \todo[inline]{matplotlib license, reference}
+
+    \subsubsection{py.test}
+    Przy pracy nad kodem użyto frameworku testowego \code{py.test}
+    \todo[inline]{refenrece} Obsługa testów jest trywialna:
+
+    \todo[inline]{przykład testu z programu}
+
+    Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie
+    objawia się zazwyczaj błędem wykonywania programu, a jedynie błędnymi
+    wynikami, dobrze zautomatyzowane testy jednostkowe potrafią zaoszczędzić
+    bardzo dużo czasu na debugowaniu poprzez automatyzację uruchamiania
+    kolejnych partii kodu i lokalizację błędnie działających części algorytmu.
+    Dobrze napisane testy są praktycznie koniecznością w dzisiejszych czasach,
+    zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
+    wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
+
+    Dobrym przykładem skutecznego testu jednostkowego jest porównanie wyników z
+    fragmentu algorytmu (na przykład depozycji ładunku, który to test zawarty
+    jest w pliku) \code{pythonpic/tests/test\_current\_deposition.py}
+    \todo[inline]{sprawdzić urla} z wynikami z poprzedniego, zweryfikowanego
+    programu, bądź z obliczeniem ręcznym.
+
+    \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji
+    \todo[inline]{sprawdzić licencję}
+
+    \subsubsection{Travis CI}
+    Nieocenionym narzędziem w pracy nad kodem był system ciągłej integracji
+    (\emph{continuous integration}) Travis CI \todo[inline]{refka} dostępny za
+    darmo dla projektów open-source. Travis pobiera aktualne wersje kodu przy
+    każdej aktualizacji wersji dostępnej na serwerze GitHub i uruchamia testy,
+    zwracając komunikat o ewentualnym niepowodzeniu i pozwalając na jednoczesne
+    uruchamianie bieżących, intensywnych symulacji przy jednoczesnym
+    uruchamianiu lżejszych, acz wciąż zasobożernych \todo[inline]{to słowo}
+    symulacji testowych i testów algorytmicznych.
+
+    \subsubsection{snakeviz} W optymalizacji przydatny okazał się program
+    \code{snakeviz} dostępny na licencji opensource i pozwalający na
+    wizualizację wyników z profilowania symulacji. Pozwala w wygodny sposób
+    zbadać, które fragmenty kodu najbardziej spowalniają symulację, które są
+    najlepszymi kandydatami do optymalizacji, oraz jak skuteczne (bądź
+    nieskuteczne) okazują się próby polepszenia ich wydajności.
+    \todo[inline]{refka} \todo[inline]{grafika snakeviz}
