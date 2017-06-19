@@ -182,11 +182,54 @@
     obecnej komórki), to w czasie ruchu przejechałaby \todo[inline]{spelling}
     przez łącznie trzy komórki. \todo[inline]{zweryfikować z algorytmem}
 
-    \subsection{Depozycja poprzeczna}
+    Algorytm rozbija ruch cząstek w bieżącej iteracji na etapy. W każdym z
+    etapów cząstka obejmuje swoim zasięgiem inne komórki. Pętla obliczeniowa
+    akumuluje prąd dla cząstek w następujący sposób, zaczynając z przydzielonym
+    czasem w bieżącej iteracji $t = \Delta t$.
+
+    \subsubsection{Depozycja podłużna}
+    \begin{enumerate}
+        \item obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
+        granicy obszaru
+        \begin{equation}
+            t_l = (x - x_g)/v
+        \end{equation}
+        Granica obszaru jest definiowana jako najbliższa połowa komórki Eulera w kierunku
+        ruchu cząstki.
+        \item
+        \begin{itemize}
+            \item jeżeli cząstka ma wystarczająco czasu $t$ (spełnia warunek $t > t_l$) aby
+            dotrzeć do kolejnej granicy obszaru, jej prąd zostaje zdepozytowany przez czas $t_l$,
+            \item W przeciwnym razie prąd jest depozytowany przez czas $t$ i ruch cząstki kończy się.
+        \end{itemize}
+        Wkład cząstki do depozytowanego prądu wynosi
+        \begin{equation}
+            j_x = q n v_x t/\Delta t
+        \end{equation}
+        gdzie $q$ to ładunek cząstki, a $n$ to parametr \code{scaling} oznaczający liczbę
+        rzeczywistych cząstek w makrocząstce.
+
+        \item Jeżeli ruch cząstki się nie skończył, zostaje ona (w pętli
+        wewnętrznej, niezależnie od jej faktycznego ruchu w symulacji)
+        \todo[inline]{właściwie możnaby zoptymalizować w ten sposób ruch cząstek,
+        wyciąć $x += v_x \Delta t$} przesunięta za granicę obszaru o $\varepsilon =
+        10^{-10} \Delta x$. Dodanie $\varepsilon$ jest wykonywane w celu zwiększenia
+        jednoznaczności porównywania liczb zmiennoprzecinkowych przy wybieraniu
+        gałęzi algorytmu.
+
+        Pętla obliczeniowa wykonuje kolejną iterację dla takiej cząstki, która tym razem
+        ma przydzielony czas $t' = t - t_l$.
+
+        \todo[inline]{Do której komórki trafia ładunek w każdej iteracji?}
+    \end{enumerate}
+
+    W każdej iteracji pętli obliczeniowej prąd ze wszystkich cząstek jest
+    akumulowany do tablicy prądów. Tablica ma rozmiar $NG+2$ \todo[inline]{verify}
+
+    \subsubsection{Depozycja poprzeczna}
+    Algorytm jest identyczny do depozycji podłużnej poza samym etapem depozycji prądu.
 
     \todo[inline]{depozycja poprzeczna}
-    \subsection{Depozycja podłużna}
-    \todo[inline]{depozycja podłużna}
 
     \todo[inline]{CONTINUE opowiadanie o interpolacji}
     \subsection{Ewolucja czasowa pola elektromagnetycznego} \todo[inline]{przerobić}
