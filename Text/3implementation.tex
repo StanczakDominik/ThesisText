@@ -291,15 +291,40 @@
     jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego
     sąsiadach \todo[inline]{jak to faktycznie wygląda z tym algo?} co zapobiega
     problemowi informacji przebiegającej w symulacji szybciej niż światło oraz
-    zapewnia stabilność na podstawie
-    warunku Couranta.
+    zapewnia stabilność na podstawie warunku Couranta.
 
-    \todo[inline]{gładsze przejście tutaj - wyprowadzenie field solvera}
-    W 1D można dokonać dekompozycji składowych poprzecznych pola
-    elektromagnetycznego (tutaj oznaczanych $y$, $z$) na propagujące się w
-    przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są
-    zebrane poprzez zamianę zmiennych w dwie wielkości elektrodynamiczne $F^+$,
-    $F^-$.
+   %W 1D można dokonać dekompozycji składowych poprzecznych pola
+   %elektromagnetycznego (tutaj oznaczanych $y$, $z$) na propagujące się w
+   %przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są
+   %zebrane poprzez zamianę zmiennych w dwie wielkości elektrodynamiczne $F^+$,
+   %$F^-$, z $E_z$, $B_y$ w $F^+$, $F^-$.
+
+   %\begin{align}
+   %    F^{\pm} = (E_y \pm c*B_z) / 2
+   %    G^{\pm} = (E_z \pm c*B_y) / 2
+   %    \label{eqn:fg-transform}
+   %\end{align}
+   %
+   %% TODO polishfonts
+   %Wielkosci te zas propaguja sie w trywialny sposob:
+   %
+   %\begin{align}
+   %    {F^+}_{i+1}^{n+1} = {F^+}_i^n - 0.5 * \Delta t {j_y}_{i+1/2}^{n+1/2} / \varepsilon_0
+   %    {F^-}_{i-1}^{n+1} = {F^+}_i^n - 0.5 * \Delta t {j_y}_{i-1/2}^{n+1/2} / \varepsilon_0
+   %    {G^+}_{i+1}^{n+1} = {G^+}_i^n - 0.5 * \Delta t {j_y}_{i+1/2}^{n+1/2} / \varepsilon_0
+   %    {G^-}_{i-1}^{n+1} = {G^+}_i^n - 0.5 * \Delta t {j_y}_{i-1/2}^{n+1/2} / \varepsilon_0
+   %\end{align}
+   %    
+   %Po wykonaniu iteracji obliczeniowej mozna latwo powrocic do pol elektromagnetycznych
+   %na potrzeby interpolacji do czastek:
+
+   %\begin{align}
+   %    E_y = F^+ + F^-
+   %    B_z = (F^+ - F^- ) / c
+   %    E_z = G^+ + G^-
+   %    B_y = (G^+ - G^- ) /c
+   %    \label{eqn:fg-transform-inverse}
+   %\end{align}
 
     Wychodzimy z rotacyjnych równań Maxwella:
 
@@ -389,43 +414,60 @@
 
     Używając funkcji dystrybucji w jednym wymiarze zależnej jedynie od
     położenia znormalizowanej do liczby cząstek $N$, można wykonać całkowanie
-    kumulatywne po siatce gęstszej niż liczba cząstek na wybranym przedziale,
+    kumulatywne na siatce gęstszej niż liczba cząstek na wybranym przedziale,
     po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
-    przybiera kolejne większe całkowite wartości.
+     przybiera kolejne większe całkowite wartości.
 
     \todo[inline]{rysunek: przykład z ipynb}
 
+    
+    % density_profiles.generate
     Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną
+    przybierajaca wartosci z zakresu $(0, 1)$
     \todo[inline]{czy nie przesadzam?} i zrenormalizować ją tak, aby $\int_0^L
     f(x) dx = N$. W praktyce wykorzystuje się wartości marginalnie większe niż
     $N$, mianowicie $N+0.1$, co pozwala na uniknięcie problemów ze skończoną
     dokładnością obliczeń na liczbach zmiennoprzecinkowych.
 
-    Aby uniknąć problemu w przypadku dwóch \code{Species} cząstek o identycznej
-    liczbie makrocząstek i przeciwnym znaku które według powyższego algorytmu
-    zostałyby rozłożone w identycznych miejscach z powodu niezależnego
-    stosowania algorytmu dla każdej grupy cząstek, co prowadziłoby do
-    neutralizacji ładunku na całej symulacji, na położenia cząstek nakłada się
-    dodatkowy gaussowski szum o niewielkiej intensywności.
+    W biezacej wersji symulacji zorientowanej pod symulacje ukladu tarczy
+    wodorowej istnieja trzy wbudowane rodzaje ustawien poczatkowych czastek.
+    Wszystkie trzy skladaja sie z czesci o jednorodnym rozkladzie gestosci oraz
+    ustawionej przed nia ``preplazmy'' majacej rozklad gestosci przyrastajacy z
+    gestoscia odpowiednio liniowo, kwadratowo i wykladniczo ($\exp{10 x - 10}$)
 
-    Analogiczny algorytm znajduje zastosowanie w obliczaniu początkowych
-    wartości prędkości dla cząstek.  Wykorzystuje się relatywistyczny rozkład
-    Maxwella
+    \todo[inline]{rysunek: rozklady gestosci}
+    \todo[inline]{czy wykladnik taki jak jest teraz w wykladniczej preplazmie jest ok?
 
-    \begin{align}
-        f(p) = \frac{N}{2 \pi} \frac{mc^2}{T} \frac{1}{1+T/mc^2} \exp \Big (\frac{-mc^2}{T}(\gamma -1) \Big)
-        \gamma = \sqrt{1+p^2}
-        \label{relativistic-maxwell-distribution}
-    \end{align}
+    W biezacej wersji kodu predkosci czastek inicjalizowane sa jako zera. Jest to
+    \todo[inline]{do zmiany}
+    uzasadnione niewielkim znaczeniem poczatkowej predkosci czastek w
+    porownaniu do efektow, jaki ma na nich impuls laserowy.
 
-    Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane
-    \todo[inline]{czy to jest słowo} należy zadbać o zdekorelowanie ich
-    prędkości między sobą. Naiwne zastosowanie algorytmu na położenia prowadzi
-    zaś do rozłożenia cząstek rosnąco numeracją w kierunku rosnącego położenia
-    $x$.
+    %Aby uniknąć problemu w przypadku dwóch \code{Species} cząstek o identycznej
+    %liczbie makrocząstek i przeciwnym znaku które według powyższego algorytmu
+    %zostałyby rozłożone w identycznych miejscach z powodu niezależnego
+    %stosowania algorytmu dla każdej grupy cząstek, co prowadziłoby do
+    %neutralizacji ładunku na całej symulacji, na położenia cząstek nakłada się
+    %dodatkowy gaussowski szum o niewielkiej intensywności.
 
-    Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo
-    wybranymi cząstkami.  \todo[inline]{dopisać jak będzie zrobione.}
+    %Analogiczny algorytm znajduje zastosowanie w obliczaniu początkowych
+    %wartości prędkości dla cząstek.  Wykorzystuje się relatywistyczny rozkład
+    %Maxwella (dystrybucj
+
+    %\begin{align}
+        %f(p) = \frac{N}{2 \pi} \frac{mc^2}{T} \frac{1}{1+T/mc^2} \exp \Big (\frac{-mc^2}{T}(\gamma -1) \Big)
+        %\gamma = \sqrt{1+p^2}
+        %\label{relativistic-maxwell-distribution}
+    %\end{align}
+
+    %Należy wspomnieć, że aby cząstki były prawidłowo ztermalizowane
+    %\todo[inline]{czy to jest słowo} należy zadbać o zdekorelowanie ich
+    %prędkości między sobą. Naiwne zastosowanie algorytmu na położenia prowadzi
+    %zaś do rozłożenia cząstek rosnąco numeracją w kierunku rosnącego położenia
+    %$x$.
+
+    %Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo
+    %wybranymi cząstkami.  \todo[inline]{dopisać jak będzie zrobione.}
 
     \subsection{Opis i treść kodu}
     Cały kod programu w celu reprodukowalności wyników tworzony był i jest
@@ -459,10 +501,14 @@
         \item $\Delta t$ - krok czasowy symulacji, obliczony jako $\Delta t =
             \Delta x / c$.
         \item $N_T$ - liczbę iteracji czasowych symulacji.
-        \item \code{BC} - \emph{Boundary Condition}, funkcję czasu określającą
-            wartość warunku brzegowego dotyczącego natężenia fali
-            elektromagnetycznej (laserowej) wchodzącej do pola symulacji z
-            lewej strony.
+        \item \code{BC} - \emph{Boundary Condition}, obiekt zawierajacy informacje dotyczace
+            warunku brzegowego zadanego na pole elektryczne i magnetyczne. W przypadku symulacji
+            laserowej jest to subklasa Laser zawierajaca informacje o dlugosci fali, ksztalcie obwiedni
+            i polaryzacji impulsu. W kazdej iteracji \code{BC} poprzez metode
+            \code{apply} aktualizuje wartosci na lewym brzegu siatki obliczeniowej.            
+            %wartość warunku brzegowego dotyczącego natężenia fali
+            %elektromagnetycznej (laserowej) wchodzącej do pola symulacji z
+            %lewej strony.
     \end{itemize}
 
     Istotne metody klasy \code{Grid}, o których należy wspomnieć, to:
@@ -554,6 +600,8 @@
     wersja tej metody wykonuje pierwszą, początkową iterację równań ruchu,
     która pozwala na zachowanie symplektyczności integratora równań ruchu,
     \todo[inline]{stylistyka?} co pomaga zachować energię cząstek w symulacji.
+    W tym momencie jest tez tworzony plik \code{.hdf5}, do ktorego zapisywane sa
+    dane gromadzone w czasie symulacji.
 
     Aby uruchomić symulację, należy wywołać jedną z metod:
     \begin{itemize}
@@ -568,10 +616,17 @@
     \end{itemize}
 
     \subsubsection{Pliki pomocnicze}
-    Poza powyższymi program jest podzielony na pliki: \todo[inline]{aktualizacja}
+    Poza powyższymi program jest podzielony na pliki z implementacjami algorytmow numerycznych,
+    co pozwala na zwiekszenie niezaleznosci testow oraz zwieksza modularnosc kodu. 
     \begin{itemize}
+        \item BoundaryCondition
+        \item FieldSolver
+        \item particle\_push
+        \item field\_interpolation
+        
         \item algorithms\_grid - zawiera algorytmy dotyczące rozwiązywania
             równań Maxwella na dyskretnej siatce
+        
         \item algorithms\_interpolation - zawiera algorytmy interpolujące pola
             z cząstek na siatkę i odwrotnie
         \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie
@@ -593,3 +648,13 @@
     \end{itemize}
 
     Algorytmiczne testy jednostkowe są zawarte w katalogu \code{tests}.
+    \subsection{Profilowanie}
+    W celu zmierzenia wydajnosci kodu zastosowano nastepujace techniki:
+    \subsubsection{cProfile}
+    Uruchamianie kodu w celu zmierzenia wydajnosci polegalo na uruchomieniu skryptu \code{make benchmark},ktory:
+    1. Czysci zawartosc folderu data_analysis
+    2. Uruchamia srodowisko Anaconda zawierajace bardziej zoptymalizowane od zwyczajnych wersje biblioteki Numpy
+    3. Uruchamia skrypt fulllaser.py w trybie cProfile i zapisuje dane do
+    \subsubsection{line_profiler}
+    \subsubsection{IPython timeit}
+    \subsubsection{snakeviz}
