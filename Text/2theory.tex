@@ -17,18 +17,17 @@
     wiemy obecnie, strumieni elektronów.
 
     Globalny wzrost zainteresowania fizyką plazmy na arenie geopolitycznej
-    rozpoczął się w latach '50 ubiegłego wieku, gdy uświadomiono sobie, że
-    można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy
-    jądrowej, \todo[inline]{TODO: reference: fusion in europe history of
-    fusion} które mogą mieć zastosowania w energetyce jako następny etap
-    rozwoju po reakcjach rozpadu wykorzystywanych w ``klasycznych''
-    elektrowniach jądrowych. Był to jeden z elementów zimnowojennego wyścigu
-    technologicznego między Stanami Zjednoczonymi a ZSRR, jak również jeden z
-    projektów mających na celu ponowne nawiązanie współpracy naukowej między
-    supermocarstwami po zakończeniu tego konfliktu. \todo[inline]{TODO
-    reference piece of the sun} Obecnie trwają intensywne badania nad tym
-    problemem, których dotychczasową kulminacją jest budowany we Francji tokamak
-    ITER.
+    rozpoczął się w latach czterdziestych ubiegłego wieku, gdy uświadomiono sobie,
+    że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy
+    jądrowej, 
+    które mogą mieć zastosowania w energetyce jako następny etap rozwoju po
+    reakcjach rozpadu wykorzystywanych w ``klasycznych'' elektrowniach jądrowych.
+    Był to jeden z elementów zimnowojennego wyścigu technologicznego między Stanami
+    Zjednoczonymi a ZSRR, jak również jeden z projektów mających na celu ponowne
+    nawiązanie współpracy naukowej między supermocarstwami po zakończeniu tego
+    konfliktu. Obecnie trwają intensywne badania nad tym problemem, których
+    dotychczasową kulminacją jest budowany we Francji tokamak ITER i planowany
+    DEMO.
 
     Poza tym ogromnym projektem plazmy mają szerokie zastosowania w obecnym
     przemyśle, na przykład:
@@ -47,18 +46,21 @@
     pra-komputerowa fizyka miała ogromne problemy z merytorycznymi badaniami
     zachowania plazmy poza wybranymi, mocno uproszczonymi reżimami. Postęp w
     badaniach plazmy, jak sugeruje rozwój technologii kontrolowanej syntezy
-    jądrowej, jest silnie skorelowany \todo[inline]{ref youtube wykład, prezentacja} z
+    jądrowej, jest silnie skorelowany z % TODO: odniesienie - wykład z youtube, muszę go znaleźć
     rozwojem mocy obliczeniowej oraz algorytmów symulacyjnych.
 
     \subsection{Modelowanie i symulacja plazmy}
 
     Modelowanie zjawisk z zakresu fizyki plazmy jest jednym z bardziej
-    złożonych problemów fizyki komputerowej.  Głównym, koncepcyjnie, powodem
+    złożonych problemów fizyki komputerowej. Głównym, koncepcyjnie, powodem
     uniemożliwiającym zastosowanie prostych metod symulacji znanych z
     newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda
     cząstka oddziałuje z każdą inną nawzajem poprzez niepomijalne oddziaływania
     kulombowskie, skalujące się z odległością jak
-    $\approx r^{-2}$.
+    $\approx r^{-2}$. Paradoksalnie, na dużych odległościach oddziaływania
+    te znoszą się, co rozumie się w plazmie jako \emph{kwaziobojętność} - jednak
+    bez uwzględnienia oddziaływań od wszystkich cząstek nie osiągnie się tego
+    efektu,
 
     Z powodu dużej liczby cząstek w układach plazmowych, jedynymi podejściami
     fundamentalnymi (jako opierającymi się na fundamentalnej fizyce) są opisy
@@ -73,13 +75,6 @@
     z równaniami Maxwella na ewolucję pola elektromagnetycznego. Równanie
     Vlasova może zostać rozszerzone do równania Fokkera-Plancka uwzględniającego
     bezpośrednie kolizje międzycząsteczkowe.
-
-
-    \begin{equation}
-        \frac{d} {dt} f_{\alpha} (\vec{x}, \vec{v}, t) - \nabla f - \nabla_{\vec{v}} (\vec{v} \times \vec{B} + \vec{E})= f_{coll}
-        \label{eqn:Vlasov}
-    \end{equation}
-        \todo[inline]{wzór na równanie Vlasova}
 
     W praktyce równanie Vlasova jest trudne do rozwiązania poza trywialnymi
     przypadkami o ułatwiających problem symetriach.  Jednym z powodów tej
@@ -107,26 +102,26 @@
         \item modele dyskretne oparte na samplowaniu dystrybucji plazmy przy
             użyciu dyskretnych cząstek, pozwalające w prosty sposób uzyskać
             dobre przybliżenie faktycznego ruchu cząstek w plazmie i prądów
-            generowanych tym ruchem.
+            generowanych tym ruchem. Pozwalają na wizualizację efektów działań
+            pól, ale potrafią być mało wydajne do modelowania efektów kolektywnych.
     \end{enumerate}
 
-    Prawdopodobnie najpopularniejszym modelem z tej trzeciej kategorii są modele
-    Particle-in-cell.
+    Istnieje bardzo popularna klasa modeli łączących cechy kategorii pierwszej i trzeciej.
+    Są to tak zwane modele Particle-in-cell.
 
     \subsection{Modele Particle-in-cell}
 
-    Idea modelu particle-in-cell (\emph{PIC}) jest wyjątkowo prosta i opiera
-    się na idei przyspieszenia najbardziej złożonego obliczeniowo kroku
-    symulacji dynamiki molekularnej, czyli obliczania sił międzycząsteczkowych.
-    Cząstki poruszają się w ciągłej, Lagrange'owskiej przestrzeni.  Ich ruch
-    wykorzystywany jest do zebrania informacji dotyczącej gęstości ładunku i
-    prądu na dyskretną, Eulerowską siatkę. Na siatce rozwiązane są (jako
-    równania różniczkowe cząstkowe) równania Maxwella, dzięki którym otrzymuje
-    się pola elektryczne i magnetyczne, które z powrotem są przekazane do
-    położeń cząstek.  Obliczeniowo, uwzględniając koszty odpowiednich
-    interpolacji, pozwala to zredukować złożoność kroku obliczenia sił
-    międzycząsteczkowych do $n \log{n}$ z $n^2$ \todo[inline]{wyrazić złożoność
-    PIC przez rozmiar siatki}
+    Idea modelu particle-in-cell (dalej nazywanego \emph{PIC}) jest wyjątkowo
+    prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo
+    kroku symulacji dynamiki molekularnej, czyli obliczania sił
+    międzycząsteczkowych.  Cząstki poruszają się w ciągłej, Lagrange'owskiej
+    przestrzeni.  Ich ruch wykorzystywany jest do zebrania informacji dotyczącej
+    gęstości ładunku i prądu na dyskretną, Eulerowską siatkę. Na siatce rozwiązane
+    są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym
+    otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane do
+    położeń cząstek.  Obliczeniowo, uwzględniając koszty odpowiednich interpolacji,
+    pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych do $n
+    \log{n}$ z $n^2$ \todo[inline]{\wyrazić{}<++> złożoność PIC przez rozmiar siatki}
 
     \subsubsection{Pętla obliczeniowa PIC}
     Obliczeniowo algorytm particle-in-cell składa się z czterech elementów
@@ -217,8 +212,8 @@
 
     Gęstość takiej makrocząstki, oznaczana $n_{pic}$, oznacza innymi słowy
     liczbę rzeczywistych cząstek, jakie reprezentuje sobą jedna makrocząstka.
-    \todo[inline]{To jest generalnie moja własna analiza i nie jestem jej w
-    100\% pewien, ale tak 80\% to dałbym.}
+    \todo[inline]{To jest generalnie moja własna interpretacja tej wielkości, ale wszystkie wzory
+    zdają się zgadzać.}
 
     \subsection{Problem testowy}
 
@@ -230,7 +225,9 @@
     literaturze model 1D-3D.  O ile położenia cząstek są jednowymiarowe ze
     względu na znaczną symetrię cylindryczną układu, cząstki mają prędkości w
     pełnych trzech wymiarach. Jest to konieczne ze względu na oddziaływania
-    cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu.
+    cząstek z polem elektromagnetycznym propagującym się wzdłuż osi układu
+    i możliwość dowolnego dobrania kierunku polaryzacji promieniowania
+    laserowego w symulacji.
 
     Układ ten jest silnie zbliżony do rzeczywistych eksperymentów prowadzonych
     w Instytucie Fizyki Plazmy i Laserowej Mikrosyntezy.  \todo[inline]{Tu bym
@@ -245,7 +242,7 @@
     (zwłaszcza w astronomii). W zakresie symulacji w ostatnich czasach powstały
     kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice
     płynów.  Nie można tu nie wspomnieć o utworzonym niedawno hydrodynamicznym kodzie
-    PyFR, łączącym szybkie obliczenia w CUDA C i FORTRANie \todo[inline]{sprawdzić czy fortran}
+    PyFR, łączącym szybkie obliczenia w CUDA C i Fortranie \todo[inline]{sprawdzić czy fortran}
     z wysokopoziomowością Pythona. Uruchomiono go na klastrze \todo[inline]{klaster}
     i udowodniono jego skalowanie do poziomów \todo[inline]{obejrzeć tamtą prezentację}
     \todo[inline]{refka i opis PyFR}
