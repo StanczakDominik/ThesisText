@@ -13,3 +13,4 @@ Source/*.pdf
 *.swp
 diff_build
 diff.tex
+.ipynb_checkpoints

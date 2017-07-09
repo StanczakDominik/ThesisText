@@ -120,8 +120,7 @@
     są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym
     otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane do
     położeń cząstek.  Obliczeniowo, uwzględniając koszty odpowiednich interpolacji,
-    pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych do $n
-    \log{n}$ z $n^2$ \todo[inline]{\wyrazić{}<++> złożoność PIC przez rozmiar siatki}
+    pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych do złożoności $O(n)$ z $O(n^2)$
 
     \subsubsection{Pętla obliczeniowa PIC}
     Obliczeniowo algorytm particle-in-cell składa się z czterech elementów
@@ -147,8 +146,10 @@
         \label{divergence-equations}
     \end{align}
     rozwiązywane iteracyjnie (metody takie jak Gaussa-Seidela lub gradientów
-    sprzężonych) \todo[inline]{ref} lub spektralnie, przy użyciu transformat
-    Fouriera bądź Hankela. \todo[inline]{ref} Metody lokalne z kolei
+    sprzężonych) % TODO: ref
+     lub spektralnie, przy użyciu transformat
+    Fouriera bądź Hankela. % TODO ref
+     Metody lokalne z kolei
     wykorzystują równania rotacyjne (prawa Ampera-Maxwella oraz Faradaya)
     \begin{align}
         \nabla \times \vec{E} = -\partial \vec{B} / \partial t
@@ -179,7 +180,7 @@
     sił elektromagnetycznych (aktualizacja prędkości). Należy zauważyć, że
     modele PIC nie modelują bezpośrednich kolizji między cząstkami. Kolizje
     mogą jednak zostać dodane niebezpośrednio, na przykład poprzez metody Monte
-    Carlo. \todo[inline]{refka}
+    Carlo. % TODO refka
 
     Jako że każda cząstka, zakładając znane pola elektromagnetyczne w jej
     położeniu, porusza się niezależnie, jest to kolejny fragment doskonale
@@ -200,7 +201,8 @@
     gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej bądź setnej
     gęstości krytycznej plazmy $n_c$, która oznacza taką koncentrację
     elektronów, przy której fala laserowa zaczyna być tłumiona zamiast być
-    przepuszczaną przez plazmę.  \todo[inline]{zweryfikować}
+    przepuszczaną przez plazmę.  % TODO zweryfikować
+
 
     \begin{equation}
         n_c = m_e \varepsilon_0 * {(\frac{2 \pi c}{e \lambda})}^2
@@ -236,16 +238,20 @@
     \subsection{Python}
     Python jest wysokopoziomowym, interpretowanym językiem programowania,
     którego atutami są szybkie prototypowanie, bogaty zestaw bibliotek
-    numerycznych\todo[inline]{dopisać zalety}
+    numerycznych% TODO dopisać zalety
+
 
     Python znajduje zastosowania w analizie danych, uczeniu maszynowym
     (zwłaszcza w astronomii). W zakresie symulacji w ostatnich czasach powstały
     kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice
     płynów.  Nie można tu nie wspomnieć o utworzonym niedawno hydrodynamicznym kodzie
-    PyFR, łączącym szybkie obliczenia w CUDA C i Fortranie \todo[inline]{sprawdzić czy fortran}
-    z wysokopoziomowością Pythona. Uruchomiono go na klastrze \todo[inline]{klaster}
-    i udowodniono jego skalowanie do poziomów \todo[inline]{obejrzeć tamtą prezentację}
-    \todo[inline]{refka i opis PyFR}
+    PyFR, łączącym szybkie obliczenia w CUDA C i Fortranie % TODO sprawdzić czy fortran
+
+    z wysokopoziomowością Pythona. Uruchomiono go na klastrze % TODO klaster
+
+    i udowodniono jego skalowanie do poziomów % TODO obejrzeć tamtą prezentację
+    % TODO refka i opis PyFR
+
 
     Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w
     nim zewnętrznych bibliotek napisanych na przykład w C lub Fortranie, co
@@ -261,7 +267,8 @@
     zastąpienia operacjami wektorowymi iteracji po tablicach, powszechnie
     stosowanych w metodach numerycznych i będących znanym słabym punktem
     Pythona.
-    \todo[inline]{REFERENCE źródło na powolność pętli}
+    % TODO REFERENCE źródło na powolność pętli
+
 
     Pod zewnętrzną powłoką zawiera odwołania do znanych, wypróbowanych i
     sprawdzonych w numeryce modułów \code{LAPACK}, \code{BLAS} napisanych w
@@ -269,11 +276,13 @@
     \emph{de facto} standard większości obliczeń numerycznych w Pythonie.
 
     Należy zauważyć, że operacje matematyczne w \code{Numpy} są automatycznie
-    zrównoleglane \todo[inline]{refka intel MKL} tam, gdzie pozwala na to
+    zrównoleglane % TODO refka intel MKL
+     tam, gdzie pozwala na to
     niezależność obliczeń.
 
     Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD.
-    \todo[inline]{refka}
+    % TODO refka
+
 
     \subsubsection{scipy}
     Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy},
@@ -281,28 +290,35 @@
     numerycznych służących między innymi całkowaniu, optymalizacji, algebrze
     liniowej czy transformatom Fouriera.  W naszym przypadku stosujemy zawarte
     w tej bibliotece funkcje całkujące do określenia początkowego profilu
-    gęstości plazmy.  \todo[inline]{czy stosuję scipy gdzieś jeszcze}
+    gęstości plazmy.  % TODO czy stosuję scipy gdzieś jeszcze
+
 
     \subsubsection{Numba}
     \code{numba} to biblioteka służąca do kompilacji just-in-time wysokopoziomowego
     kodu Pythona do kodu niskopoziomowego przy pierwszym uruchomieniu programu. W
     wielu przypadkach pozwala na osiągnięcie kodem napisanym w czystym Pythonie
     wydajności marginalnie niższej bądź nawet równej do analogicznego programu w C
-    bądź Fortranie. \todo[inline]{refka} Jednocześnie należy zaznaczyć prostotę jej
+    bądź Fortranie. % TODO refka
+     Jednocześnie należy zaznaczyć prostotę jej
     użycia:
 
-    \todo[inline]{fragment kodu. @jit przed kodem}
+    % TODO fragment kodu. @jit przed kodem
+
 
     Istniejącym od niedawna kodem implementującym tą metodę jest FBPIC
-    \todo[inline]{refka}
+    % TODO refka
+
 
     \subsubsection{HDF5}
     HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych
     liczbowych w drzewiastej, skompresowanej strukturze danych, razem z
     równoległym, wielowątkowym zapisem tych danych.  W Pythonie implementuje go
-    biblioteka h5py. \todo[inline]{reference h5py} Używa się go na przykład w
-    \todo[inline]{lista miejsc gdzie używają hdf5}
-    \todo[inline]{https://github.com/PPPLDeepLearning/plasma-python}
+    biblioteka h5py. % TODO reference h5py
+     Używa się go na przykład w
+    % TODO lista miejsc gdzie używają hdf5
+
+    % TODO https://github.com/PPPLDeepLearning/plasma-python
+
 
     W bieżącej pracy wykorzystuje się go do przechowywania danych numerycznych
     dotyczących przebiegu symulacji, pozwalających na ich dalsze przetwarzanie
@@ -317,13 +333,16 @@
     przedstawiających przebiegi czasowe symulacji.
 
     Matplotlib również jest oprogramowaniem otwartym, udostępnianym na licencji
-    \todo[inline]{matplotlib license, reference}
+    % TODO matplotlib license, reference
+
 
     \subsubsection{py.test}
     Przy pracy nad kodem użyto frameworku testowego \code{py.test}
-    \todo[inline]{refenrece} Obsługa testów jest trywialna:
+    % TODO refenrece
+     Obsługa testów jest trywialna:
 
-    \todo[inline]{przykład testu z programu}
+    % TODO przykład testu z programu
+
 
     Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie
     objawia się zazwyczaj błędem wykonywania programu, a jedynie błędnymi
@@ -337,20 +356,24 @@
     Dobrym przykładem skutecznego testu jednostkowego jest porównanie wyników z
     fragmentu algorytmu (na przykład depozycji ładunku, który to test zawarty
     jest w pliku) \code{pythonpic/tests/test\_current\_deposition.py}
-    \todo[inline]{sprawdzić urla} z wynikami z poprzedniego, zweryfikowanego
+    % TODO sprawdzić urla
+     z wynikami z poprzedniego, zweryfikowanego
     programu, bądź z obliczeniem ręcznym.
 
     \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji
-    \todo[inline]{sprawdzić licencję}
+    % TODO sprawdzić licencję
+
 
     \subsubsection{Travis CI}
     Nieocenionym narzędziem w pracy nad kodem był system ciągłej integracji
-    (\emph{continuous integration}) Travis CI \todo[inline]{refka} dostępny za
+    (\emph{continuous integration}) Travis CI % TODO refka
+     dostępny za
     darmo dla projektów open-source. Travis pobiera aktualne wersje kodu przy
     każdej aktualizacji wersji dostępnej na serwerze GitHub i uruchamia testy,
     zwracając komunikat o ewentualnym niepowodzeniu i pozwalając na jednoczesne
     uruchamianie bieżących, intensywnych symulacji przy jednoczesnym
-    uruchamianiu lżejszych, acz wciąż zasobożernych \todo[inline]{to słowo}
+    uruchamianiu lżejszych, acz wciąż zasobożernych % TODO to słowo
+
     symulacji testowych i testów algorytmicznych.
 
     \subsubsection{snakeviz}
@@ -360,4 +383,6 @@
     symulacji. Pozwala w wygodny sposób zbadać, które fragmenty kodu najbardziej
     spowalniają symulację, które są najlepszymi kandydatami do optymalizacji, oraz
     jak skuteczne (bądź nieskuteczne) okazują się próby polepszenia ich wydajności.
-    \todo[inline]{refka} \todo[inline]{grafika snakeviz}
+    % TODO refka
+     % TODO grafika snakeviz
+
