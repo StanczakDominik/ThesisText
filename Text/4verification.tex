@@ -52,55 +52,85 @@
             \end{enumerate}
     \end{enumerate}
 
-    \subsubsection{Testy symulacyjne}
+    \subsection{Testy symulacyjne - przypadki elektrostatyczne}
     Testy symulacyjne polegały na uruchomieniu niewielkiej symulacji testowej z
     różnymi warunkami brzegowymi i ilościowym, automatycznym zweryfikowaniu
     dynamiki zjawisk w niej zachodzących.
 
     Zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
     \subsubsection{oscylacje zimnej plazmy}
-    Jest to efektywnie fala stojąca. Jednorodne rozmieszczenie cząstek z zerową
-    prędkością początkową (stąd określenie "zimna plazma" jako nietermalna)
-    \todo[inline]{czy ja ruszam prędkości czy położenia i czy to nie powinno
-    zmienić fazy} jednego typu na okresowej siatce z jednoczesnym wysunięciem
-    ich z położeń równowagi o $\Delta x = A \sin(kx)$, gdzie $k = n 2 \pi / L$,
-    pozwala na obserwację oscylacji cząstek wokół ich stabilnych położeń
-    równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
-    elipsy, co pozwala wnioskować że ruch ten jest harmoniczny.
+    Jest to efektywnie elektrostatyczna fala stojąca. Symulacja zaczyna z ujemnymi cząstkami
+o zerowej prędkości początkowej, rozłożonymi w okresowym pudełku symulacyjnym
+równomiernie z nałożonym na nie sinusoidalnym zaburzeniem:
 
-    Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
-    dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim \todo[inline]{i co}
+\begin{align}
+x = x_0 + x_1
+x_0 = L * n / N
+x_1 = A  \sin(k x_0)=A \sin(2 \pi n x_0 / L)
+\end{align}
 
-    Jest to też łoże testowe \todo[inline]{sformułowanie} dla innych
-    przypadków, takich jak efekt Kaiser-Wilhelm
-    \todo[inline]{sformułowanie z BL}
-    oraz \todo[inline]{czegoś jeszcze.}
+Określenie ``zimna plazma'' bierze się z nietermalnego, a deltowego
+rozkładu prędkości cząstek - jest to faktycznie strumień cząstek o stałej
+(w tym szczególnym przypadku zerowej) prędkości).
+
+Gęstość ładunku jest wyzerowana w pierwszym kroku algorytmu rozwiązywania pola elektrycznego
+poprzez wyzerowanie zerowej składowej fourierowskiej gęstości ładunku, cojest jednoznaczne 
+z przyjęciem nieskończenie masywnych i nieruchomych jonów dodatnich dokładnie neutralizujących gęstość
+ładunku elektronów.
+
+Sytuacja ta
+pozwala na obserwację oscylacji cząstek wokół ich stabilnych położeń
+równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
+elipsy, co pozwala wnioskować że ruch ten jest z dobrym przybliżeniem harmoniczny.
+Oczywiście, nie jest do do końca oscylacja harmoniczna z powodu odchyleń pola interpolowanego
+z Eulerowskiej siatki od generowanego faktycznym potencjałem $ \sim x^2 $.
+
+Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
+dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji, 
+
+Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
+symulacja elektrostatyczna - na przykład długoskalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
+znikać), % TODO inne rzeczy
+
     \subsubsection{niestabilność dwóch strumieni}
-    \todo[inline]{przeformułować}
-    Różnice między tym a poprzednim przypadkiem to obecność dwóch jednorodnie
-    rozłożonych strumieni cząstek z przeciwnie skierowanymi prędkościami wzdłuż
-    osi układu.
+W tym przypadku symulacja również zawiera zimną plazmę, lecz tym razem są to dwa strumienie ujemnych cząstek
+o stałych, przeciwnych sobie prędkościach $v_0$ oraz $-v_0$.
 
     Dla niewielkich prędkości \todo[inline]{sparametryzować} obserwuje się
-    liniowy reżim \todo[inline]{bunchingu}
+    liniowy reżim cząstek - oba strumienie pozostają stabilne. Obserwuje się niewielkie oscylacje oraz
+grupowanie się cząstek w rejony koherentnej większej gęstości wewnątrz strumienia (opisany przez Birdsalla i Langdona \emph{bunching}).
 
     Dla dużych prędkości \todo[inline]{sprawdzić} obserwuje się nieliniowe
-    zachowanie cząstek, które zaczynają się mieszać ze sobą, zaś cały układ się
-    termalizuje.
-     \todo[inline]{opisać dalej}
-    \subsection{Symulacja oddziaływania lasera z tarczą wodorową}
+    zachowanie cząstek w przestrzeni fazowej. Oscylacje prędkości cząstek przybierają rząd wielkości porównywalny
+    z początkową różnicą prędkości strumieni.
+ Strumienie zaczynają się mieszać ze sobą nawzajem, zaś cały układ się termalizuje. Energia kinetyczna 
+ strumieni zamienia się w energię potencjalną pola równowagowego ą % TODO CHECK
+oraz termalną energię kinetyczną, co sprawia, że średnia prędkość obu strumieni ulega zmniejszeniu. % TODO CHECK
 
-    Jako warunki początkowe przyjęto plazmę z liniowo narastającą funkcją
-    rozkładu gęstości (jest to tak zwany obszar prejonizacji)
-    \todo[inline]{preplazmy?}
+To oraz szybkość narastania niestabilności jest obiektem automatycznych testów sprawdzających poprawność symulacji.
+% TODO TEST
 
-    Gęstość rozkładu plazmy przyjęto jako
+\subsubsection{Propagacja fali}
+W tym przypadku symulacja nie zawiera plazmy, a badana jest jedynie propagacja fali elektromagnetycznej w obszarze
+symulacji dla różnych charakterystyk czasowych. % TODO KABAT
+Testy jednostkowe obejmują zachowanie energii % TODO POYNTING FLUX
+
+\subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła}
+% TODO
+
+    \subsection{Symulacja elektromagnetyczna - oddziaływanie z tarczą wodorową}
+
+    Jako warunki początkowe przyjęto plazmę rozbitą na dwie części - \emph{preplazmę} o narastającej funkcji rozkładu
+    gęstości oraz plazmę właściwą o stałej gęstości. Funkcja gęstości jest generowana automatycznie poprzez metodę opisaną
+    w % TODO BIRDSALL
+    i jest normalizowana do danego poziomu maksymalnej gęstości w obszarze plazmy właściwej przy zadanej liczbie makrocząstek.
 
     Początkowe prędkości cząstek przyjęto jako zerowe.
     \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z}
 
-    Za moc lasera przyjęto $10^{23} W/m^2$, \todo[inline]{ASK: czy to nie jest
-    za dużo?} zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG)
+    Za moc lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$, 
+    zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono badania w polaryzacjach liniowych oraz
+    kołowej wiązki laserowej.
 
     Długość obszaru symulacji to \todo[inline]{wstawić}.
 
@@ -111,5 +141,11 @@
     \todo[inline]{zrobić tabelkę na stałe}
 
     \subsection{Benchmarki - szybkość, zasobożerność} \todo[inline]{fix}
-     Do przeprowadzenia testów wydajności kodu użyto \todo[inline]{cProfile}
+     Do przeprowadzenia testów wydajności kodu użyto
+* ipython
+* cprofile
+* runsnake???
+Za wskaźnik efektów optymalizacji przyjętu całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji
+\code{iteration}.
+
     \subsection{Problemy napotkane w trakcie pisania kodu}

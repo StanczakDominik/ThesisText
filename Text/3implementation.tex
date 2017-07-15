@@ -468,6 +468,21 @@ porównaniu do efektów, jaki ma na nich impuls laserowy.
 %Rozwiązaniem tego problemu jest losowa zamiana prędkości między losowo
 %wybranymi cząstkami.  \todo[inline]{dopisać jak będzie zrobione.}
 
+
+\subsubsection{Warunki brzegowe}
+Program implementuje dwa rodzaje warunków brzegowych dla cząstek:
+\begin{itemize}
+\item okresowy, do sytuacji o symetrii translacyjnej(cząstka opuszczająca rejon symulacji z prawej strony wraca do niego z lewej strony),
+\item nieokresowy, do skończonych układów bez symetrii translacyjnej (cząstki opuszczające rejon symulacji zostają usunięte i nie są brane
+dalej pod uwagę).
+\end{itemize}
+
+Przygotowane są również analogiczne wrappery % TODO word
+algorytmów obliczeniowych depozycji i interpolacji.
+
+Dla pól możliwe jest dołączenie do symulacji obiektu reprezentującego \code{Laser}, 
+generującego falę elektromagnetyczną o wybranej polaryzacji na lewej krawędzi obszaru symulacji.
+
 \subsection{Opis i treść kodu}
 Cały kod programu w celu reprodukowalności wyników tworzony był i jest
 dostępny na platformie Github \todo[inline]{link}
