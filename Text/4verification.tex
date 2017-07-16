@@ -126,13 +126,13 @@ Testy jednostkowe obejmują zachowanie energii % TODO POYNTING FLUX
     i jest normalizowana do danego poziomu maksymalnej gęstości w obszarze plazmy właściwej przy zadanej liczbie makrocząstek.
 
     Początkowe prędkości cząstek przyjęto jako zerowe.
-    \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z}
+    \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
 
     Za moc lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$, 
     zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono badania w polaryzacjach liniowych oraz
     kołowej wiązki laserowej.
 
-    Długość obszaru symulacji to \todo[inline]{wstawić}.
+    Długość obszaru symulacji to około $10.6 \mu$m.
 
     Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek
     elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według
@@ -140,12 +140,21 @@ Testy jednostkowe obejmują zachowanie energii % TODO POYNTING FLUX
 
     \todo[inline]{zrobić tabelkę na stałe}
 
-    \subsection{Benchmarki - szybkość, zasobożerność} \todo[inline]{fix}
-     Do przeprowadzenia testów wydajności kodu użyto
-* ipython
-* cprofile
-* runsnake???
-Za wskaźnik efektów optymalizacji przyjętu całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji
-\code{iteration}.
+    \subsection{Profilowanie}
+    W celu zmierzenia wydajności kodu zastosowano następujące techniki:
+    \subsubsection{cProfile}
+    Uruchamianie kodu w celu zmierzenia wydajności polegało na uruchomieniu skryptu \code{make benchmark}, który:
+    \begin{enumerate}
+    \item Czyści zawartość folderu \code{data\_analysis}
+    \item Uruchamia środowisko Anaconda zawierające bardziej zoptymalizowane od zwyczajnych wersje biblioteki Numpy
+    \item Uruchamia skrypt \code{fulllaser.py} w trybie \code{cProfile} i zapisuje dane
+    \end{enumerate}
+    
+    Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
 
-    \subsection{Problemy napotkane w trakcie pisania kodu}
+    Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji
+    \code{iteration}.
+    \subsubsection{line\_profiler}
+    \subsubsection{IPython timeit}
+
+    \subsection{Problemy napotkane w trakcie pisania kodu} % TODO
