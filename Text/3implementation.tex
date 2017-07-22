@@ -11,7 +11,7 @@ względem energii cząstek. \todo[inline]{reference} W symulacjach typu
 Particle-in-cell konieczne jest zastosowanie innych algorytmów. Dobrym
 algorytmem symplektycznym jest na przykład powszechnie znany
 \emph{leapfrog}, polegający na przesunięciu prędkości o połowę iteracji
-czasowej względem położeń.\todo[inline]{reference} Mimo tego, że energie
+czasowej względem położeń.\cite{computational-physics} Mimo tego, że energie
 cząstek w ruchu obliczonym tym integratorem nie są lokalnie stałe na
 krótkich skalach czasowych, to jednak zachowują energię na skali globalnej.
 
@@ -21,20 +21,20 @@ W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć
 zwykłego algorytmu \emph{leapfrog}. \todo[inline]{READ} Używa się tutaj
 specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
 elektromagnetycznym, tak zwanego integratora Borysa,
-\todo[inline]{REFERENCE} który rozbija pole elektryczne na dwa impulsy,
+\cite{boris} który rozbija pole elektryczne na dwa impulsy,
 między którymi następują dwie rotacje polem magnetycznym. Algorytm jest
 dzięki temu symplektyczny i długofalowo zachowuje energię cząstek.
 
-\begin{align}
-    \vec{v}^- = \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n
-    \vec{t} = \frac{q dt} {2 m} \vec{B}^n
-    \vec{v'} = \vec{v}^- + \vec{v}^- \times \vec{t}
-    \vec{s} = \vec{t} / {(1 + t^2)}
-    \vec{v}^+ = \vec{v}^- + \vec{v'} \times \vec{s}
-    \vec{v}^{n+1/2} = \vec{v}^+ + \frac{q dt}{2m} \vec{E}^n
-    \vec{x}^{n+1} = \vec{x}^{n} + \vec{v}^{n+1/2} dt
+\begin{align*}
+    \vec{v}^- &= \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n \\
+    \vec{t} &= \frac{q dt} {2 m} \vec{B}^n \\
+    \vec{v'} &= \vec{v}^- + \vec{v}^- \times \vec{t} \\
+    \vec{s} &= \vec{t} / {(1 + t^2)} \\
+    \vec{v}^+ &= \vec{v}^- + \vec{v'} \times \vec{s} \\
+    \vec{v}^{n+1/2} &= \vec{v}^+ + \frac{q dt}{2m} \vec{E}^n \\
+    \vec{x}^{n+1} &= \vec{x}^{n} + \vec{v}^{n+1/2} dt \\
     \label{eqn:boris-pusher}
-\end{align}
+\end{align*}
 
 W naszym przypadku dochodzi jeszcze jedno utrudnienie związane z
 relatywistycznymi prędkościami osiąganymi przez cząstki (zwłaszcza
@@ -44,8 +44,8 @@ prędkość w układzie poruszającym się z cząstką $\vec{u}$, czego dokonuje
 się poprzez prostą transformację:
 
 \begin{align}
-    \vec{u} = \vec{v} \gamma
-    \gamma = \sqrt{1+{(u/c)}^2} = 1/\sqrt{1-{(v/2)}^2}
+    \vec{u} &= \vec{v} \gamma \\
+    \gamma &= \sqrt{1+{(u/c)}^2} = 1/\sqrt{1-{(v/2)}^2} \\
     \label{eqn:gamma-transformation}
 \end{align}
 
@@ -54,18 +54,19 @@ się poprzez prostą transformację:
 Kolejnym krokiem pętli obliczeniowej po rozwiązaniu równań ruchu na
 aktualizację prędkości, po której - przypomnijmy - dysponujemy położeniami
 cząstek $x^n$ w chwilach $n$ oraz ich prędkościami $v^{n+1/2}$ w chwilach
-$n+1/2$  \todo[inline]{CHECK} jest obliczenie prądów podłużnych i
+$n+1/2$  jest obliczenie prądów podłużnych i
 poprzecznych potrzebnych do obliczenia wartości pól elektromagnetycznych w
 kolejnej iteracji.
 
 W bieżącym programie gęstość ładunku jest tak naprawdę niepotrzebna w
-trakcie symulacji. Ewolucja pola następuje poprzez znajomość gęstości prądu.
-Jeżeli zaś pole elektromagnetyczne spełniało warunek \todo[inline]{prawa
-Gaussa} na początku, depozycja prądu w sposób zachowujący ładunek zapewni
-dalsze zachowanie tego warunku w koeljnych iteracjach.
+mechanice symulacji. Ewolucja pola następuje poprzez znajomość gęstości prądu.
+Jeżeli zaś pole elektromagnetyczne spełniało warunek
+prawa Gaussa \ref{poisson} na początku, depozycja prądu w sposób
+zachowujący ładunek zapewni dalsze zachowanie tego warunku w kolejnych
+iteracjach.
 
 Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać
-obliczone od podstaw na podstawie gęstości ładunku. \code{PythonPIC} pozwala
+obliczone od podstaw na podstawie gęstości ładunku. \pythonpic pozwala
 poradzić sobie z tym problemem. Pierwszą opcją jest ustawienie początkowych
 położeń ładunków na identyczne między cząstkami negatywnymi i dodatnimi, co
 pozwala na siłowe wyzerowanie gęstości ładunku i brak pola elektrycznego w
@@ -329,8 +330,8 @@ zapewnia stabilność na podstawie warunku Couranta.
 Wychodzimy z rotacyjnych równań Maxwella:
 
 \begin{align}
-    \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
-    \nabla \times \vec{B} = \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t}
+    \nabla \times \vec{B} &= \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
     \label{eqn:Maxwell-rotation-derivation}
  \end{align}
 Jako że symulacja zakłada symetrię układu wzdłuż osi propagacji lasera $x$,
@@ -345,19 +346,19 @@ elektromagnetycznego poprzecznego \todo[inline]{słowo - decouple}:
  \end{equation}
 
 Z kolei dla pola poprzecznego, sumując:
-\begin{equation}
-    \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}
-    \nabla \times \vec{B} = \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
-    \nabla \times (\vec{E} + \vec{B}) = -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
-    c = 1/{\sqrt{\mu_0 \varepsilon_0}}
-    \nabla \times (\vec{E} + \vec{B}) = -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
+\begin{align}
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t}
+    \nabla \times \vec{B} &= \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
+    \nabla \times (\vec{E} + \vec{B}) &= -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
+    c &= 1/{\sqrt{\mu_0 \varepsilon_0}}
+    \nabla \times (\vec{E} + \vec{B}) &= -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}
     \label{eqn:perpendicular-field-eq}
-\end{equation}
+\end{align}
 \todo[inline]{skończyć wyprowadzenie}
 Po dodaniu i odjęciu stronami:
 \begin{align}
-    \nabla \times (\vec{E} + c \vec{B}) = -\frac{\partial \vec{B}}{\partial t} + c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
-    \nabla \times (\vec{E} - c \vec{B}) = -\frac{\partial \vec{B}}{\partial t} - c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
+    \nabla \times (\vec{E} + c \vec{B}) &= -\frac{\partial \vec{B}}{\partial t} + c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
+    \nabla \times (\vec{E} - c \vec{B}) &= -\frac{\partial \vec{B}}{\partial t} - c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
     \label{eqn:Maxwell-rotation-derivation}
 \end{align}
 
@@ -477,7 +478,7 @@ Program implementuje dwa rodzaje warunków brzegowych dla cząstek:
 dalej pod uwagę).
 \end{itemize}
 
-Przygotowane są również analogiczne wrappery % TODO word
+Przygotowane są również analogiczne \english{wrappery} % TODO word
 algorytmów obliczeniowych depozycji i interpolacji.
 
 Dla pól możliwe jest dołączenie do symulacji obiektu reprezentującego \code{Laser}, 

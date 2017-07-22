@@ -47,7 +47,7 @@
     zachowania plazmy poza wybranymi, mocno uproszczonymi reżimami. Postęp w
     badaniach plazmy, jak sugeruje rozwój technologii kontrolowanej syntezy
     jądrowej, jest silnie skorelowany z % TODO: odniesienie - wykład z youtube, muszę go znaleźć
-    rozwojem mocy obliczeniowej oraz algorytmów symulacyjnych.
+    rozwojem mocy obliczeniowej oraz algorytmów symulacyjnych.\cite{youtube-plasma-algorithm-progress}
 
     \subsection{Modelowanie i symulacja plazmy}
 
@@ -58,7 +58,7 @@
     cząstka oddziałuje z każdą inną nawzajem poprzez niepomijalne oddziaływania
     kulombowskie, skalujące się z odległością jak
     $\approx r^{-2}$. Paradoksalnie, na dużych odległościach oddziaływania
-    te znoszą się, co rozumie się w plazmie jako \emph{kwaziobojętność} - jednak
+    te znoszą się, co rozumie się w plazmie jako \concept{kwaziobojętność} - jednak
     bez uwzględnienia oddziaływań od wszystkich cząstek nie osiągnie się tego
     efektu,
 
@@ -70,7 +70,6 @@
     sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz
     prędkości). Ewolucja czasowa funkcji rozkładu dokonuje się poprzez
     rozwiązanie wariantu równania Boltzmanna zwanego równaniem Vlasova,
-    \todo[inline]{Włazowa?}
     które sprzęga gęstości ładunku i prądu otrzymywane z funkcji dystrybucji
     z równaniami Maxwella na ewolucję pola elektromagnetycznego. Równanie
     Vlasova może zostać rozszerzone do równania Fokkera-Plancka uwzględniającego
@@ -104,6 +103,7 @@
             dobre przybliżenie faktycznego ruchu cząstek w plazmie i prądów
             generowanych tym ruchem. Pozwalają na wizualizację efektów działań
             pól, ale potrafią być mało wydajne do modelowania efektów kolektywnych.
+            \todo[inline]{czy na pewno należy rozróżniać kinetyczne i dyskretne?}
     \end{enumerate}
 
     Istnieje bardzo popularna klasa modeli łączących cechy kategorii pierwszej i trzeciej.
@@ -111,7 +111,7 @@
 
     \subsection{Modele Particle-in-cell}
 
-    Idea modelu particle-in-cell (dalej nazywanego \emph{PIC}) jest wyjątkowo
+    Idea modelu \concept{particle-in-cell} (dalej nazywanego \concept{PIC}) jest wyjątkowo
     prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo
     kroku symulacji dynamiki molekularnej, czyli obliczania sił
     międzycząsteczkowych.  Cząstki poruszają się w ciągłej, Lagrange'owskiej
@@ -120,7 +120,9 @@
     są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym
     otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane do
     położeń cząstek.  Obliczeniowo, uwzględniając koszty odpowiednich interpolacji,
-    pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych do złożoności $O(n)$ z $O(n^2)$
+    pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych do złożoności $O(n)$ z $O(n^2)$.
+    Oczywiście, jest to okupione zależnością złożoności od liczby punktów na siatce $m$, lecz jako że $m << n$,
+    jest to akceptowalne i korzystne.
 
     \subsubsection{Pętla obliczeniowa PIC}
     Obliczeniowo algorytm particle-in-cell składa się z czterech elementów
@@ -141,14 +143,14 @@
     metody globalne i lokalne. Metody globalne wykorzystują zazwyczaj równania
     dywergencyjne (prawo Gaussa dla pola elektrycznego)
     \begin{align}
-        \rho / \varepsilon_0 = \nabla \cdot \vec{E}
-        0 = \nabla \cdot \vec{B}
-        \label{divergence-equations}
+        \label{poisson}
+        \rho / \varepsilon_0 &= \nabla \cdot \vec{E} \\
+        \label{gauss}
+        0 &= \nabla \cdot \vec{B}
     \end{align}
     rozwiązywane iteracyjnie (metody takie jak Gaussa-Seidela lub gradientów
-    sprzężonych) % TODO: ref
-     lub spektralnie, przy użyciu transformat
-    Fouriera bądź Hankela. % TODO ref
+    sprzężonych)
+     lub spektralnie, przy użyciu transformat Fouriera lub Hankela \cite{fbpic}
      Metody lokalne z kolei
     wykorzystują równania rotacyjne (prawa Ampera-Maxwella oraz Faradaya)
     \begin{align}
