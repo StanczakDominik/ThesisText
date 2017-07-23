@@ -7,7 +7,7 @@ czwartego rzędu, znajdujący zastosowanie w wielorakich symulacjach.
 
 Niestety, w bieżącym kodzie nie można go zastosować ze względu na jego
 niesymplektyczność: mimo ogromnej dokładności jest on niestabilny pod
-względem energii cząstek. \todo[inline]{reference} W symulacjach typu
+względem energii cząstek\cite{computational-physics}. W symulacjach typu
 Particle-in-cell konieczne jest zastosowanie innych algorytmów. Dobrym
 algorytmem symplektycznym jest na przykład powszechnie znany
 \emph{leapfrog}, polegający na przesunięciu prędkości o połowę iteracji
@@ -18,7 +18,7 @@ krótkich skalach czasowych, to jednak zachowują energię na skali globalnej.
 %TODO IMAGE: chyba miałem to na coldplasma
 
 W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć
-zwykłego algorytmu \emph{leapfrog}. \todo[inline]{READ} Używa się tutaj
+zwykłego algorytmu \emph{leapfrog}. Używa się tutaj
 specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
 elektromagnetycznym, tak zwanego integratora Borysa,
 \cite{boris} który rozbija pole elektryczne na dwa impulsy,
@@ -63,7 +63,7 @@ mechanice symulacji. Ewolucja pola następuje poprzez znajomość gęstości pr�
 Jeżeli zaś pole elektromagnetyczne spełniało warunek
 prawa Gaussa \ref{poisson} na początku, depozycja prądu w sposób
 zachowujący ładunek zapewni dalsze zachowanie tego warunku w kolejnych
-iteracjach.
+iteracjach. \cite{bunemanvillasenor}
 
 Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać
 obliczone od podstaw na podstawie gęstości ładunku. \pythonpic pozwala
@@ -247,14 +247,14 @@ uśredniamy przekrycie na końcu ruchu z przekryciem na początku ruchu,
     w = {(s(x^{n+1}) + s(x^n))}
 \end{equation}
 
-Ostatecznie wkład do komórki "obecnej" w ciągu jednej iteracji pętli obliczeniowej to \todo[inline]{zweryfikować}
+Ostatecznie wkład do komórki ``obecnej'' w ciągu jednej iteracji pętli obliczeniowej to \todo[inline]{zweryfikować}
 to $w * q n v_{y, z} t / \Delta t$.
 zaś do dalszej, przekrywanej komórki jest to  $(1-w) * q n v_{y, z} t / \Delta t$.
 \todo[inline]{jakoś poprawić stylistykę chyba}
 
 Tablica prądów poprzecznych, do których zostają depozytowane, ma rozmiar
-\code{NG+4, 2}. Jest to spowodowane większą liczbą komórek, przez które liniowa depozycja
-poprzez przekrycie jest w stanie "sięgnąć".
+\shape{NG+4, 2}. Jest to spowodowane większą liczbą komórek, przez które liniowa depozycja
+poprzez przekrycie jest w stanie ``sięgnąć''.
 
 \todo[inline]{zdecydowanie stylistyka}
 
@@ -264,7 +264,7 @@ poprzez przekrycie jest w stanie "sięgnąć".
 
 Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
 Jak pokazują Buneman i Villasenor, numerycznie można zastosować dwa główne
-podejścia: \todo[inline]{refka Buneman}
+podejścia: \cite{bunemanvillasenor}
 
 \begin{enumerate}
     \item wykorzystać równania na dywergencję pola (prawa Gaussa) do
@@ -290,7 +290,7 @@ dodawania i mnożenia.
 * algorytm ewolucji pola staje się lokalny (do
 znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
 jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego
-sąsiadach \todo[inline]{jak to faktycznie wygląda z tym algo?} co zapobiega
+sąsiadach, co zapobiega
 problemowi informacji przebiegającej w symulacji szybciej niż światło oraz
 zapewnia stabilność na podstawie warunku Couranta.
 
@@ -330,7 +330,7 @@ zapewnia stabilność na podstawie warunku Couranta.
 Wychodzimy z rotacyjnych równań Maxwella:
 
 \begin{align}
-    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t}
+    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t} \\
     \nabla \times \vec{B} &= \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})
     \label{eqn:Maxwell-rotation-derivation}
  \end{align}
@@ -338,7 +338,7 @@ Jako że symulacja zakłada symetrię układu wzdłuż osi propagacji lasera $x$
 możemy przyjąć $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} =
 0 $.  Jednocześnie z prawa Gaussa dla pola magnetycznego wynika $B_x = 0$.
 Stąd równania dla pola elektrycznego podłużnego oraz pola
-elektromagnetycznego poprzecznego \todo[inline]{słowo - decouple}:
+elektromagnetycznego poprzecznego rozłączają się i można je rozwiązywać praktycznie oddzielnie.
 
 \begin{equation}
     (\nabla \times \vec{B})_x = 0 = \mu_0 (j_x + \varepsilon_0 \frac{\partial E_x}{\partial t})
@@ -408,10 +408,9 @@ czy raczej jej dyskretny odpowiednik
 \subsection{Warunki początkowe dla cząstek}
 
 W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w
-\todo[inline]{Birdsall Langdon} Jego działanie można łatwo zilustrować na
+\cite{birdsall}. Jego działanie można łatwo zilustrować na
 przykładzie początkowej funkcji gęstości cząstek zadanej dowolną funkcją
-analityczną. \todo[inline]{czy analityczna nie jest słowem zarezerwowanych
-dla tych na szeregi}
+wyrażoną wzorem analitycznym.
 
 Używając funkcji dystrybucji w jednym wymiarze zależnej jedynie od
 położenia znormalizowanej do liczby cząstek $N$, można wykonać całkowanie
@@ -478,7 +477,7 @@ Program implementuje dwa rodzaje warunków brzegowych dla cząstek:
 dalej pod uwagę).
 \end{itemize}
 
-Przygotowane są również analogiczne \english{wrappery} % TODO word
+Przygotowane są również analogiczne \english{wrappery} \todo[inline]{word}
 algorytmów obliczeniowych depozycji i interpolacji.
 
 Dla pól możliwe jest dołączenie do symulacji obiektu reprezentującego \code{Laser}, 
@@ -486,7 +485,7 @@ generującego falę elektromagnetyczną o wybranej polaryzacji na lewej krawędz
 
 \subsection{Opis i treść kodu}
 Cały kod programu w celu reprodukowalności wyników tworzony był i jest
-dostępny na platformie Github \todo[inline]{link}
+dostępny na platformie Github\cite{github-repo}
 
 \subsection{Struktura i hierarchia kodu}
 
