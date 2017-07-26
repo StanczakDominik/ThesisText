@@ -128,7 +128,7 @@
     Obliczeniowo algorytm particle-in-cell składa się z czterech elementów
     powtarzających się cyklicznie:
     \begin{itemize}
-        \item Zbierz (Gather)\\
+        \item Zbierz (\english{Gather})\\
     Depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej
     siatce poprzez interpolację, co pozwala na sprawne rozwiązanie na tej
     siatce równań Maxwella jako układu różnicowych równań cząstkowych zamiast
@@ -136,7 +136,7 @@
     kulombowskich między nimi.  W naszym elektromagnetycznym przypadku bardziej
     istotną jest depozycja prądu na siatkę, co szerzej tłumaczy następny
     fragment.
-    \item Rozwiąż (Solve)\\
+    \item Rozwiąż (\english{Solve})\\
     Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce.
     Znalezienie pól elektrycznego i magnetycznego na podstawie gęstości ładunku
     i prądu na siatce.  Istnieją dwie główne szkoły rozwiązywania tych równań:
@@ -155,7 +155,7 @@
     wykorzystują równania rotacyjne (prawa Ampera-Maxwella oraz Faradaya)
     \begin{align}
         \nabla \times \vec{E} = -\partial \vec{B} / \partial t
-        \nabla \times \vec{B} = \mu_0 \Big( \vec{J} + \varepsilon_0 \partial \vec{E} / \partial t
+        \nabla \times \vec{B} = \mu_0 \Big( \vec{J} + \varepsilon_0 \partial \vec{E} / \partial t )
         \label{rotation-equations}
     \end{align}
 
@@ -163,7 +163,7 @@
     nierelatywistycznych.  Metody lokalne pozwalają na ograniczenie szybkości
     propagacji zaburzeń do prędkości światła, co przybliża metodę numeryczną do
     fizyki zachodzącej w rzeczywistym układzie tego typu.
-    \item Rozprosz (Scatter) \\
+    \item Rozprosz (\english{Scatter}) \\
     Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły
     elektromagnetyczne działające na cząstki.  Należy przy tym zauważyć, że
     jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
@@ -172,10 +172,10 @@
     jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego
     powodu algorytmy Particle-in-cell nadają się doskonale do wykorzystania
     rosnącej mocy kart graficznych i architektur GPGPU.
-    \item Porusz (Push) \\
+    \item Porusz (\english{Push}) \\
     iteracja równań ruchu cząstek
     \begin{equation}
-        d \vec{p}/dt = \vec{F} = q (\vec{E} + \vec{v} \times \vec{B}
+        d \vec{p}/dt = \vec{F} = q (\vec{E} + \vec{v} \times \vec{B})
         \label{eq-of-motion}
     \end{equation}
     na podstawie ich prędkości (aktualizacja położeń) oraz działających na nie
