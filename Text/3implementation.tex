@@ -15,7 +15,7 @@ czasowej względem położeń.\cite{computational-physics} Mimo tego, że energi
 cząstek w ruchu obliczonym tym integratorem nie są lokalnie stałe na
 krótkich skalach czasowych, to jednak zachowują energię na skali globalnej.
 
-%TODO IMAGE: chyba miałem to na coldplasma
+\todo[inline]{IMAGE: chyba miałem to na coldplasma}
 
 W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć
 zwykłego algorytmu \emph{leapfrog}. Używa się tutaj
@@ -327,6 +327,10 @@ zapewnia stabilność na podstawie warunku Couranta.
 %    \label{eqn:fg-transform-inverse}
 %\end{align}
 
+\subsubsection{Solver globalny - elektrostatyczny}
+Za \cite{birdsall}, wychodzimy z równania Poissona:
+\todo[inline]{wyprowadzenie}
+\subsubsection{Solver lokalny}
 Wychodzimy z rotacyjnych równań Maxwella:
 
 \begin{align}

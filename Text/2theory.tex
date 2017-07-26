@@ -216,8 +216,6 @@
 
     Gęstość takiej makrocząstki, oznaczana $n_{pic}$, oznacza innymi słowy
     liczbę rzeczywistych cząstek, jakie reprezentuje sobą jedna makrocząstka.
-    \todo[inline]{To jest generalnie moja własna interpretacja tej wielkości, ale wszystkie wzory
-    zdają się zgadzać.}
 
     \subsection{Problem testowy}
 
@@ -239,23 +237,24 @@
 
     \subsection{Python}
     Python jest wysokopoziomowym, interpretowanym językiem programowania,
-    którego atutami są szybkie prototypowanie, bogaty zestaw bibliotek
-    numerycznych% TODO dopisać zalety
+    którego atutami są
+    \begin{itemize}
+    \item otwartość i dostępność
+    \item szybkie prototypowanie
+    \item możliwość łatwej integracji z innymi, niskopoziomowymi językami, między innymi C.
+    \item łatwy dostęp do szerokiej gamy darmowych blibliotek na licencji \english{open source}, w tym naukowych i numerycznych
+    \end{itemize}
 
-
-    Python znajduje zastosowania w analizie danych, uczeniu maszynowym
-    (zwłaszcza w astronomii). W zakresie symulacji w ostatnich czasach powstały
+    Python znajduje zastosowania w analizie danych i uczeniu maszynowym
+    (zwłaszcza w astronomii\cite{astropy}). W zakresie symulacji w ostatnich czasach powstały
     kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice
     płynów.  Nie można tu nie wspomnieć o utworzonym niedawno hydrodynamicznym kodzie
-    PyFR, łączącym szybkie obliczenia w CUDA C i Fortranie % TODO sprawdzić czy fortran
-
-    z wysokopoziomowością Pythona. Uruchomiono go na klastrze % TODO klaster
-
-    i udowodniono jego skalowanie do poziomów % TODO obejrzeć tamtą prezentację
-    % TODO refka i opis PyFR
+    PyFR, łączącym szybkie obliczenia w CUDA C i Fortranie z wysokopoziomowością Pythona. Uruchomiono go na klastrze 
+    i udowodniono jego skalowanie do poziomów \todo[inline]{sprawdzić czy
+    fortran, jaki to klaster, obejrzeć tamtą prezentację, refka i opis PyFR}
 
 
-    Atutem Pythona w wysokowydajnych obliczeniach jest łatwość wywoływania w
+    Atutem Pythona w wysokowydajnych obliczeniach jest łatwość użycia w
     nim zewnętrznych bibliotek napisanych na przykład w C lub Fortranie, co
     pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
     napisanych w językach niskopoziomowych bez faktycznej pracy z tymi
@@ -269,7 +268,7 @@
     zastąpienia operacjami wektorowymi iteracji po tablicach, powszechnie
     stosowanych w metodach numerycznych i będących znanym słabym punktem
     Pythona.
-    % TODO REFERENCE źródło na powolność pętli
+    \todo[inline]{REFERENCE źródło na powolność pętli}
 
 
     Pod zewnętrzną powłoką zawiera odwołania do znanych, wypróbowanych i
@@ -278,48 +277,46 @@
     \emph{de facto} standard większości obliczeń numerycznych w Pythonie.
 
     Należy zauważyć, że operacje matematyczne w \code{Numpy} są automatycznie
-    zrównoleglane % TODO refka intel MKL
+    zrównoleglane \todo[inline]{refka intel MKL}
      tam, gdzie pozwala na to
     niezależność obliczeń.
 
     Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD.
-    % TODO refka
+    \todo[inline]{refka numpy}
 
 
     \subsubsection{scipy}
     Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy},
-    biblioteka zawierająca wydajne implementacje wielu podstawowych algorytmów
-    numerycznych służących między innymi całkowaniu, optymalizacji, algebrze
-    liniowej czy transformatom Fouriera.  W naszym przypadku stosujemy zawarte
-    w tej bibliotece funkcje całkujące do określenia początkowego profilu
-    gęstości plazmy.  % TODO czy stosuję scipy gdzieś jeszcze
-
+    biblioteka zawierająca wydajne implementacje wielu powszechnych algorytmów
+    numerycznych służących między innymi całkowaniu, optymalizacji funkcji rzeczywistych,
+    uczeniu maszynowemu, algebrze liniowej czy transformatom Fouriera.  
 
     \subsubsection{Numba}
     \code{numba} to biblioteka służąca do kompilacji just-in-time wysokopoziomowego
     kodu Pythona do kodu niskopoziomowego przy pierwszym uruchomieniu programu. W
     wielu przypadkach pozwala na osiągnięcie kodem napisanym w czystym Pythonie
     wydajności marginalnie niższej bądź nawet równej do analogicznego programu w C
-    bądź Fortranie. % TODO refka
-     Jednocześnie należy zaznaczyć prostotę jej
-    użycia:
+    bądź Fortranie. \todo[inline]{refka}
 
-    % TODO fragment kodu. @jit przed kodem
+    Jednocześnie należy zaznaczyć prostotę jej użycia. W wielu przypadkach wystarczy
+    dodać do funkcji dekorator \code{@numba.jit}
+
+    \todo[inline]{fragment kodu. @jit przed kodem}
 
 
     Istniejącym od niedawna kodem implementującym tą metodę jest FBPIC
-    % TODO refka
+    \todo[inline]{refka}
 
 
     \subsubsection{HDF5}
     HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych
     liczbowych w drzewiastej, skompresowanej strukturze danych, razem z
     równoległym, wielowątkowym zapisem tych danych.  W Pythonie implementuje go
-    biblioteka h5py. % TODO reference h5py
+    biblioteka h5py. \todo[inline]{reference h5py}
      Używa się go na przykład w
-    % TODO lista miejsc gdzie używają hdf5
+    \todo[inline]{lista miejsc gdzie używają hdf5}
 
-    % TODO https://github.com/PPPLDeepLearning/plasma-python
+    \todo[inline]{https://github.com/PPPLDeepLearning/plasma-python}
 
 
     W bieżącej pracy wykorzystuje się go do przechowywania danych numerycznych
@@ -335,15 +332,15 @@
     przedstawiających przebiegi czasowe symulacji.
 
     Matplotlib również jest oprogramowaniem otwartym, udostępnianym na licencji
-    % TODO matplotlib license, reference
+    \todo[inline]{matplotlib license, reference}
 
 
     \subsubsection{py.test}
     Przy pracy nad kodem użyto frameworku testowego \code{py.test}
-    % TODO refenrece
+    \todo[inline]{refenrece}
      Obsługa testów jest trywialna:
 
-    % TODO przykład testu z programu
+   \todo[inline]{przykład testu z programu}
 
 
     Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie
@@ -358,23 +355,23 @@
     Dobrym przykładem skutecznego testu jednostkowego jest porównanie wyników z
     fragmentu algorytmu (na przykład depozycji ładunku, który to test zawarty
     jest w pliku) \code{pythonpic/tests/test\_current\_deposition.py}
-    % TODO sprawdzić urla
+    \todo[inline]{sprawdzić urla}
      z wynikami z poprzedniego, zweryfikowanego
     programu, bądź z obliczeniem ręcznym.
 
     \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji
-    % TODO sprawdzić licencję
+    \todo[inline]{sprawdzić licencję}
 
 
     \subsubsection{Travis CI}
     Nieocenionym narzędziem w pracy nad kodem był system ciągłej integracji
-    (\emph{continuous integration}) Travis CI % TODO refka
+    (\emph{continuous integration}) Travis CI \todo[inline]{refka}
      dostępny za
     darmo dla projektów open-source. Travis pobiera aktualne wersje kodu przy
     każdej aktualizacji wersji dostępnej na serwerze GitHub i uruchamia testy,
     zwracając komunikat o ewentualnym niepowodzeniu i pozwalając na jednoczesne
     uruchamianie bieżących, intensywnych symulacji przy jednoczesnym
-    uruchamianiu lżejszych, acz wciąż zasobożernych % TODO to słowo
+    uruchamianiu lżejszych, acz wciąż zasobożernych \todo[inline]{to słowo}
 
     symulacji testowych i testów algorytmicznych.
 
@@ -385,6 +382,4 @@
     symulacji. Pozwala w wygodny sposób zbadać, które fragmenty kodu najbardziej
     spowalniają symulację, które są najlepszymi kandydatami do optymalizacji, oraz
     jak skuteczne (bądź nieskuteczne) okazują się próby polepszenia ich wydajności.
-    % TODO refka
-     % TODO grafika snakeviz
-
+    \todo[inline]{refka, grafika}
