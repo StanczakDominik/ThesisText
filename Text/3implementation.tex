@@ -11,11 +11,15 @@ względem energii cząstek\cite{computational-physics}. W symulacjach typu
 Particle-in-cell konieczne jest zastosowanie innych algorytmów. Dobrym
 algorytmem symplektycznym jest na przykład powszechnie znany
 \emph{leapfrog}, polegający na przesunięciu prędkości o połowę iteracji
-czasowej względem położeń.\cite{computational-physics} Mimo tego, że energie
-cząstek w ruchu obliczonym tym integratorem nie są lokalnie stałe na
-krótkich skalach czasowych, to jednak zachowują energię na skali globalnej.
+czasowej względem położeń.\cite{computational-physics} Mimo tego, że energia
+układu w ruchu cząstek obliczonym tym integratorem nie jest lokalnie stała na
+krótkich skalach czasowych, to jednak zachowuje energię na skali globalnej.
 
-\todo[inline]{IMAGE: chyba miałem to na coldplasma}
+\begin{figure}[h!]
+  \includegraphics{Images/ESE_energy_plot}
+  \caption{Energia w symulacji elektrostatycznaj}
+  \label{fig:ESE-energy}
+\end{figure}
 
 W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć
 zwykłego algorytmu \emph{leapfrog}. Używa się tutaj
@@ -315,7 +319,7 @@ zapewnia stabilność na podstawie warunku Couranta.
 %    {G^+}_{i+1}^{n+1} = {G^+}_i^n - 0.5 * \Delta t {j_y}_{i+1/2}^{n+1/2} / \varepsilon_0
 %    {G^-}_{i-1}^{n+1} = {G^+}_i^n - 0.5 * \Delta t {j_y}_{i-1/2}^{n+1/2} / \varepsilon_0
 %\end{align}
-%    
+%
 %Po wykonaniu iteracji obliczeniowej mozna latwo powrocic do pol elektromagnetycznych
 %na potrzeby interpolacji do czastek:
 
@@ -484,7 +488,7 @@ dalej pod uwagę).
 Przygotowane są również analogiczne \english{wrappery} \todo[inline]{word}
 algorytmów obliczeniowych depozycji i interpolacji.
 
-Dla pól możliwe jest dołączenie do symulacji obiektu reprezentującego \code{Laser}, 
+Dla pól możliwe jest dołączenie do symulacji obiektu reprezentującego \code{Laser},
 generującego falę elektromagnetyczną o wybranej polaryzacji na lewej krawędzi obszaru symulacji.
 
 \subsection{Opis i treść kodu}
@@ -523,7 +527,7 @@ prądu.  Zawiera:
         warunku brzegowego zadanego na pole elektryczne i magnetyczne. W przypadku symulacji
         laserowej jest to subklasa Laser zawierajaca informacje o dlugosci fali, ksztalcie obwiedni
         i polaryzacji impulsu. W kazdej iteracji \code{BC} poprzez metode
-        \code{apply} aktualizuje wartosci na lewym brzegu siatki obliczeniowej.            
+        \code{apply} aktualizuje wartosci na lewym brzegu siatki obliczeniowej.
         %wartość warunku brzegowego dotyczącego natężenia fali
         %elektromagnetycznej (laserowej) wchodzącej do pola symulacji z
         %lewej strony.
@@ -635,16 +639,16 @@ Aby uruchomić symulację, należy wywołać jedną z metod:
 
 \subsubsection{Pliki pomocnicze}
 Poza powyższymi program jest podzielony na pliki z implementacjami algorytmow numerycznych,
-co pozwala na zwiekszenie niezaleznosci testow oraz zwieksza modularnosc kodu. 
+co pozwala na zwiekszenie niezaleznosci testow oraz zwieksza modularnosc kodu.
 \begin{itemize}
     \item BoundaryCondition
     \item FieldSolver
     \item particle\_push
     \item field\_interpolation
-    
+
     \item algorithms\_grid - zawiera algorytmy dotyczące rozwiązywania
         równań Maxwella na dyskretnej siatce
-    
+
     \item algorithms\_interpolation - zawiera algorytmy interpolujące pola
         z cząstek na siatkę i odwrotnie
     \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie
