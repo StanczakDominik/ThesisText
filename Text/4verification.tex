@@ -12,7 +12,7 @@
     błędom.
 
     Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego
-    pakietu \code{pytest} \todo[inline]{pytest reference.} i w większości były
+    pakietu \code{pytest} i w większości były
     uruchamiane na platformie TravisCI.
 
     \subsubsection{Testy algorytmiczne}
@@ -47,8 +47,8 @@
         \itemi Push
             \begin{enumerate}
                 \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
-                \itemii Ruch w jednorodnym polu magnetycznym z polem
-                    magnetycznym
+                \itemii Ruch w jednorodnym polu magnetycznym ???????????
+                \itemii \todo[inline]{write these}
             \end{enumerate}
     \end{enumerate}
 
@@ -69,12 +69,12 @@ x_0 = L * n / N
 x_1 = A  \sin(k x_0)=A \sin(2 \pi n x_0 / L)
 \end{align}
 
-Określenie ``zimna plazma'' bierze się z nietermalnego, a deltowego
+Określenie ``zimna plazma'' bierze się z nietermalnego, deltowego
 rozkładu prędkości cząstek - jest to faktycznie strumień cząstek o stałej
 (w tym szczególnym przypadku zerowej) prędkości).
 
 Gęstość ładunku jest wyzerowana w pierwszym kroku algorytmu rozwiązywania pola elektrycznego
-poprzez wyzerowanie zerowej składowej fourierowskiej gęstości ładunku, cojest jednoznaczne 
+poprzez wyzerowanie zerowej składowej fourierowskiej gęstości ładunku, cojest jednoznaczne
 z przyjęciem nieskończenie masywnych i nieruchomych jonów dodatnich dokładnie neutralizujących gęstość
 ładunku elektronów.
 
@@ -82,11 +82,11 @@ Sytuacja ta
 pozwala na obserwację oscylacji cząstek wokół ich stabilnych położeń
 równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
 elipsy, co pozwala wnioskować że ruch ten jest z dobrym przybliżeniem harmoniczny.
-Oczywiście, nie jest do do końca oscylacja harmoniczna z powodu odchyleń pola interpolowanego
+Oczywiście, nie jest to do końca oscylacja harmoniczna z powodu odchyleń pola interpolowanegoc
 z Eulerowskiej siatki od generowanego faktycznym potencjałem $ \sim x^2 $.
 
 Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
-dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji, 
+dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji,
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
 symulacja elektrostatyczna - na przykład długoskalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
@@ -103,7 +103,7 @@ grupowanie się cząstek w rejony koherentnej większej gęstości wewnątrz str
     Dla dużych prędkości \todo[inline]{sprawdzić} obserwuje się nieliniowe
     zachowanie cząstek w przestrzeni fazowej. Oscylacje prędkości cząstek przybierają rząd wielkości porównywalny
     z początkową różnicą prędkości strumieni.
- Strumienie zaczynają się mieszać ze sobą nawzajem, zaś cały układ się termalizuje. Energia kinetyczna 
+ Strumienie zaczynają się mieszać ze sobą nawzajem, zaś cały układ się termalizuje. Energia kinetyczna
  strumieni zamienia się w energię potencjalną pola równowagowego ą % TODO CHECK
 oraz termalną energię kinetyczną, co sprawia, że średnia prędkość obu strumieni ulega zmniejszeniu. % TODO CHECK
 
@@ -128,7 +128,7 @@ Testy jednostkowe obejmują zachowanie energii % TODO POYNTING FLUX
     Początkowe prędkości cząstek przyjęto jako zerowe.
     \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
 
-    Za moc lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$, 
+    Za moc lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
     zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono badania w polaryzacjach liniowych oraz
     kołowej wiązki laserowej.
 
@@ -149,7 +149,7 @@ Testy jednostkowe obejmują zachowanie energii % TODO POYNTING FLUX
     \item Uruchamia środowisko Anaconda zawierające bardziej zoptymalizowane od zwyczajnych wersje biblioteki Numpy
     \item Uruchamia skrypt \code{fulllaser.py} w trybie \code{cProfile} i zapisuje dane
     \end{enumerate}
-    
+
     Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
 
     Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji

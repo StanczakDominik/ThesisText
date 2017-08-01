@@ -80,7 +80,7 @@
     trudności jest konieczność uzyskania dobrej rozdzielczości prędkości przy
     jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne.
     Jako równanie różniczkowe cząstkowe, równanie Vlasova jest rozwiązywane na
-    dyskretnych siatkach, należy zauważyć zaś, należy zauważyć, że skalowanie
+    dyskretnych siatkach, należy zauważyć zaś, że skalowanie
     liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$,
     gdzie $N_r$ to liczba punktów przestrzennych, zaś $N_v$ to liczba punktów
     na siatce prędkości. Jest to więc często niepraktyczne obliczeniowo,
@@ -155,7 +155,7 @@
     wykorzystują równania rotacyjne (prawa Ampera-Maxwella oraz Faradaya)
     \begin{align}
         \nabla \times \vec{E} = -\partial \vec{B} / \partial t
-        \nabla \times \vec{B} = \mu_0 \Big( \vec{J} + \varepsilon_0 \partial \vec{E} / \partial t )
+        \nabla \times \vec{B} = \mu_0 \Big( \vec{J} + \varepsilon_0 \partial \vec{E} / \partial t \Big)
         \label{rotation-equations}
     \end{align}
 
@@ -199,12 +199,26 @@
     (jak jony i elektrony, pozwalając jednocześnie zachować gęstości cząstek i
     ładunku zbliżone do rzeczywistych.
 
+    Makrocząstki posiadają też kształt, który wyraża się w symulacji poprzez
+    interpolację wielkości fizycznych znanych na siatce Eulera do położeń
+    cząstek i odwrotnie. Matematycznie jest to opisane poprzez funkcję kształtu.
+    Najprosztszą jednowymiarową funkcją kształtu jest funkcja ``cylindrowa'', która oznacza po
+    prostu, że cząstka znajduje się w całości w jednej komórce naraz.
+    Inne funkcje kształtu tworzy się poprzez kolejne sploty funkcji podstawowej,
+    co obrazuje rysunek poniżej \ref{fig:shapefunctions}.
+
+    \begin{figure}[h!]
+      \includegraphics{Images/shapefunctions}
+      \caption{Typowe funkcje kształtu dla makrocząstki}
+      \label{fig:shapefunctions}
+    \end{figure}
+
     W symulacjach elektromagnetycznych zazwyczaj (``tradycyjnie'') stosuje się
     gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej bądź setnej
-    gęstości krytycznej plazmy $n_c$, która oznacza taką koncentrację
+    gęstości krytycznej plazmy $n_c$ (wyrażaną wzorem \ref{eqn:critical-density})
+    , która oznacza taką koncentrację
     elektronów, przy której fala laserowa zaczyna być tłumiona zamiast być
-    przepuszczaną przez plazmę.  % TODO zweryfikować
-
+    przepuszczaną przez plazmę.\cite{chen}
 
     \begin{equation}
         n_c = m_e \varepsilon_0 * {(\frac{2 \pi c}{e \lambda})}^2
@@ -295,7 +309,8 @@
     bądź Fortranie. \cite{numba}
 
     Jednocześnie należy zaznaczyć prostotę jej użycia. W wielu przypadkach wystarczy
-    dodać do funkcji dekorator \code{@numba.jit}
+    dodać do funkcji dekorator \code{@numba.jit}:
+
 
     \todo[inline]{fragment kodu. @jit przed kodem}
 
@@ -308,13 +323,8 @@
     liczbowych w drzewiastej, skompresowanej strukturze danych, razem z
     równoległym, wielowątkowym zapisem tych danych.  W Pythonie implementuje go
     biblioteka h5py.\cite{h5py}
-     Używa się go na przykład w
-    \todo[inline]{lista miejsc gdzie używają hdf5}
 
-    \todo[inline]{https://github.com/PPPLDeepLearning/plasma-python}
-
-
-    W bieżącej pracy wykorzystuje się go do przechowywania danych numerycznych
+    W bieżącej pracy wykorzystuje się go do przechowywania danych liczbowych
     dotyczących przebiegu symulacji, pozwalających na ich dalsze przetwarzanie
     i analizę poprzez wizualizację.
 
@@ -326,20 +336,26 @@
     współrzędnych (w tym 3D), jak również dla dynamicznie generowanych animacji
     przedstawiających przebiegi czasowe symulacji.
 
-    Matplotlib również jest oprogramowaniem otwartym, udostępnianym na licencji
-    \todo[inline]{matplotlib license, reference}
-
-
     \subsubsection{py.test}
-    Przy pracy nad kodem użyto frameworku testowego \code{py.test}
-    \todo[inline]{refenrece}
-     Obsługa testów jest trywialna:
+    Przy pracy nad kodem użyto frameworku testowego \code{py.test} \cite{pytest}.
+    Tworzenie testów jest trywialne:
 
-   \todo[inline]{przykład testu z programu}
+    \begin{lstlisting}[language=Python, caption=Podstawowy przykład testu w pliku \code{func.py}]
+    def f(x):
+        return 3*x
 
+    def test_f():
+        assert f(4) == 12
+    \end{lstlisting}
+
+    Uruchamianie zaś:
+
+    \begin{lstlisting}[language=Bash]
+        pytest func.py
+    \end{lstlisting}
 
     Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie
-    objawia się zazwyczaj błędem wykonywania programu, a jedynie błędnymi
+    objawia się zazwyczaj formalnym błędem, a jedynie błędnymi
     wynikami, dobrze zautomatyzowane testy jednostkowe potrafią zaoszczędzić
     bardzo dużo czasu na debugowaniu poprzez automatyzację uruchamiania
     kolejnych partii kodu i lokalizację błędnie działających części algorytmu.
@@ -347,27 +363,21 @@
     zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
     wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
 
-    Dobrym przykładem skutecznego testu jednostkowego jest porównanie wyników z
-    fragmentu algorytmu (na przykład depozycji ładunku, który to test zawarty
-    jest w pliku) \code{pythonpic/tests/test\_current\_deposition.py}
-    \todo[inline]{sprawdzić urla}
-     z wynikami z poprzedniego, zweryfikowanego
-    programu, bądź z obliczeniem ręcznym.
+    Dobrym przykładem skutecznego testu jednostkowego jest porównanie energii kinetycznej
+    elektronu o znanej prędkości z wartością tablicową, zawarte jako test w pliku
+    \code{pythonpic/tests/test\_species.py}.
 
-    \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji
-    \todo[inline]{sprawdzić licencję}
-
+    \code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji MIT.
 
     \subsubsection{Travis CI}
     Nieocenionym narzędziem w pracy nad kodem był system ciągłej integracji
-    (\emph{continuous integration}) Travis CI \todo[inline]{refka}
-     dostępny za
+    (\emph{continuous integration}) Travis CI \cite{travisci}
+    dostępny za
     darmo dla projektów open-source. Travis pobiera aktualne wersje kodu przy
     każdej aktualizacji wersji dostępnej na serwerze GitHub i uruchamia testy,
     zwracając komunikat o ewentualnym niepowodzeniu i pozwalając na jednoczesne
     uruchamianie bieżących, intensywnych symulacji przy jednoczesnym
-    uruchamianiu lżejszych, acz wciąż zasobożernych \todo[inline]{to słowo}
-
+    weryfikowaniu w chmurze poprawności działania lżejszych, acz wciąż intensywnych
     symulacji testowych i testów algorytmicznych.
 
     \subsubsection{snakeviz}
@@ -377,4 +387,10 @@
     symulacji. Pozwala w wygodny sposób zbadać, które fragmenty kodu najbardziej
     spowalniają symulację, które są najlepszymi kandydatami do optymalizacji, oraz
     jak skuteczne (bądź nieskuteczne) okazują się próby polepszenia ich wydajności.
-    \todo[inline]{refka, grafika}
+    Działanie programu ilustruje rysunek \ref{fig:snakeviz}.
+    \begin{figure}[h!]
+      \includegraphics[width=\textwidth]{Images/snakeviz}
+      \caption{Wizualizacja szybkości działania poszczególnych fragmentów kodu
+        wygenerowana programem snakeviz.}
+      \label{fig:snakeviz}
+    \end{figure}
