@@ -12,7 +12,8 @@ algorytmem symplektycznym jest na przykład powszechnie znany
 \emph{leapfrog}, polegający na przesunięciu prędkości o połowę iteracji
 czasowej względem położeń.\cite{computational-physics} Mimo tego, że energia
 układu w ruchu cząstek obliczonym tym integratorem nie jest lokalnie stała na
-krótkich skalach czasowych, to jednak zachowuje energię na skali globalnej.
+krótkich skalach czasowych, to jednak zachowuje energię na skali globalnej, co
+pokazuje rysunek~\ref{fig:ESE-energy}.
 
 \begin{figure}[h!]
   \includegraphics{Images/ESE_energy_plot}
@@ -29,16 +30,17 @@ który rozbija pole elektryczne na dwa impulsy,
 między którymi następują dwie rotacje polem magnetycznym. Algorytm jest
 dzięki temu symplektyczny i długofalowo zachowuje energię cząstek.
 
-\begin{align*}
-    \vec{v}^- &= \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n \\
+\begin{align}
+    \vec{v}^- &= \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n 
+    \label{eqn:boris-pusher-start}\\
     \vec{t} &= \frac{q dt} {2 m} \vec{B}^n \\
     \vec{v'} &= \vec{v}^- + \vec{v}^- \times \vec{t} \\
     \vec{s} &= \vec{t} / {(1 + t^2)} \\
     \vec{v}^+ &= \vec{v}^- + \vec{v'} \times \vec{s} \\
     \vec{v}^{n+1/2} &= \vec{v}^+ + \frac{q dt}{2m} \vec{E}^n \\
     \vec{x}^{n+1} &= \vec{x}^{n} + \vec{v}^{n+1/2} dt
-    \label{eqn:boris-pusher}
-\end{align*}
+    \label{eqn:boris-pusher-end}
+\end{align}
 
 W naszym przypadku dochodzi jeszcze jedno utrudnienie związane z
 relatywistycznymi prędkościami osiąganymi przez cząstki (zwłaszcza
@@ -49,9 +51,14 @@ się poprzez prostą transformację:
 
 \begin{align}
     \vec{u} &= \vec{v} \gamma \\
-    \gamma &= \sqrt{1+{(u/c)}^2} = 1/\sqrt{1-{(v/2)}^2}
+    \gamma &= \sqrt{1+{(v/c)}^2} = 1/\sqrt{1+u}^2
     \label{eqn:gamma-transformation}
 \end{align}
+
+
+Aktualizację prędkości należy więc przeprowadzić na $\vec{u}$, nie na $\vec{v}$.
+
+
 
 \subsection{Depozycja gęstości prądu}
 
@@ -67,7 +74,7 @@ mechanice symulacji. Ewolucja pola następuje poprzez znajomość gęstości pr�
 Jeżeli zaś pole elektromagnetyczne spełniało warunek
 prawa Gaussa~\ref{poisson} na początku, depozycja prądu w sposób
 zachowujący ładunek zapewni dalsze zachowanie tego warunku w kolejnych
-iteracjach. \cite{bunemanvillasenor}
+iteracjach.~\cite{bunemanvillasenor}
 
 Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać
 obliczone od podstaw na podstawie gęstości ładunku. \pythonpic pozwala
@@ -138,6 +145,9 @@ wszystkich gatunków cząstek w układzie.
 % W naszym przypadku wymagamy również, żeby depozycja prądu była spójna z
 % depozycją ładunku, to znaczy zachowywała ładunek.
 
+\subsection{Warunek początkowy pola elektrycznego: solver globalny} % TODO004
+
+
 \subsection{Interpolacja pól elektrycznego i magnetycznego}
 
 Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej
@@ -177,14 +187,13 @@ w kierunkach poprzecznych jest więc jednoznaczne z obliczeniem skalowanego
 \emph{przekrycia} cząstek z komórkami, przez które przechodzą w trakcie
 ruchu.
 
-Jako że cząstki mają szerokość równą szerokości komórki $\Delta x$, ich
-prędkość jest ograniczona przez prędkość światła, zaś za krok czasowy
-przyjmujemy $\Delta t = \Delta x/c$, można łatwo zauważyć, że maksymalna
+Prędkość cząstek jest ograniczona przez prędkość światła, zaś za krok czasowy
+przyjmujemy $\Delta t = \Delta x/c$, można więc łatwo zauważyć, że maksymalna
 odległość, jaką cząstka mogłaby przebyć w jednej iteracji, to $\Delta x$.
 Jeżeli cząstka wystartowałaby środkiem w lewej krawędzi komórki (swoją
 własną lewą krawędzią sięgając środka poprzedniej komórki, a prawą połowy
-obecnej komórki), to w czasie ruchu przejechałaby \todo[inline]{spelling}
-przez łącznie trzy komórki. \todo[inline]{zweryfikować z algorytmem}
+obecnej komórki), to w czasie ruchu przemieściłaby się przez
+przez łącznie trzy komórki. \todo[inline]{zweryfikować z algorytmem} % TODO005
 
 Algorytm rozbija ruch cząstek w bieżącej iteracji na etapy. W każdym z
 etapów cząstka obejmuje swoim zasięgiem inne komórki. Pętla obliczeniowa
@@ -225,6 +234,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
     ma przydzielony czas $t' = t - t_l$.
 
     \todo[inline]{Do której komórki trafia ładunek w każdej iteracji?}
+    %TODO006 jaki współczynnik do której komórki?
 \end{enumerate}
 
 W każdej iteracji pętli obliczeniowej prąd ze wszystkich cząstek jest
