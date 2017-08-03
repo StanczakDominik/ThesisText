@@ -7,17 +7,17 @@ przyspieszenie etapu obliczenia oddziaływań międzycząsteczkowych. W większo
 ten etap jest najbardziej krytyczny dla wydajności progamu.
 
 W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między innymi do
-\begin{enumerate}
+\begin{itemize}
 \item symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER \cite{pic-hammett}
 \item modelowania rekonekcji linii magnetycznych w polu gwiazdy \cite{pic-reconnection}
 \item projektowania silników jonowych (Halla) \cite{pic-hallengine}
 \item badania interakcji laserów z plazmą w kontekście tworzenia niewielkich,
     wysokowydajnych akceleratorów cząstek \cite{pic-laserplasma}
-\end{enumerate}
+\end{itemize}
 
     Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy obliczeniowej w postaci kart graficznych
     możliwości algorytmów Particle-in-Cell będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich zastosowań.
-    Przykładem takiego projektu jest PIConGPU \cite{picongpu}
+    Przykładem takiego projektu jest PIConGPU \cite{picongpu}.
 
     Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart graficznych,
     jak również w ogólności nowoczesnych symulacji wykorzystujących dobrodziejstwa nowych technologii
@@ -31,13 +31,19 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     \begin{itemize}
         \item brak dostępności kodu źródłowego
         \item niedostateczna dokumentacja
-        \item brak jasno postawionych testów pokazujących, kiedy algorytm działa zgodnie z zamiarami twórców
+        \item brak jasno postawionych testów pokazujących, kiedy program działa
+        zgodnie z zamiarami twórców i kiedy daje wyniki zgodne z zakładanym
+        modelem fizyki realizowanych w nim zjawisk
         \item zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
     \end{itemize}
 
     To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
     zajmujące się głównie pracą badawczą (na przykład fizyką), bez dogłębnego, formalnego przeszkolenia
-    w programowaniu, jest znacznie utrudnione.
+    w programowaniu i informatyce, jest znacznie utrudnione.
+
+    Jest to też znacząca przeszkoda dla adaptacji
+    w nauce modelu \english{open science} zakładanego przez organizacje unijne
+    do przyjęcia jeszcze w bieżącym dziesięcioleciu, do roku 2020.
 
     Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell
     do symulacji oddziaływania wiązki laserowej z tarczą wodorową w popularnym języku
@@ -45,10 +51,10 @@ W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między inn
     i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej.
 
     Może to też oczywiście pozwolić na dalsze
-    zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie z użyciem kart graficznych.
+    zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie z użyciem kart graficznych,
+    lub w innych projektach, zwłaszcza \english{open source}.
 
-    Ostatecznie, jest to również test wydajnościowy możliwości Pythona w intensywnych symulacjach
-    \todo[inline]{Zamiast ostatecznie chciałbym dać coś typu last but not least}
-    numerycznych, które do tej pory były często domeną komwencjonalnie
+    Jest to również test wydajnościowy możliwości Pythona w intensywnych symulacjach
+    numerycznych, które do tej pory były często domeną konwencjonalnie
     zarezerwowaną dla języków niskopoziomowych.
     \todo[inline]{Tu przydałoby się przynajmniej do dwóch pełnych stron pod objętość}

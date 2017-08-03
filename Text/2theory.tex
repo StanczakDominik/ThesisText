@@ -26,8 +26,7 @@
     Zjednoczonymi a ZSRR, jak również jeden z projektów mających na celu ponowne
     nawiązanie współpracy naukowej między supermocarstwami po zakończeniu tego
     konfliktu. Obecnie trwają intensywne badania nad tym problemem, których
-    dotychczasową kulminacją jest budowany we Francji tokamak ITER i planowany
-    DEMO.
+    dotychczasową kulminacją jest budowany we Francji tokamak ITER i planowany reaktor DEMO.
 
     Poza tym ogromnym projektem plazmy mają szerokie zastosowania w obecnym
     przemyśle, na przykład:
@@ -71,8 +70,26 @@
     prędkości). Ewolucja czasowa funkcji rozkładu dokonuje się poprzez
     rozwiązanie wariantu równania Boltzmanna zwanego równaniem Vlasova,
     które sprzęga gęstości ładunku i prądu otrzymywane z funkcji dystrybucji
-    z równaniami Maxwella na ewolucję pola elektromagnetycznego. Równanie
-    Vlasova może zostać rozszerzone do równania Fokkera-Plancka uwzględniającego
+    z równaniami Maxwella na ewolucję pola elektromagnetycznego.
+
+    Dla przypadku plazmy złożonej z elektronów i jednego rodzaju jonów o ładunku $Z_i$:
+
+    \begin{align}
+    \frac{\partial f_e}{\partial t} + \vec {v}_e\cdot\nabla f_e &- e\left(\vec {E}+\vec {v_e}\times\vec {B}\right)\cdot\frac{\partial f_e}{\partial\vec {p}} = 0
+    \label{eqn:vlasov-electrons}\\
+    \frac{\partial f_i}{\partial t} + \vec {v}_i\cdot\nabla f_i &+ Z_i e\left(\vec {E}+\vec {v_i}\times\vec {B}\right)\cdot\frac{\partial f_i}{\partial\vec {p}} = 0
+    \label{eqn:vlasov-ions}\\
+    \nabla\times\vec {B} &=\mu_0 \left(\vec{j}+\epsilon_0 \frac{\partial \vec {E}}{\partial t}\right)
+    \label{eqn:maxwell-B-rotation}\\
+    \nabla\times\vec {E} &=-\frac{\partial\vec {B}}{\partial t}
+    \label{eqn:maxwell-E-rotation}\\
+    \nabla\cdot\vec {E}  &=\rho / \epsilon_0
+    \label{eqn:maxwell-E-div}\\
+    \nabla\cdot\vec {B}  &=0
+    \label{eqn:maxwell-B-div}
+    \end{align}
+
+    Równanie Vlasova może zostać rozszerzone do równania Fokkera-Plancka uwzględniającego
     bezpośrednie kolizje międzycząsteczkowe.
 
     W praktyce równanie Vlasova jest trudne do rozwiązania poza trywialnymi
@@ -141,23 +158,13 @@
     Znalezienie pól elektrycznego i magnetycznego na podstawie gęstości ładunku
     i prądu na siatce.  Istnieją dwie główne szkoły rozwiązywania tych równań:
     metody globalne i lokalne. Metody globalne wykorzystują zazwyczaj równania
-    dywergencyjne (prawo Gaussa dla pola elektrycznego)
-    \begin{align}
-        \label{poisson}
-        \rho / \varepsilon_0 &= \nabla \cdot \vec{E} \\
-        \label{gauss}
-        0 &= \nabla \cdot \vec{B}
-    \end{align}
-    rozwiązywane iteracyjnie (metody takie jak Gaussa-Seidela lub gradientów
+    dywergencyjne (prawa Gaussa)\ref{eqn:maxwell-E-div}\ref{eqn:maxwell-B-div}
+    rozwiązywane iteracyjnie (metodami takimi jak Gaussa-Seidela lub gradientów
     sprzężonych)
-     lub spektralnie, przy użyciu transformat Fouriera lub Hankela \cite{fbpic}
+     lub spektralnie, przy użyciu transformat Fouriera lub Hankela~\cite{fbpic}.
      Metody lokalne z kolei
-    wykorzystują równania rotacyjne (prawa Ampera-Maxwella oraz Faradaya)
-    \begin{align}
-        \nabla \times \vec{E} = -\partial \vec{B} / \partial t
-        \nabla \times \vec{B} = \mu_0 \Big( \vec{J} + \varepsilon_0 \partial \vec{E} / \partial t \Big)
-        \label{rotation-equations}
-    \end{align}
+    wykorzystują równania rotacyjne (prawa Ampera-Maxwella\ref{eqn:maxwell-E-rotation}
+    oraz Faradaya\ref{eqn:maxwell-B-rotation}):
 
     Metody globalne nadają się do modeli elektrostatycznych,
     nierelatywistycznych.  Metody lokalne pozwalają na ograniczenie szybkości
@@ -203,20 +210,20 @@
     interpolację wielkości fizycznych znanych na siatce Eulera do położeń
     cząstek i odwrotnie. Matematycznie jest to opisane poprzez funkcję kształtu.
     Najprosztszą jednowymiarową funkcją kształtu jest funkcja ``cylindrowa'', która oznacza po
-    prostu, że cząstka znajduje się w całości w jednej komórce naraz.
+    prostu, że cząstka znajduje się w całości w jednej komórce naraz. % TODO001 to nie ma sensu!
     Inne funkcje kształtu tworzy się poprzez kolejne sploty funkcji podstawowej,
-    co obrazuje rysunek poniżej \ref{fig:shapefunctions}.
+    co obrazuje rysunek\ref{fig:shapefunctions}.
 
     \begin{figure}[h!]
       \includegraphics{Images/shapefunctions}
-      \caption{Typowe funkcje kształtu dla makrocząstki}
       \label{fig:shapefunctions}
+      \caption{Typowe funkcje kształtu dla makrocząstki}
     \end{figure}
 
     W symulacjach elektromagnetycznych zazwyczaj (``tradycyjnie'') stosuje się
     gęstości cząstek (rzeczywistych) rzędu jednej dziesiątej bądź setnej
-    gęstości krytycznej plazmy $n_c$ (wyrażaną wzorem \ref{eqn:critical-density})
-    , która oznacza taką koncentrację
+    gęstości krytycznej plazmy $n_c$ (wyrażaną wzorem~\ref{eqn:critical-density}),
+    która oznacza taką koncentrację
     elektronów, przy której fala laserowa zaczyna być tłumiona zamiast być
     przepuszczaną przez plazmę.\cite{chen}
 
@@ -233,7 +240,7 @@
 
     \subsection{Problem testowy}
 
-    Problemem testowym, jakiego używamy do przetestowania dokładności i
+    Głównym problemem testowym, jakiego używamy do przetestowania dokładności i
     wydajności działania algorytmu jest interakcja impulsu laserowego z tarczą
     składającą się ze zjonizowanego wodoru i elektronów.
 
@@ -254,17 +261,19 @@
     którego atutami są
     \begin{itemize}
     \item otwartość i dostępność
-    \item szybkie prototypowanie
+    \item szybkie prototypowanie dzięki wbudowanemu środowisku \english{REPL}, rozszerzalnemu przez pakiet IPython\cite{ipython}
     \item możliwość łatwej integracji z innymi, niskopoziomowymi językami, między innymi C.
     \item łatwy dostęp do szerokiej gamy darmowych blibliotek na licencji \english{open source}, w tym naukowych i numerycznych
+    \item wieloplatformowość, łatwość uruchomienia tych samych programów na wielu różnych maszynach
     \end{itemize}
 
-    Python znajduje zastosowania w analizie danych i uczeniu maszynowym
+    Python znajduje szerokie zastosowania w analizie danych i uczeniu maszynowym
     (zwłaszcza w astronomii\cite{astropy}). W zakresie symulacji w ostatnich czasach powstały
     kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice
     płynów.  Nie można tu nie wspomnieć o utworzonym niedawno hydrodynamicznym kodzie
-    PyFR, łączącym szybkie obliczenia w CUDA oraz MPI z wysokopoziomowością Pythona. Uruchomiono go na klastrze
-    i udowodniono jego skalowanie do poziomów \cite{pyfr}\todo[inline]{jaki to klaster, obejrzeć tamtą prezentację}
+    PyFR, łączącym szybkie obliczenia w CUDA, OpenCL oraz OpenMP z wysokopoziomowością Pythona. Uruchomiono go na klastrze Piz Daint
+    i udowodniono jego skalowanie (\english{weak scaling}) do 2000 kart NVIDIA K20X i 1.3 stabilnych petaflopów na sekundę.
+    \cite{pyfr}\cite{pyfr-euroscipy}
 
 
     Atutem Pythona w wysokowydajnych obliczeniach jest łatwość użycia w
@@ -272,6 +281,8 @@
     pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
     napisanych w językach niskopoziomowych bez faktycznej pracy z tymi
     językami.
+
+    %TODO002 open source
 
 
 
@@ -289,15 +300,15 @@
 
     Należy zauważyć, że operacje matematyczne w wersji \code{numpy} zawartej
     w dystrybucji Anaconda są automatycznie
-    zrównoleglane \cite{intel-mkl} tam, gdzie pozwala na to
-    niezależność obliczeń.
+    zrównoleglane tam, gdzie pozwala na to
+        niezależność obliczeń dzięki dołączonym bibliotekom Intel Math Kernel Library.\cite{intel-mkl} 
 
     Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD.
 
 
     \subsubsection{scipy}
     Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy},
-    biblioteka zawierająca wydajne implementacje wielu powszechnych algorytmów
+    biblioteka zawierająca wydajne gotowe implementacje wielu powszechnych algorytmów
     numerycznych służących między innymi całkowaniu, optymalizacji funkcji rzeczywistych,
     uczeniu maszynowemu, algebrze liniowej czy transformatom Fouriera.
 
@@ -387,7 +398,7 @@
     symulacji. Pozwala w wygodny sposób zbadać, które fragmenty kodu najbardziej
     spowalniają symulację, które są najlepszymi kandydatami do optymalizacji, oraz
     jak skuteczne (bądź nieskuteczne) okazują się próby polepszenia ich wydajności.
-    Działanie programu ilustruje rysunek \ref{fig:snakeviz}.
+    Działanie programu ilustruje rysunek~\ref{fig:snakeviz}.
     \begin{figure}[h!]
       \includegraphics[width=\textwidth]{Images/snakeviz}
       \caption{Wizualizacja szybkości działania poszczególnych fragmentów kodu

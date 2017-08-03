@@ -16,8 +16,9 @@ krótkich skalach czasowych, to jednak zachowuje energię na skali globalnej.
 
 \begin{figure}[h!]
   \includegraphics{Images/ESE_energy_plot}
-  \caption{Energia w symulacji elektrostatycznaj}
   \label{fig:ESE-energy}
+  \caption{Energia w symulacji elektrostatycznej. Ze względu na brak pola magnetycznego
+  w tej symulacji używany jest tak naprawdę iterator typu leapfrog.}
 \end{figure}
 
 W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć
@@ -64,7 +65,7 @@ kolejnej iteracji.
 W bieżącym programie gęstość ładunku jest tak naprawdę niepotrzebna w
 mechanice symulacji. Ewolucja pola następuje poprzez znajomość gęstości prądu.
 Jeżeli zaś pole elektromagnetyczne spełniało warunek
-prawa Gaussa \ref{poisson} na początku, depozycja prądu w sposób
+prawa Gaussa~\ref{poisson} na początku, depozycja prądu w sposób
 zachowujący ładunek zapewni dalsze zachowanie tego warunku w kolejnych
 iteracjach. \cite{bunemanvillasenor}
 
@@ -141,8 +142,7 @@ wszystkich gatunków cząstek w układzie.
 
 Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej
 zasadzie, co depozycja ładunku. Wartosci pól są liniowo skalowane do pozycji
-makrocząstek według ich względnych położeń (równanie
-\ref{eqn:relative-position}) wewnątrz komórek.
+makrocząstek według ich względnych położeń (równanie~\ref{eqn:relative-position}) wewnątrz komórek.
 
 \begin{equation}
     F = F_i * (1-x') + F_{i+1} * x'
