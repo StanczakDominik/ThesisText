@@ -270,6 +270,54 @@ cząstki mogą objąć kształtem maksymalnie dwie komórki, przez co należy do
 komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
 
 
+
+\subsubsection{Warunek początkowy pola elektrycznego: solver globalny, elektrostatyczny}
+Jako że symulacja jest jednowymiarowa, musimy jedynie znaleźć równowagowe pole
+elektryczne $E_x$.
+Za \cite{birdsall}, wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
+obustronnej transformaty Fouriera w przestrzeni na polu elektrycznym i gęstości ładunku,
+zakładając możliwość rozłożenia obu tych wielkości na składowe mające następującą zależność
+od położenia:
+
+\begin{equation}
+y(x) = \sum_k y(k) e^{-i k x}
+\label{eqn:fourier-decomposition}
+\end{equation}
+
+Przy tym założeniu dywergencja na skutek zmienności przestrzennej jedynie na osi $x$
+zamienia się na operator
+
+\begin{equation}
+\nabla \cdot = \frac{\partial}{\partial x} = -ik
+\end{equation}
+W związku z tym równanie Poissona\ref{eqn:maxwell-E-div} zamienia się na (po przekształceniu):
+
+\begin{equation}
+    E(k) = \frac{\rho(k)}{-ik \varepsilon_0}
+\end{equation}
+
+Tablicę (wektor w sensie listy liczb) $k$ można otrzymać w następujący sposób:
+
+% TODO012 verify equation
+\begin{equation}
+    k_n = 2 \pi n / L
+\end{equation}
+
+
+Algorytm pozwalający otrzymać równowagowe pole elektrostatyczne jest więc bardzo prosty:
+\begin{enumerate}
+\item Używamy algorytmu FFT na gęstości prądu zebranej z cząstek na siatkę
+\item Dzielimy wynikową tablicę przez $-ik \varepsilon_0$
+\item Używamy odwrotnej transformaty Fouriera, by otrzymać $E_x(x)$.
+\end{enumerate}
+
+Problemem jest element $k_n = 0$, utrudniający dzielenie. Istnieją dwie możliwości:
+\begin{itemize}
+\item wymuszenie $k_0 = k_1 / const$, gdzie $const$ jest dostatecznie duże (np. $10^6$)
+\item ustawienie $E(k_0) = 0$, co jest jednoznaczne z wyzerowaniem średniego ładunku w
+obszarze symulacji. Można to interpretować jako ustawienie nieruchomego tła neutralizującego,
+co jest wykorzystywane w okresowych symulacjach elektrostatycznych.
+\end{itemize}
 \subsection{Ewolucja czasowa pola elektromagnetycznego} \todo[inline]{przerobić}
 
 Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
@@ -337,11 +385,6 @@ zapewnia stabilność na podstawie warunku Couranta.
 %    \label{eqn:fg-transform-inverse}
 %\end{align}
 
-\subsubsection{Warunek początkowy pola elektrycznego: solver globalny, elektrostatyczny}
-Za \cite{birdsall}, wychodzimy z równania Poissona:
-% TODO004
-
-\subsubsection{Solver lokalny}
 Wychodzimy z rotacyjnych równań Maxwella\ref{eqn:maxwell-E-rotation}\ref{eqn:maxwell-B-rotation}.
 
 Jako że symulacja zakłada symetrię układu wzdłuż osi propagacji lasera $x$,
@@ -350,12 +393,40 @@ możemy przyjąć $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} =
 Stąd równania dla pola elektrycznego podłużnego oraz pola
 elektromagnetycznego poprzecznego rozłączają się i można je rozwiązywać praktycznie oddzielnie.
 
-% TODO009 Finish derivation of transversal solver
+\subsubsection{Pole podłużne}
+
 \begin{equation}
     (\nabla \times \vec{B})_x = 0 = \mu_0 (j_x + \varepsilon_0 \frac{\partial E_x}{\partial t})
     \label{eqn:longitudinal-field-eq}
  \end{equation}
 
+Składowa podłużna pola jest zatem obliczana poprzez wyrażenie
+
+\begin{equation}
+\frac{\partial E_x}{\partial t} = - \frac{j_x}{\varepsilon_0}
+\label{longitudinal-field-differential}
+\end{equation}
+
+a raczej jej dyskretny odpowiednik
+
+\begin{equation}
+    E_i^{n+1} = E_i^n - \frac{\Delta t}{\varepsilon_0} j_{x,i}^{n+1/2}
+\label{longitudinal-field-finite-differential}
+\end{equation}
+
+
+Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje
+się sposób depozycji ładunku - należy pilnować, aby był robiony w sposób
+który spełnia zachowanie ładunku. Inaczej koniecznym staje się aplikowanie
+tak zwanej poprawki Borysa, \todo[inline]{źródło - prezentacja}
+aby upewnić się, że warunek z równań Gaussa \ref{eqn:maxwell-E-div}\ref{eqn:maxwell-B-div}
+jest wciąż spełniony.
+
+Należy zwrócić uwagę, iż w tej wersji pole elektrostatyczne $E_x$ w danej komórce jest
+aktualizowane jedynie na podstawie informacji w tej właśnie komórce.
+
+\subsubsection{Pole poprzeczne}
+% TODO009 Finish derivation of transversal solver
 Z kolei dla pola poprzecznego, sumując:
 \begin{align}
     \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t}\\
@@ -392,27 +463,6 @@ postać:
 
 \begin{equation}
     {F^{+}}^{n+1}_{i+1} = F^{+}_{n} + j
-\end{equation}
-% TODO010 finish derivation of longitudinal solver
-Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje
-się sposób depozycji ładunku - należy pilnować, aby był robiony w sposób
-który spełnia zachowanie ładunku. Inaczej koniecznym staje się aplikowanie
-tak zwanej poprawki Borysa, \todo[inline]{źródło - prezentacja}
-aby upewnić się, że warunek z równań Maxwella $\nabla \rho / \varepsilon_0
-= \nabla \cdot \vec{E}$ jest wciąż spełniony.
-
-Składowa podłużna pola jest obliczana poprzez wyrażenie
-
-\begin{equation}
-\frac{\partial E_x}{\partial t} = - \frac{j_x}{\varepsilon_0}
-\label{longitudinal-field-differential}
-\end{equation}
-
-a raczej jej dyskretny odpowiednik
-
-\begin{equation}
-    E_i^{n+1} = E_i^n - \frac{\Delta t}{\varepsilon_0} j_{x,i}^{n+1/2}
-\label{longitudinal-field-finite-differential}
 \end{equation}
 
 

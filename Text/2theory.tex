@@ -209,10 +209,15 @@
     Makrocząstki posiadają też kształt, który wyraża się w symulacji poprzez
     interpolację wielkości fizycznych znanych na siatce Eulera do położeń
     cząstek i odwrotnie. Matematycznie jest to opisane poprzez funkcję kształtu.
-    Najprosztszą jednowymiarową funkcją kształtu jest funkcja ``cylindrowa'', która oznacza po
-    prostu, że cząstka znajduje się w całości w jednej komórce naraz. % TODO001 to nie ma sensu!
+    Najprostszą jednowymiarową funkcją kształtu (oznaczaną $S_0$) jest funkcja
+    ``cylindrowa'', która oznacza jednorodny rozkład gęstości cząstki w zakresie
+    szerokości równym długości jednej komórki.
+    
     Inne funkcje kształtu tworzy się poprzez kolejne sploty funkcji podstawowej,
-    co obrazuje rysunek\ref{fig:shapefunctions}.
+    co obrazuje rysunek\ref{fig:shapefunctions}. Funkcja $S_1$ (trójkątna,
+    skupiona na środku) jest tradycyjną funkcją ksztąłtu wykorzystywaną
+    historycznie w większości zastosowań modelu PIC.
+
 
     \begin{figure}[h!]
       \includegraphics{Images/shapefunctions}
@@ -282,9 +287,13 @@
     napisanych w językach niskopoziomowych bez faktycznej pracy z tymi
     językami.
 
-    %TODO002 open source
-
-
+    Istotną zaletą Pythona, o której nie można nie wspomnieć, jest inherentna
+    otwartość wśród użytkowników tego języka. Znacząca część projektów tworzonych w
+    tym języku jest udostępnianych za darmo jako projekty \english{open source},
+    internecie na platformach takich jak GitHub, GitLab i Bitbucket, co znacząco
+    ułatwia kolaborację i wspólne ich tworzenie przez społeczność.  Jest to obszar,
+    którego techniki wydają się być równie korzystne w społeczności naukowej, jak pokazują
+    wyniki grup badawczych \cite{labarba}. %TODO011 reference labarba
 
     \subsubsection{Numpy}
     \code{numpy}\cite{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na
