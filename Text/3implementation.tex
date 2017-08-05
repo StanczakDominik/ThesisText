@@ -77,7 +77,7 @@ zachowujący ładunek zapewni dalsze zachowanie tego warunku w kolejnych
 iteracjach.~\cite{bunemanvillasenor}
 
 Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać
-obliczone od podstaw na podstawie gęstości ładunku. \pythonpic pozwala
+obliczone od podstaw na podstawie gęstości ładunku. \pythonpic{} pozwala
 poradzić sobie z tym problemem. Pierwszą opcją jest ustawienie początkowych
 położeń ładunków na identyczne między cząstkami negatywnymi i dodatnimi, co
 pozwala na siłowe wyzerowanie gęstości ładunku i brak pola elektrycznego w
@@ -298,7 +298,6 @@ W związku z tym równanie Poissona\ref{eqn:maxwell-E-div} zamienia się na (po 
 
 Tablicę (wektor w sensie listy liczb) $k$ można otrzymać w następujący sposób:
 
-% TODO012 verify equation
 \begin{equation}
     k_n = 2 \pi n / L
 \end{equation}
@@ -318,7 +317,7 @@ Problemem jest element $k_n = 0$, utrudniający dzielenie. Istnieją dwie możli
 obszarze symulacji. Można to interpretować jako ustawienie nieruchomego tła neutralizującego,
 co jest wykorzystywane w okresowych symulacjach elektrostatycznych.
 \end{itemize}
-\subsection{Ewolucja czasowa pola elektromagnetycznego} \todo[inline]{przerobić}
+\subsection{Ewolucja czasowa pola elektromagnetycznego}
 
 Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
 Jak pokazują Buneman i Villasenor, numerycznie można zastosować dwa główne
