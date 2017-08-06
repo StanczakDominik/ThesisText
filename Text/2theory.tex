@@ -356,21 +356,25 @@
     przedstawiających przebiegi czasowe symulacji.
 
     \subsubsection{py.test}
-    Przy pracy nad kodem użyto frameworku testowego \code{py.test} \cite{pytest}.
+    Przy pracy nad kodem użyto frameworku testowego \code{py.test}~\cite{pytest}.
     Tworzenie testów jest trywialne:
 
-    \begin{lstlisting}[language=Python, caption=Podstawowy przykład testu w pliku \code{func.py}]
-    def f(x):
-        return 3*x
-
-    def test_f():
-        assert f(4) == 12
-    \end{lstlisting}
+    \lstinputlisting[language=Python, numbers=left, caption=Podstawowy przykład testu w pliku \code{func.py}]{listings/func.py}
 
     Uruchamianie zaś:
 
     \begin{lstlisting}[language=Bash]
-        pytest func.py
+        >>> pytest func.py
+        === FAILURES ===
+        ___failing ___
+
+            def test_failing():
+        >       assert f(4) == 13
+        E       assert 12 == 13
+        E        +  where 12 = f(4)
+
+        func.py:10: AssertionError
+        === 1 failed, 1 passed in 0.10 seconds ===
     \end{lstlisting}
 
     Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie

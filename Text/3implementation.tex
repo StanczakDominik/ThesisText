@@ -72,7 +72,7 @@ kolejnej iteracji.
 W bieżącym programie gęstość ładunku jest tak naprawdę niepotrzebna w
 mechanice symulacji. Ewolucja pola następuje poprzez znajomość gęstości prądu.
 Jeżeli zaś pole elektromagnetyczne spełniało warunek
-prawa Gaussa~\ref{poisson} na początku, depozycja prądu w sposób
+prawa Gaussa~\ref{eqn:maxwell-E-div} na początku, depozycja prądu w sposób
 zachowujący ładunek zapewni dalsze zachowanie tego warunku w kolejnych
 iteracjach.~\cite{bunemanvillasenor}
 
@@ -154,7 +154,7 @@ zasadzie, co depozycja ładunku. Wartosci pól są liniowo skalowane do pozycji
 makrocząstek według ich względnych położeń (równanie~\ref{eqn:relative-position}) wewnątrz komórek.
 
 \begin{equation}
-    F = F_i * (1-x') + F_{i+1} * x'
+    F = F_i (1-x') + F_{i+1} x'
     \label{eqn:field-interpolation}
 \end{equation}
 
@@ -237,7 +237,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
 \end{enumerate}
 
 W każdej iteracji pętli obliczeniowej prąd ze wszystkich cząstek jest
-akumulowany do tablicy prądów. Tablica ma rozmiar \code{NG+2} \todo[inline]{verify}
+akumulowany do tablicy prądów na siatce. Tablica ma rozmiar \code{NG+2} \todo[inline]{verify}
 
 \subsubsection{Depozycja poprzeczna} % TODO
 Algorytm jest identyczny do depozycji podłużnej poza samym etapem depozycji
@@ -260,8 +260,8 @@ uśredniamy przekrycie na końcu ruchu z przekryciem na początku ruchu,
 \end{equation}
 
 Ostatecznie wkład do komórki ``obecnej'' w ciągu jednej iteracji pętli obliczeniowej to \todo[inline]{zweryfikować}
-to $w * q n v_{y, z} t / \Delta t$.
-Zaś do dalszej, przekrywanej komórki jest to  $(1-w) * q n v_{y, z} t / \Delta t$.
+to $w q n v_{y, z} t / \Delta t$.
+Zaś do dalszej, przekrywanej komórki jest to  $(1-w) q n v_{y, z} t / \Delta t$.
 \todo[inline]{jakoś poprawić stylistykę chyba}
 
 Tablica prądów poprzecznych, do których zostają depozytowane, ma rozmiar
@@ -270,10 +270,10 @@ cząstki mogą objąć kształtem maksymalnie dwie komórki, przez co należy do
 komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
 
 
-
-\subsubsection{Warunek początkowy pola elektrycznego: solver globalny, elektrostatyczny}
+\subsection{Warunek początkowy pola elektrycznego: solver globalny, elektrostatyczny}
 Jako że symulacja jest jednowymiarowa, musimy jedynie znaleźć równowagowe pole
 elektryczne $E_x$.
+
 Za \cite{birdsall}, wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
 obustronnej transformaty Fouriera w przestrzeni na polu elektrycznym i gęstości ładunku,
 zakładając możliwość rozłożenia obu tych wielkości na składowe mające następującą zależność
@@ -384,7 +384,7 @@ zapewnia stabilność na podstawie warunku Couranta.
 %    \label{eqn:fg-transform-inverse}
 %\end{align}
 
-Wychodzimy z rotacyjnych równań Maxwella\ref{eqn:maxwell-E-rotation}\ref{eqn:maxwell-B-rotation}.
+W schemacie ewolucji czasowej wykorzystanym w programie wychodzimy z rotacyjnych równań Maxwella\ref{eqn:maxwell-E-rotation}\ref{eqn:maxwell-B-rotation}.
 
 Jako że symulacja zakłada symetrię układu wzdłuż osi propagacji lasera $x$,
 możemy przyjąć $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} =
@@ -395,7 +395,7 @@ elektromagnetycznego poprzecznego rozłączają się i można je rozwiązywać p
 \subsubsection{Pole podłużne}
 
 \begin{equation}
-    (\nabla \times \vec{B})_x = 0 = \mu_0 (j_x + \varepsilon_0 \frac{\partial E_x}{\partial t})
+    \left(\nabla \times \vec{B}\right)_x = 0 = \mu_0 \left(j_x + \varepsilon_0 \frac{\partial E_x}{\partial t}\right)
     \label{eqn:longitudinal-field-eq}
  \end{equation}
 
@@ -418,50 +418,49 @@ Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje
 się sposób depozycji ładunku - należy pilnować, aby był robiony w sposób
 który spełnia zachowanie ładunku. Inaczej koniecznym staje się aplikowanie
 tak zwanej poprawki Borysa, \todo[inline]{źródło - prezentacja}
-aby upewnić się, że warunek z równań Gaussa \ref{eqn:maxwell-E-div}\ref{eqn:maxwell-B-div}
+aby upewnić się, że warunek z równań Gaussa \ref{eqn:maxwell-E-div},\ref{eqn:maxwell-B-div}
 jest wciąż spełniony.
 
 Należy zwrócić uwagę, iż w tej wersji pole elektrostatyczne $E_x$ w danej komórce jest
 aktualizowane jedynie na podstawie informacji w tej właśnie komórce.
 
 \subsubsection{Pole poprzeczne}
-% TODO009 Finish derivation of transversal solver
-Z kolei dla pola poprzecznego, sumując:
+Wyprowadzenie dla pola poprzecznego przedstawimy, za \cite{birdsall}, dla składowych $E_y$ oraz $B_z$. Wyprowadzenie dla $E_z$, $B_y$ jest analogiczne i przedstawimy jedynie jego wyniki.
+
+Sumując równania~\ref{eqn:maxwell-B-rotation} oraz przemnożone przez prędkość światła jako prędkość propagacji fali elektromagnetycznej~\ref{eqn:maxwell-B-rotation} dla składowej $\hat{y}$:
 \begin{align}
-    \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t}\\
-    \nabla \times \vec{B} &= \mu_0 (\vec{j} + \varepsilon_0 \frac{\partial \vec{E}}{\partial t})\\
-    \nabla \times (\vec{E} + \vec{B}) &= -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}\\
-    c &= 1/{\sqrt{\mu_0 \varepsilon_0}}\\
-    \nabla \times (\vec{E} + \vec{B}) &= -\frac{\partial (\vec{B} + \mu_0 \varepsilon_0 \vec{E})}{\partial t} + \mu_0 \vec{j}\\
-    \label{eqn:perpendicular-field-eq}
-\end{align}
-\todo[inline]{skończyć wyprowadzenie}
-Po dodaniu i odjęciu stronami:
-\begin{align}
-    \nabla \times (\vec{E} + c \vec{B}) &= -\frac{\partial \vec{B}}{\partial t} + c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
-    \nabla \times (\vec{E} - c \vec{B}) &= -\frac{\partial \vec{B}}{\partial t} - c \mu_0 (\vec{j} +  \epsilon_0 \frac{\partial \vec{E}}{\partial t})
-    \label{eqn:Maxwell-rotation-derivation}
+    \frac{\partial}{\partial t} \left(E_y + c B_z\right) &= - j_y / \varepsilon_0 - c \frac{\partial}{\partial x} \left(E_y + c B_z\right) \\
+    \frac{\partial}{\partial t} \left(E_y - c B_z\right) &= - j_y / \varepsilon_0 + c \frac{\partial}{\partial x} \left(E_y - c B_z\right)
 \end{align}
 
-\begin{equation}
-    F^{+} = E_y + c B_z
-    F^{-} = E_y - c B_z
-    \label{eqn:Birdsall-electromagnetic-quantities}
-\end{equation}
-Analogicznie, dla składowych $E_z$, $B_y$:
+Przekształcając:
+\begin{align}
+    \left(\frac{\partial}{\partial t} + c \frac{\partial}{\partial x}\right)\left(E_y + c B_z\right) &= - j_y / \varepsilon_0\\
+    \left(\frac{\partial}{\partial t} - c \frac{\partial}{\partial x}\right)\left(E_y - c B_z\right) &= - j_y / \varepsilon_0
+\end{align}
 
-\todo[inline]{zweryfikować znaki i czy c nie jest w mianowniku}
-\begin{equation}
-    G^{+} = E_z + c B_y
-    G^{-} = E_z - c B_y
-    \label{eqn:Birdsall-electromagnetic-quantities-alternate-axes}
-\end{equation}
-Wyrazem ``źródłowym'' dla F, G jest prąd poprzeczny. Po dyskretyzacji
-równania, wyrażenie na ewolucję pól F, G między iteracjami przybiera
-postać:
+Możemy więc uzyskać wielkości $F^+ = E_y + c B_z$ reprezentujące liniowo spolaryzowane fale elektromagnetyczne $F^- = E_y - c B_z$, które propagują się po siatce z prądem $j_y$ jako wyrazem źródłowym.
+
+Wyniki dla $E_z$, $B_y$ zrealizowane poprzez wprowadzenie wielkości $G^\pm = E_z \pm c B_y$ przedstawiamy za \cite{birdsall}:
+\begin{align}
+    \left(\frac{\partial}{\partial t} + c \frac{\partial}{\partial x}\right)\left(E_z + c B_y\right) &= - j_z / \varepsilon_0 \\
+    \left(\frac{\partial}{\partial t} - c \frac{\partial}{\partial x}\right)\left(E_z - c B_y\right) &= - j_z / \varepsilon_0
+\end{align}
+
+Finalny schemat jest superpozycją rozwiązań dla $F^\pm$ i $G^\pm$.
+
+Poprzez dobór kroku czasowego symulacji $\Delta t = \Delta x / c$ uzyskujemy trywialną numeryczną propagację wielkości $F^\pm$ \cite{Jablonski-notes}:
 
 \begin{equation}
-    {F^{+}}^{n+1}_{i+1} = F^{+}_{n} + j
+    {F}^{+,n+1}_{i+1} = F^{+,n}_i - \Delta t {j_y}_{i+1/2}^{n+1/2} / \varepsilon_0
+\end{equation}
+Wielkości z minusem propagują się w lewo, zaś wielkości $G^\pm$ wykorzystują prąd $j_z$.
+
+
+Odzyskanie fizycznych pól elektrycznych i magnetycznych jest równie trywialne, na przykład 
+
+\begin{equation}
+E_y = \left( F^+ + F^- \right)/2
 \end{equation}
 
 
@@ -562,7 +561,7 @@ prądu.  Zawiera:
     \item $x_i$ - tablicę położeń lewych krawędzi komórek siatki
     \item $N_G$ - liczbę komórek siatki
     \item $T$ - sumaryczny czas trwania symulacji
-    \item $\Delta x$ - krok przestrzenny siatki - $N_G * \Delta x$ daje
+    \item $\Delta x$ - krok przestrzenny siatki - $N_G \Delta x$ daje
         długość obszaru symulacji
     \item $\rho_i$ - tablicę gęstości ładunku na siatce.
     \item $\vec{j}_{i,j}$ - tablicę gęstości prądu na siatce.
