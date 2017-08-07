@@ -60,7 +60,7 @@ Aktualizację prędkości należy więc przeprowadzić na $\vec{u}$, nie na $\ve
 
 
 
-\subsection{Depozycja gęstości prądu}
+\subsection{Komunikacja między cząstkami a siatką - depozycja i interpolacja}
 
 Kolejnym krokiem pętli obliczeniowej po rozwiązaniu równań ruchu na
 aktualizację prędkości, po której - przypomnijmy - dysponujemy położeniami
@@ -122,32 +122,7 @@ obliczenie gęstości rzeczywistych cząstek modelowanych przez makrocząstki.
 Tablica gęstości ładunku jest otrzymywana poprzez zsumowanie tablic gęstości
 wszystkich gatunków cząstek w układzie.
 
-% \begin{itemize}
-%     \item Każda makrocząstka ma własny (wspólny wewnątrz \code{Species})
-%         ładunek $q$ oraz parametr \code{scaling} (również)
-%         \todo[inline]{STYLE?}
-%         decydujący o tym, ile rzeczywistych cząstek reprezentuje.
-%         Sumaryczny ładunek makrocząstki wynosi więc \code{q*scaling}
-%     \item Każda makrocząstka ma szerokość jednej komórki siatki $\Delta x$.
-%         Cząstka zlokalizowana więc środkiem
-%         w połowie długości komórki będzie w niej całkowicie zawarata.
-%     \item W ten sposób możemy stwierdzić, \todo[inline]{CONTINUE}
-% \end{itemize}
-
-% Powszechnie stosowaną od zarania dziejów metod particle-in-cell
-% \todo[inline]{refka: Dawson} jest interpolacja liniowa, polegająca na
-% zdepozytowaniu w $i$-tej komórce siatki \todo[inline]{dokończyć}
-%
-% $1 = \sum_i S_i$ \todo[inline]{dokończyć wzór}
-%
-% \todo[inline]{rysunek}
-%
-% W naszym przypadku wymagamy również, żeby depozycja prądu była spójna z
-% depozycją ładunku, to znaczy zachowywała ładunek.
-
-
-
-\subsection{Interpolacja pól elektrycznego i magnetycznego}
+\subsubsection{Interpolacja pól elektrycznego i magnetycznego}
 
 Interpolacja pól elektrycznego i magnetycznego odbywa się na bardzo podobnej
 zasadzie, co depozycja ładunku. Wartosci pól są liniowo skalowane do pozycji
