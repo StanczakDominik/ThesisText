@@ -82,21 +82,24 @@ Sytuacja ta
 pozwala na obserwację oscylacji cząstek wokół ich stabilnych położeń
 równowagi. W przestrzeni fazowej $x, V_x$ cząstki zataczają efektywnie
 elipsy, co pozwala wnioskować że ruch ten jest z dobrym przybliżeniem harmoniczny.
-Oczywiście, nie jest to do końca oscylacja harmoniczna z powodu odchyleń pola interpolowanegoc
+Oczywiście, nie jest to do końca oscylacja harmoniczna z powodu odchyleń pola interpolowanego
 z Eulerowskiej siatki od generowanego faktycznym potencjałem $ \sim x^2 $.
 
 Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
-dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji,
+dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji, % TODO
+
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
 symulacja elektrostatyczna - na przykład długoskalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
 znikać), % TODO inne rzeczy
 
+Liniowy reżim obserwacji jest zaznaczony na rysunku \ref{fig:coldplasma}.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/COSCALING}
   \label{fig:coldplasma}
-  \caption{Cold plasma}
+  \caption{Oscylacje zimnej plazmy. Cząstki wykonują prawie harmoniczne oscylacje wokół swoich położeń równowagi, zaś energia
+    w układzie jest wymieniana między energią kinetyczną cząstek a energią pola elektrostatycznego.}
 \end{figure}
 
     \subsubsection{niestabilność dwóch strumieni}
@@ -117,11 +120,16 @@ oraz termalną energię kinetyczną, co sprawia, że średnia prędkość obu st
 To oraz szybkość narastania niestabilności jest obiektem automatycznych testów sprawdzających poprawność symulacji.
 % TODO TEST
 
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/TS_STABLE}
+  \label{fig:twostream-stable}
+  \caption{Stabilny reżim dla układu dwóch strumieni. Wykres pozycji cząstki od czasu pokazuje jedynie cykliczny ruch jednostajny w obszarze symulacji.}
+\end{figure}
 
 \begin{figure}[h!]
-  \includegraphics[width=\textwidth]{Images/TSPLOTTING}
-  \label{fig:twostream}
-  \caption{Twostream}
+  \includegraphics[width=\textwidth]{Images/TS_UNSTABLE}
+  \label{fig:twostream-unstable}
+  \caption{Niestabilny reżim dla układu dwóch strumieni. Trajektoria cząstki staje się chaotyczna.}
 \end{figure}
 \subsubsection{Propagacja fali}
 W tym przypadku symulacja nie zawiera plazmy, a badana jest jedynie propagacja fali elektromagnetycznej w obszarze
