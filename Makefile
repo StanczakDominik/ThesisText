@@ -6,6 +6,7 @@ Source/begining.pdf: Source/preamble.tex Source/begining.tex Text/abstract_en.te
 
 pictures: 
 	cp /home/dominik/Inzynierka/pythonpic/docs/ipynb/data_analysis/*/*/*.png Images
+	cp /home/dominik/Inzynierka/pythonpic/docs/ipynb/data_analysis/*/*/*/*.png Images
 clean:
 	rm *.blg *.brf *.synctex.gz *.bbl *.aux *.log *.out *.pdf *.fls *.fdb_latexmk  */*.aux */*.log */*.out */*.pdf */*.fls */*.fdb_latexmk */*.toc *.toc */*.brf
 diff:
