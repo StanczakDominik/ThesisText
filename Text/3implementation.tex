@@ -58,8 +58,6 @@ się poprzez prostą transformację:
 
 Aktualizację prędkości należy więc przeprowadzić na $\vec{u}$, nie na $\vec{v}$.
 
-
-
 \subsection{Komunikacja między cząstkami a siatką - depozycja i interpolacja}
 
 Kolejnym krokiem pętli obliczeniowej po rozwiązaniu równań ruchu na
@@ -114,7 +112,11 @@ połowie. Niemniej jednak, elektrostatyczne symulacje okresowe zdają się
 działać w ten sposób, nawet gdy liczę ewolucję pól poprzez prądy. To wymaga
 dalszej weryfikacji.}
 
-\todo[inline]{RYSUNEK depozycja ładunku}
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/charge-deposition}
+  \label{fig:charge-deposition}
+  \caption{Ilustracja depozycji ładunku poprzez skalowanie pola \english{(area weighting)}.}
+\end{figure} % TODO FINISH PICTURE
 
 Po obliczeniu otrzymana tablica gęstości \emph{makrocząstek} na
 siatce jest mnożona przez parametr \code{scaling} cząstek, co pozwala na
@@ -143,10 +145,8 @@ liniowe przeskalowanie ładunku i parametru \code{scaling} przez prędkość w
 danym kierunku nie jest wystarczające z tego powodu, że taki sposób
 depozycji nie spełnia warunku zachowania ładunku.
 
-\todo[inline]{jak sformalizować warunek zachowania ładunku}
-
-\todo[inline]{depozycja ładunku w mojej obecnej wersji nie jestem wcale
-przekonany że zachowuje ładunek}
+%TODO jak sformalizować warunek zachowania ładunku
+%TODO depozycja ładunku w mojej obecnej wersji nie jestem wcale przekonany że zachowuje ładunek}
 
 To zaś dyskwalifikuje prostą liniową interpolację jako metodę depozycji
 prądu, ponieważ chcemy rozwiązywać lokalne równania Ampere'a-Maxwella
@@ -206,8 +206,8 @@ czasem w bieżącej iteracji $t = \Delta t$.
 
     \item Jeżeli ruch cząstki się nie skończył, zostaje ona (w pętli
     wewnętrznej, niezależnie od jej faktycznego ruchu w symulacji)
-    \todo[inline]{właściwie możnaby zoptymalizować w ten sposób ruch cząstek,
-    wyciąć $x += v_x \Delta t$} przesunięta za granicę obszaru o $\varepsilon =
+    %TODO właściwie możnaby zoptymalizować w ten sposób ruch cząstek, wyciąć $x += v_x \Delta t$
+    przesunięta za granicę obszaru o $\varepsilon =
     10^{-10} \Delta x$. Dodanie $\varepsilon$ jest wykonywane w celu zwiększenia
     jednoznaczności porównywania liczb zmiennoprzecinkowych przy wybieraniu
     gałęzi algorytmu.
@@ -215,7 +215,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
     Pętla obliczeniowa wykonuje kolejną iterację dla takiej cząstki, która tym razem
     ma przydzielony czas $t' = t - t_l$.
 
-    \todo[inline]{Do której komórki trafia ładunek w każdej iteracji?}
+    %TODO Do której komórki trafia ładunek w każdej iteracji?
     %TODO006 jaki współczynnik do której komórki?
 \end{enumerate}
 
