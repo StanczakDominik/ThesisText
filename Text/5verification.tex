@@ -86,19 +86,19 @@ Oczywiście, nie jest to do końca oscylacja harmoniczna z powodu odchyleń pola
 z Eulerowskiej siatki od generowanego faktycznym potencjałem $ \sim x^2 $.
 
 Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
-dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji, % TODO
-
+dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji, 
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
 symulacja elektrostatyczna - na przykład długoskalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
 znikać), % TODO inne rzeczy
 
-Liniowy reżim obserwacji jest zaznaczony na rysunku \ref{fig:coldplasma}.
+Liniowy reżim obserwacji jest zaznaczony na rysunku
+\ref{fig:coldplasma-linear}, zaś nieliniowy \ref{fig:coldplasma-nonlinear}.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/COSCALING}
-  \label{fig:coldplasma}
-  \caption{Oscylacje zimnej plazmy. Cząstki wykonują prawie harmoniczne oscylacje wokół swoich położeń równowagi, zaś energia
+  \label{fig:coldplasma-linear}
+  \caption{Oscylacje zimnej plazmy w reżimie liniowym. Cząstki wykonują prawie harmoniczne oscylacje wokół swoich położeń równowagi, zaś energia
     w układzie jest wymieniana między energią kinetyczną cząstek a energią pola elektrostatycznego.}
 \end{figure}
 
@@ -114,8 +114,8 @@ grupowanie się cząstek w rejony koherentnej większej gęstości wewnątrz str
     zachowanie cząstek w przestrzeni fazowej. Oscylacje prędkości cząstek przybierają rząd wielkości porównywalny
     z początkową różnicą prędkości strumieni.
  Strumienie zaczynają się mieszać ze sobą nawzajem, zaś cały układ się termalizuje. Energia kinetyczna
- strumieni zamienia się w energię potencjalną pola równowagowego ą % TODO CHECK
-oraz termalną energię kinetyczną, co sprawia, że średnia prędkość obu strumieni ulega zmniejszeniu. % TODO CHECK
+ uporządkowanego ruchu strumieni zamienia się w energię potencjalną pola równowagowego 
+oraz termalną energię kinetyczną, co sprawia, że średnia prędkość obu strumieni ulega zmniejszeniu. 
 
 To oraz szybkość narastania niestabilności jest obiektem automatycznych testów sprawdzających poprawność symulacji.
 % TODO TEST
