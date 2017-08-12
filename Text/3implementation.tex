@@ -154,6 +154,8 @@ zamiast liczyć globalne równania Poissona i Gaussa.
 Jeżeli chcemy uniknąć obliczania poprawek korygujących dywergencję pól,
 musimy to okupić większą złożonością algorytmu depozycji prądu.
 
+Rozważamy tu zastosowany w bieżącej symulacji kształt cząstki $S_1$ (trójkątny).
+
 Depozycja prądu jest rozbita na dwie części - prąd podłużny i prąd
 poprzeczny. Jest to spowodowane tym, że ruch w kierunkach $y$, $z$ nie
 powoduje w symulacji przesuwania cząstek, a w $x$ już tak. Obliczenie prądu
@@ -167,7 +169,13 @@ odległość, jaką cząstka mogłaby przebyć w jednej iteracji, to $\Delta x$
 Jeżeli cząstka wystartowałaby środkiem w lewej krawędzi komórki (swoją
 własną lewą krawędzią sięgając środka poprzedniej komórki, a prawą połowy
 obecnej komórki), to w czasie ruchu przemieściłaby się przez
-przez łącznie trzy komórki. \todo[inline]{zweryfikować z algorytmem} % TODO005
+przez łącznie trzy komórki. Ilustruje to rysunek~\ref{fig:deposition-movement}.
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/deposition-movement}
+  \label{fig:deposition-movement}
+  \caption{Ilustracja ruchu cząstki poruszającej się z maksymalną prędkością dozwoloną w symulacji.}
+\end{figure}
 
 Algorytm rozbija ruch cząstek w bieżącej iteracji na etapy. W każdym z
 etapów cząstka obejmuje swoim zasięgiem inne komórki. Pętla obliczeniowa
