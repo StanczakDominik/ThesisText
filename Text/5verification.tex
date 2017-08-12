@@ -89,7 +89,7 @@ Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
 dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji, 
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
-symulacja elektrostatyczna - na przykład długoskalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
+symulacja elektrostatyczna - na przykład długofalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
 znikać), % TODO inne rzeczy
 
 Liniowy reżim obserwacji jest zaznaczony na rysunku
@@ -106,11 +106,11 @@ Liniowy reżim obserwacji jest zaznaczony na rysunku
 W tym przypadku symulacja również zawiera zimną plazmę, lecz tym razem są to dwa strumienie ujemnych cząstek
 o stałych, przeciwnych sobie prędkościach $v_0$ oraz $-v_0$.
 
-    Dla niewielkich prędkości \todo[inline]{sparametryzować} obserwuje się
-    liniowy reżim cząstek - oba strumienie pozostają stabilne. Obserwuje się niewielkie oscylacje oraz
+    Dla niewielkich prędkości początkowych strumieni obserwuje się
+    liniowy reżim oscylacji cząstek - oba strumienie pozostają stabilne. Obserwuje się niewielkie oscylacje oraz
 grupowanie się cząstek w rejony koherentnej większej gęstości wewnątrz strumienia (opisany przez Birdsalla i Langdona \emph{bunching}).
 
-    Dla dużych prędkości \todo[inline]{sprawdzić} obserwuje się nieliniowe
+    Dla dużych prędkości obserwuje się nieliniowe
     zachowanie cząstek w przestrzeni fazowej. Oscylacje prędkości cząstek przybierają rząd wielkości porównywalny
     z początkową różnicą prędkości strumieni.
  Strumienie zaczynają się mieszać ze sobą nawzajem, zaś cały układ się termalizuje. Energia kinetyczna
@@ -123,7 +123,7 @@ To oraz szybkość narastania niestabilności jest obiektem automatycznych test�
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/TS_STABLE}
   \label{fig:twostream-stable}
-  \caption{Stabilny reżim dla układu dwóch strumieni. Wykres pozycji cząstki od czasu pokazuje jedynie cykliczny ruch jednostajny w obszarze symulacji.}
+  \caption{Stabilny reżim dla układu dwóch strumieni. Widoczne są jedynie cykliczny ruch jednostajny w obszarze symulacji i niewielkie zmiany prędkości cząstki.}
 \end{figure}
 
 \begin{figure}[h!]
@@ -131,35 +131,88 @@ To oraz szybkość narastania niestabilności jest obiektem automatycznych test�
   \label{fig:twostream-unstable}
   \caption{Niestabilny reżim dla układu dwóch strumieni. Trajektoria cząstki staje się chaotyczna.}
 \end{figure}
-\subsubsection{Propagacja fali}
+\subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła}
+% TODO
+
+\subsection{Testowe symulacje elektromagnetyczne - propagacja fali}
 W tym przypadku symulacja nie zawiera plazmy, a badana jest jedynie propagacja fali elektromagnetycznej w obszarze
 symulacji dla różnych charakterystyk czasowych. % TODO KABAT
 Testy jednostkowe obejmują zachowanie energii % TODO POYNTING FLUX
 
-\subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła}
-% TODO
+\subsection{Symulacja elektromagnetyczna - oddziaływanie z tarczą wodorową}
 
-    \subsection{Symulacja elektromagnetyczna - oddziaływanie z tarczą wodorową}
+Jako warunki początkowe przyjęto plazmę rozbitą na dwie części - \emph{preplazmę} o narastającej funkcji rozkładu
+gęstości oraz plazmę właściwą o stałej gęstości. Funkcja gęstości jest generowana automatycznie poprzez metodę opisaną
+w % TODO BIRDSALL
+i jest normalizowana do danego poziomu maksymalnej gęstości w obszarze plazmy właściwej przy zadanej liczbie makrocząstek.
 
-    Jako warunki początkowe przyjęto plazmę rozbitą na dwie części - \emph{preplazmę} o narastającej funkcji rozkładu
-    gęstości oraz plazmę właściwą o stałej gęstości. Funkcja gęstości jest generowana automatycznie poprzez metodę opisaną
-    w % TODO BIRDSALL
-    i jest normalizowana do danego poziomu maksymalnej gęstości w obszarze plazmy właściwej przy zadanej liczbie makrocząstek.
+Początkowe prędkości cząstek przyjęto jako zerowe.
+\todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
 
-    Początkowe prędkości cząstek przyjęto jako zerowe.
-    \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
+Za moc lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
+zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono badania w polaryzacjach liniowej (pole elektryczne w kierunku osi $\hat{y}$ - nie zaobserwowano
+znaczących różnic w symulacji, w której pole elektryczne skierowano w kierunku osi $\hat{z}$) %TODO CHECK
+oraz
+kołowej wiązki laserowej.
 
-    Za moc lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
-    zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono badania w polaryzacjach liniowych oraz
-    kołowej wiązki laserowej.
+Długość obszaru symulacji to około $10.6 \mu$m, podzielone na 1378 komórek siatki.
 
-    Długość obszaru symulacji to około $10.6 \mu$m.
+Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek
+elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według
+tablic, jak obrazuje następująca tabela: % TODO TABLE
 
-    Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek
-    elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według
-    tablic, jak obrazuje następująca tabela:
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Ey}
+  \label{fig:laser-21-Ey}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja liniowa.}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Ey_004700}
+  \label{fig:laser-21-Ey-snapshot}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja liniowa. Rzut na iterację 4700/7755.}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Circular}
+  \label{fig:laser-21-Circular}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja kołowa.}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Circular_004700}
+  \label{fig:laser-21-Circular-snapshot}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja kołowa. Rzut na iterację 4700/7755.}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Ey}
+  \label{fig:laser-23-Ey}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja liniowa.}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Ey_004700}
+  \label{fig:laser-23-Ey-snapshot}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja liniowa. Rzut na iterację 4700/7755.}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Circular}
+  \label{fig:laser-23-Circular}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja kołowa.}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Circular_004700}
+  \label{fig:laser-23-Circular-snapshot}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja kołowa. Rzut na iterację 4700/7755.}
+\end{figure}
+
 
     \todo[inline]{zrobić tabelkę na stałe}
+
 
     \subsection{Profilowanie}
     W celu zmierzenia wydajności kodu zastosowano następujące techniki:
