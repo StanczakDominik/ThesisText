@@ -185,7 +185,7 @@ etapów cząstka obejmuje swoim zasięgiem inne komórki. Pętla obliczeniowa
 akumuluje prąd dla cząstek w następujący sposób, zaczynając z przydzielonym
 czasem w bieżącej iteracji $t = \Delta t$.
 
-\subsubsection{Depozycja podłużna} % TODO
+\subsubsection{Depozycja podłużna} 
 \begin{enumerate}
     \item obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
     granicy obszaru
@@ -204,6 +204,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
     \begin{equation}
         j_x = q n v_x t/\Delta t
     \end{equation}
+    \todo[inline]{Czy to jest czytelne?}
     gdzie $q$ to ładunek cząstki, a $n$ to parametr \code{scaling} oznaczający liczbę
     rzeczywistych cząstek w makrocząstce.
 
@@ -218,14 +219,14 @@ czasem w bieżącej iteracji $t = \Delta t$.
     Pętla obliczeniowa wykonuje kolejną iterację dla takiej cząstki, która tym razem
     ma przydzielony czas $t' = t - t_l$.
 
-    %TODO Do której komórki trafia ładunek w każdej iteracji?
-    %TODO006 jaki współczynnik do której komórki?
+    Depozytowany prąd w danej iteracji trafia do komórki, w której cząstka zaczynała ruch. W ten sposób
+    można zagwarantować, że cząstka zdeponuje prąd do wszystkich komórek, w których się poruszała.
 \end{enumerate}
 
 W każdej iteracji pętli obliczeniowej prąd ze wszystkich cząstek jest
 akumulowany do tablicy prądów na siatce. Tablica ma rozmiar \code{NG+2} \todo[inline]{verify}
 
-\subsubsection{Depozycja poprzeczna} % TODO
+\subsubsection{Depozycja poprzeczna}
 Algorytm jest identyczny do depozycji podłużnej poza samym etapem depozycji
 prądu. Jako że symulacja jest jednowymiarowa i cząstki nie wykonują
 faktycznego ruchu w kierunkach $y$, $z$, przyjmujemy liniową interpolację
@@ -233,28 +234,31 @@ prądów w tych kierunkach jako iloczynów $\vec{j}=q\vec{v}$ ważonych przez pr
 cząstki z komórkami oraz czas, jaki cząstka spędza w ruchu obejmując dane
 komórki.
 
-Przekrycie obliczamy jako
+Przekrycie z centrum bieżącej komórki w danej chwili obliczamy jako
 \begin{equation}
-    s =
+    s_0 = 1 \pm (x' + 0.5) 
 \end{equation}
-% TODO007 wzór na przekrycie z instrukcji J.
+gdzie znak to $+$, gdy cząstka znajduje się w lewej połowie komórki. Zmianę
+przekrycia w trakcie ruchu, jak i końcowe przekrycie, obliczamy z tym samym znakiem jako 
+\begin{equation}
+    s_1 = s_0 \pm \Delta s = s_0 \pm v_x t / dx
+\end{equation}
+
 
 Aby uzyskać wartość średniego przekrycia cząstki z komórką w trakcie ruchu
 uśredniamy przekrycie na końcu ruchu z przekryciem na początku ruchu,
 \begin{equation}
-    w = {(s(x^{n+1}) + s(x^n))} % TODO008 wzór na przekrycie z instrukcji J
+    w = (s(x^{n+1}) + s(x^n))/{2}
 \end{equation}
 
-Ostatecznie wkład do komórki ``obecnej'' w ciągu jednej iteracji pętli obliczeniowej to \todo[inline]{zweryfikować}
+Ostatecznie wkład do bieżącej komórki w ciągu jednej iteracji pętli obliczeniowej to
 to $w q n v_{y, z} t / \Delta t$.
-Zaś do dalszej, przekrywanej komórki jest to  $(1-w) q n v_{y, z} t / \Delta t$.
-\todo[inline]{jakoś poprawić stylistykę chyba}
+Zaś do dalszej komórki, w której stronę skierowany jest ruch, jest to  $(1-w) q n v_{y, z} t / \Delta t$.
 
 Tablica prądów poprzecznych, do których zostają depozytowane, ma rozmiar
 \shape{NG+4, 2}. Jest to spowodowane faktem, że w liniowej depozycji
 cząstki mogą objąć kształtem maksymalnie dwie komórki, przez co należy dodać
 komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
-
 
 \subsection{Warunek początkowy pola elektrycznego: solver globalny, elektrostatyczny}
 Jako że symulacja jest jednowymiarowa, musimy jedynie znaleźć równowagowe pole
