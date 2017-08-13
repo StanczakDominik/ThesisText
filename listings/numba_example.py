@@ -1,5 +1,5 @@
 import numba
-import numpy as np
+import numpy
 
 def sqrt(x):
     return x**0.5
@@ -10,7 +10,7 @@ sqrt_jitted = numba.njit(sqrt)
 def sqrt_jitted_as_decorator(x):
     return x**0.5
 
-x = np.arange(100000)
+x = numpy.arange(100000)
 
 #%timeit sqrt(x)
 # 49.4 ms +- 8.77 ms per loop (mean +- std. dev. of 7 runs, 10 loops each)
