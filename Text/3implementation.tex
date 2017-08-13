@@ -56,7 +56,10 @@ się poprzez prostą transformację:
 \end{align}
 
 
-Aktualizację prędkości należy więc przeprowadzić na $\vec{u}$, nie na $\vec{v}$.
+Aktualizację prędkości należy więc przeprowadzić na $\vec{u}$, nie na
+$\vec{v}$. Po zakończeniu
+aktualizacji należy również powrócić do $\vec{v}$ jako prędkości używanej
+do depozycji prądu.
 
 \subsection{Komunikacja między cząstkami a siatką - depozycja i interpolacja}
 
@@ -106,11 +109,11 @@ komórkę następną w stosunku $n_i = 1-x'$, $n_{i+1} = x'$. Cząstka będąca
 w połowie komórki depozytowałaby więc swój ładunek po równo między obie
 komórki.
 
-\todo[inline]{mam wrażenie że jako że tego nie wykorzystuję w symulacji to
-to może być nieco błędne, środki komórek Eulera wg depozycji ładunku są w
-połowie. Niemniej jednak, elektrostatyczne symulacje okresowe zdają się
-działać w ten sposób, nawet gdy liczę ewolucję pól poprzez prądy. To wymaga
-dalszej weryfikacji.}
+% TODO mam wrażenie że jako że tego nie wykorzystuję w symulacji to
+% to może być nieco błędne, środki komórek Eulera wg depozycji ładunku są w
+% połowie. Niemniej jednak, elektrostatyczne symulacje okresowe zdają się
+% działać w ten sposób, nawet gdy liczę ewolucję pól poprzez prądy. To wymaga
+% dalszej weryfikacji.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/charge-deposition}

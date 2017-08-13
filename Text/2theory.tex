@@ -261,39 +261,6 @@
     w Instytucie Fizyki Plazmy i Laserowej Mikrosyntezy.  \todo[inline]{Tu bym
     chciał prosić o weryfikację.}
 
-    \subsection{Python}
-    Python jest wysokopoziomowym, interpretowanym językiem programowania,
-    którego atutami są
-    \begin{itemize}
-    \item otwartość i dostępność
-    \item szybkie prototypowanie dzięki wbudowanemu środowisku \english{REPL}, rozszerzalnemu przez pakiet IPython\cite{ipython}
-    \item możliwość łatwej integracji z innymi, niskopoziomowymi językami, między innymi C.
-    \item łatwy dostęp do szerokiej gamy darmowych blibliotek na licencji \english{open source}, w tym naukowych i numerycznych
-    \item wieloplatformowość, łatwość uruchomienia tych samych programów na wielu różnych maszynach
-    \end{itemize}
-
-    Python znajduje szerokie zastosowania w analizie danych i uczeniu maszynowym
-    (zwłaszcza w astronomii\cite{astropy}). W zakresie symulacji w ostatnich czasach powstały
-    kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice
-    płynów.  Nie można tu nie wspomnieć o utworzonym niedawno hydrodynamicznym kodzie
-    PyFR, łączącym szybkie obliczenia w CUDA, OpenCL oraz OpenMP z wysokopoziomowością Pythona. Uruchomiono go na klastrze Piz Daint
-    i udowodniono jego skalowanie (\english{weak scaling}) do 2000 kart NVIDIA K20X i 1.3 stabilnych petaflopów na sekundę.
-    \cite{pyfr}\cite{pyfr-euroscipy}
-
-
-    Atutem Pythona w wysokowydajnych obliczeniach jest łatwość użycia w
-    nim zewnętrznych bibliotek napisanych na przykład w C lub Fortranie, co
-    pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
-    napisanych w językach niskopoziomowych bez faktycznej pracy z tymi
-    językami.
-
-    Istotną zaletą Pythona, o której nie można nie wspomnieć, jest inherentna
-    otwartość wśród użytkowników tego języka. Znacząca część projektów tworzonych w
-    tym języku jest udostępnianych za darmo jako projekty \english{open source},
-    internecie na platformach takich jak GitHub, GitLab i Bitbucket, co znacząco
-    ułatwia kolaborację i wspólne ich tworzenie przez społeczność.  Jest to obszar,
-    którego techniki wydają się być równie korzystne w społeczności naukowej.
-
     \subsubsection{Numpy}
     \code{numpy}\cite{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na
     n-wymiarowych macierzach bądź tablicach, utworzona w celu umożlwiienia

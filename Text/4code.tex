@@ -175,3 +175,131 @@ Przygotowane konfiguracje istniejących symulacji są zawarte w plikach
 \end{itemize}
 
 Algorytmiczne testy jednostkowe są zawarte w katalogu \code{tests}.
+
+\subsection{Wykorzystane biblioteki Pythona}
+
+Pomijamy tutaj bibliotekę standardową jako wbudowaną w sam język.
+
+\subsubsection{Numpy}
+\code{numpy}\cite{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na
+n-wymiarowych macierzach bądź tablicach, utworzona w celu umożlwiienia
+zastąpienia operacjami wektorowymi iteracji po tablicach, powszechnie
+stosowanych w metodach numerycznych i będących znanym słabym punktem
+Pythona.
+
+Pod zewnętrzną powłoką zawiera odwołania do znanych, wypróbowanych i
+sprawdzonych w numeryce modułów \code{LAPACK}, \code{BLAS} napisanych w
+szybkich, niskopoziomowych językach C oraz \code{FORTRAN}.  Jest to
+\emph{de facto} standard większości obliczeń numerycznych w Pythonie.
+
+Należy zauważyć, że operacje matematyczne w wersji \code{numpy} zawartej
+w dystrybucji Anaconda są automatycznie
+zrównoleglane tam, gdzie pozwala na to
+niezależność obliczeń dzięki dołączonym bibliotekom Intel Math Kernel Library.\cite{intel-mkl} 
+
+Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD.
+
+
+\subsubsection{scipy}
+Kolejną podstawową biblioteką w numerycznym Pythonie jest \code{scipy},
+biblioteka zawierająca wydajne gotowe implementacje wielu powszechnych algorytmów
+numerycznych służących między innymi całkowaniu, optymalizacji funkcji rzeczywistych,
+uczeniu maszynowemu, algebrze liniowej czy transformatom Fouriera.
+
+\subsubsection{Numba}
+\code{numba} to biblioteka służąca do kompilacji just-in-time wysokopoziomowego
+kodu Pythona do kodu niskopoziomowego przy pierwszym uruchomieniu programu. W
+wielu przypadkach pozwala na osiągnięcie kodem napisanym w czystym Pythonie
+wydajności marginalnie niższej bądź nawet równej do analogicznego programu w C
+bądź Fortranie. \cite{numba}
+
+Jednocześnie należy zaznaczyć prostotę jej użycia. W wielu przypadkach wystarczy
+dodać do funkcji dekorator \code{@numba.jit}:
+
+
+\todo[inline]{fragment kodu. @jit przed kodem} % TODO003 numba code part
+
+
+Istniejącym od niedawna kodem symulacyjnym implementującym tą metodę jest FBPIC\cite{fbpic}.
+
+
+\subsubsection{HDF5}
+HDF5 jest wysokowydajnym formatem plikow służącym przechowywaniu danych
+liczbowych w drzewiastej, skompresowanej strukturze danych, razem z
+równoległym, wielowątkowym zapisem tych danych.  W Pythonie implementuje go
+biblioteka h5py\cite{h5py}.
+
+W bieżącej pracy wykorzystuje się go do przechowywania danych liczbowych
+dotyczących przebiegu symulacji, pozwalających na ich dalsze przetwarzanie
+i analizę poprzez wizualizację.
+
+\subsubsection{matplotlib}
+Do wizualizacji danych z symulacji (oraz tworzenia schematów w sekcji
+teoretycznej niniejszej pracy) użyto własnoręcznie napisanych skryptów w
+uniwersalnej bibliotece graficznej \code{matplotlib}\cite{matplotlib}.
+\code{matplotlib} zapewnia wsparcie zarówno dla grafik statycznych w różnych układach
+współrzędnych (w tym 3D), jak również dla dynamicznie generowanych animacji
+przedstawiających przebiegi czasowe symulacji.
+
+\subsubsection{py.test}
+Przy pracy nad kodem użyto frameworku testowego \code{py.test}~\cite{pytest}.
+Tworzenie testów jest trywialne:
+
+\lstinputlisting[language=Python, numbers=left, caption=Podstawowy przykład testu w pliku \code{func.py}]{listings/func.py}
+
+Uruchamianie zaś:
+
+\begin{lstlisting}[language=Bash]
+    >>> pytest func.py
+    === FAILURES ===
+    ___failing ___
+
+        def test_failing():
+    >       assert f(4) == 13
+    E       assert 12 == 13
+    E        +  where 12 = f(4)
+
+    func.py:10: AssertionError
+    === 1 failed, 1 passed in 0.10 seconds ===
+\end{lstlisting}
+
+Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie
+objawia się zazwyczaj formalnym błędem, a jedynie błędnymi
+wynikami, dobrze zautomatyzowane testy jednostkowe potrafią zaoszczędzić
+bardzo dużo czasu na debugowaniu poprzez automatyzację uruchamiania
+kolejnych partii kodu i lokalizację błędnie działających części algorytmu.
+Dobrze napisane testy są praktycznie koniecznością w dzisiejszych czasach,
+zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
+wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
+
+Dobrym przykładem skutecznego testu jednostkowego jest porównanie energii kinetycznej
+elektronu o znanej prędkości z wartością tablicową, zawarte jako test w pliku
+\code{pythonpic/tests/test\_species.py}.
+
+\code{py.test} jest oprogramowaniem otwartym, dostępnym na licencji MIT.
+
+\subsubsection{Travis CI}
+Nieocenionym narzędziem w pracy nad kodem był system ciągłej integracji
+(\emph{continuous integration}) Travis CI \cite{travisci}
+dostępny za
+darmo dla projektów open-source. Travis pobiera aktualne wersje kodu przy
+każdej aktualizacji wersji dostępnej na serwerze GitHub i uruchamia testy,
+zwracając komunikat o ewentualnym niepowodzeniu i pozwalając na jednoczesne
+uruchamianie bieżących, intensywnych symulacji przy jednoczesnym
+weryfikowaniu w chmurze poprawności działania lżejszych, acz wciąż intensywnych
+symulacji testowych i testów algorytmicznych.
+
+\subsubsection{snakeviz}
+
+W optymalizacji przydatny okazał się program \code{snakeviz}\cite{snakeviz} dostępny na
+GitHubie i pozwalający na wizualizację wyników z profilowania
+symulacji. Pozwala w wygodny sposób zbadać, które fragmenty kodu najbardziej
+spowalniają symulację, które są najlepszymi kandydatami do optymalizacji, oraz
+jak skuteczne (bądź nieskuteczne) okazują się próby polepszenia ich wydajności.
+Działanie programu ilustruje rysunek~\ref{fig:snakeviz}.
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{Images/snakeviz}
+  \caption{Wizualizacja szybkości działania poszczególnych fragmentów kodu
+    wygenerowana programem snakeviz.}
+  \label{fig:snakeviz}
+\end{figure}

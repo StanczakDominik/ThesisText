@@ -131,35 +131,38 @@ To oraz szybkość narastania niestabilności jest obiektem automatycznych test�
   \label{fig:twostream-unstable}
   \caption{Niestabilny reżim dla układu dwóch strumieni. Trajektoria cząstki staje się chaotyczna.}
 \end{figure}
-\subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła}
-% TODO
+% \subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła} % TODO
 
 \subsection{Testowe symulacje elektromagnetyczne - propagacja fali}
 W tym przypadku symulacja nie zawiera plazmy, a badana jest jedynie propagacja fali elektromagnetycznej w obszarze
-symulacji dla różnych charakterystyk czasowych. % TODO KABAT
-Testy jednostkowe obejmują zachowanie energii % TODO POYNTING FLUX
+symulacji dla różnych charakterystyk czasowych. 
+
+Testy jednostkowe obejmują zachowanie energii weryfikowane poprzez zgodność
+energii pola elektromagnetycznego w symulacji ze strumieniem Poyntinga generowanym
+przez warunek brzegowy. % TODO POYNTING FLUX
+
+% TODO RYSUNEK
 
 \subsection{Symulacja elektromagnetyczna - oddziaływanie z tarczą wodorową}
 
-Jako warunki początkowe przyjęto plazmę rozbitą na dwie części - \emph{preplazmę} o narastającej funkcji rozkładu
-gęstości oraz plazmę właściwą o stałej gęstości. Funkcja gęstości jest generowana automatycznie poprzez metodę opisaną
-w % TODO BIRDSALL
-i jest normalizowana do danego poziomu maksymalnej gęstości w obszarze plazmy właściwej przy zadanej liczbie makrocząstek.
+Jako warunki początkowe przyjęto plazmę rozbitą na dwie części -
+\emph{preplazmę} o narastającej funkcji rozkładu gęstości oraz plazmę właściwą
+o stałej gęstości. Funkcja gęstości jest generowana automatycznie poprzez
+metodę opisaną w~\cite{birdsall} i jest normalizowana do danego poziomu
+maksymalnej gęstości w obszarze plazmy właściwej przy zadanej liczbie
+makrocząstek.
 
 Początkowe prędkości cząstek przyjęto jako zerowe.
-\todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
+% \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
 
-Za moc lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
-zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono badania w polaryzacjach liniowej (pole elektryczne w kierunku osi $\hat{y}$ - nie zaobserwowano
-znaczących różnic w symulacji, w której pole elektryczne skierowano w kierunku osi $\hat{z}$) %TODO CHECK
-oraz
-kołowej wiązki laserowej.
+Za intensywność lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
+zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono
+badania w polaryzacjach liniowej (pole elektryczne w kierunku osi $\hat{y}$ -
+nie zaobserwowano znaczących różnic w symulacji, w której pole elektryczne
+skierowano w kierunku osi $\hat{z}$) %TODO CHECK
+oraz kołowej wiązki laserowej.
 
 Długość obszaru symulacji to około $10.6 \mu$m, podzielone na 1378 komórek siatki.
-
-Prędkość światła $c$, stałą dielektryczną $\varepsilon_0$, ładunek
-elementarny $e$, masy protonu i elektronu $m_p$, $m_e$ przyjęto według
-tablic, jak obrazuje następująca tabela: % TODO TABLE
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Ey}
@@ -211,24 +214,23 @@ tablic, jak obrazuje następująca tabela: % TODO TABLE
 \end{figure}
 
 
-    \todo[inline]{zrobić tabelkę na stałe}
 
 
-    \subsection{Profilowanie}
-    W celu zmierzenia wydajności kodu zastosowano następujące techniki:
-    \subsubsection{cProfile}
-    Uruchamianie kodu w celu zmierzenia wydajności polegało na uruchomieniu skryptu \code{make benchmark}, który:
-    \begin{enumerate}
-    \item Czyści zawartość folderu \code{data\_analysis}
-    \item Uruchamia środowisko Anaconda zawierające bardziej zoptymalizowane od zwyczajnych wersje biblioteki Numpy
-    \item Uruchamia skrypt \code{fulllaser.py} w trybie \code{cProfile} i zapisuje dane
-    \end{enumerate}
+\subsection{Profilowanie}
+W celu zmierzenia wydajności kodu zastosowano następujące techniki:
+\subsubsection{cProfile}
+Uruchamianie kodu w celu zmierzenia wydajności polegało na uruchomieniu skryptu \code{make benchmark}, który:
+\begin{enumerate}
+\item Czyści zawartość folderu \code{data\_analysis}
+\item Uruchamia środowisko Anaconda zawierające bardziej zoptymalizowane od zwyczajnych wersje biblioteki Numpy
+\item Uruchamia skrypt \code{fulllaser.py} w trybie \code{cProfile} i zapisuje dane
+\end{enumerate}
 
-    Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
+Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
 
-    Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji
-    \code{iteration}.
-    \subsubsection{line\_profiler}
-    \subsubsection{IPython timeit}
+Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji
+\code{iteration}.
+\subsubsection{line\_profiler}
+\subsubsection{IPython timeit}
 
-    \subsection{Problemy napotkane w trakcie pisania kodu} % TODO
+\subsection{Problemy napotkane w trakcie pisania kodu} % TODO
