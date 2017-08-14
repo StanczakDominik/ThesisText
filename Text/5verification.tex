@@ -1,7 +1,7 @@
 \section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
     Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania
-    niniejszej pracy wersji programu.  W repozytorium Git na Githubie jest to
-    commit ``placeholder'' \todo[inline]{uzupełnić commita} identyfikowany % TODO
+    niniejszej pracy wersji programu.  W repozytorium Git na GitHubie jest to
+    commit ``placeholder'' \todo[inline]{uzupełnić commita} identyfikowany
     również jako wersja 1.0.
 
     \subsection{Przypadki testowe}
@@ -44,11 +44,20 @@
                 \item \ldots \todo[inline]{write these}
             \end{enumerate}
 
-        \itemi Push
+        \itemi \english{Push} - \code{test\_pusher}
             \begin{enumerate}
-                \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu
-                \itemii Ruch w jednorodnym polu magnetycznym ???????????
-                \itemii \todo[inline]{write these}
+                \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu,
+                    w wersji nierelatywistycznej i relatywistycznej. Prędkość cząstki rośnie
+                    jednostajnie w reżimie nierelatywistycznym.
+                \itemii Relatywistyczny i nierelatywistyczny ruch kołowy z
+                    zachowaniem energii w jednorodnym polu magnetycznym w kierunku osi $\hat{z}$. 
+                \itemii Relatywistyczny ruch w potencjale oscylatora harmonicznego. Ruch cząstki jest porównany
+                    z trajektorią obliczoną analitycznie w przypadku relatywistycznym.
+                \itemii Zachowanie energii ruchu cząstki bez pola elektrycznego przy wysoce relatywistycznej prędkości, w kierunku ruchu oraz z prędkościami
+                    w trzech wymiarach.
+                \itemii Test dryfu $\vec{E} \times \vec{B}$ - cząstka w skrzyżowanych polach elektrycznym i magnetycznym uzyskuje stabilną prędkość $E/B$.
+                \itemii Test warunków brzegowych dla symulacji okresowych - zachowanie liczby cząstek przechodzących przez granicę obszaru symulacji.
+                \itemii Test warunków brzegowych dla symulacji okresowych - spadek liczby cząstek przechodzących przez granicę obszaru symulacji do zera.
             \end{enumerate}
     \end{enumerate}
 
@@ -64,9 +73,9 @@ o zerowej prędkości początkowej, rozłożonymi w okresowym pudełku symulacyj
 równomiernie z nałożonym na nie sinusoidalnym zaburzeniem:
 
 \begin{align}
-x = x_0 + x_1\\
-x_0 = L * n / N\\
-x_1 = A  \sin(k x_0)=A \sin(2 \pi n x_0 / L)
+x &= x_0 + x_1\\
+x_0 &= L * n / N\\
+x_1 &= A  \sin(k x_0) &= A \sin(2 \pi n x_0 / L)
 \end{align}
 
 Określenie ``zimna plazma'' bierze się z nietermalnego, deltowego
@@ -86,14 +95,13 @@ Oczywiście, nie jest to do końca oscylacja harmoniczna z powodu odchyleń pola
 z Eulerowskiej siatki od generowanego faktycznym potencjałem $ \sim x^2 $.
 
 Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
-dx$ \todo[inline]{dx} obserwuje się nieliniowy reżim oscylacji, 
+dx$ obserwuje się nieliniowy reżim oscylacji, 
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
 symulacja elektrostatyczna - na przykład długofalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
 znikać), % TODO inne rzeczy
 
-Liniowy reżim obserwacji jest zaznaczony na rysunku
-\ref{fig:coldplasma-linear}, zaś nieliniowy \ref{fig:coldplasma-nonlinear}.
+Liniowy reżim obserwacji jest zaznaczony na rysunku~\ref{fig:coldplasma-linear}, zaś nieliniowy~\ref{fig:coldplasma-nonlinear}.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/COSCALING}
