@@ -1,5 +1,5 @@
 \section{Opis i treść kodu PythonPIC}
-Cały kod programu w celu reprodukowalności wyników tworzony był i jest
+Cały kod programu w celu ułatwienia jego użycia i reprodukowalności wyników tworzony był i jest
 dostępny na platformie GitHub\cite{github-repo}.
 
 Program ma obiektową strukturę zewnętrzną, którą w celu łatwości
@@ -26,7 +26,7 @@ Zawiera następujące parametry:
         długość obszaru symulacji
     \item $\rho_i$ - tablicę gęstości ładunku na siatce.
     \item $\vec{j}_{i,j}$ - tablicę gęstości prądu na siatce.
-    \item $E_{i,j}, B_{i,j}$ - tablice pól elektryczngo i magnetycznego na siatce.
+    \item $E_{i,j}, B_{i,j}$ - tablice pól elektrycznego i magnetycznego na siatce.
     \item $c$, $\varepsilon_0$ - stałe fizyczne - prędkość światła oraz
         przenikalność elektryczną próżni.
     \item $\Delta t$ - krok czasowy symulacji, obliczony jako $\Delta t =
@@ -43,7 +43,7 @@ Zawiera następujące parametry:
 Istotne metody klasy \code{Grid}, o których należy wspomnieć, to:
 \begin{itemize}
      \item \code{apply\_bc} - aktualizuje krańcowe wartości tablic $E$, $B$
-         w oparciu o podany warunek brzegowy.
+         w oparciu o podany warunek brzegowy (\code{BC}).
      \item \code{gather\_current} - zbiera ładunek z cząstek na siatkę
      \item \code{gather\_charge} - zbiera prąd z cząstek na siatkę
      \item \code{init\_solve} - uruchamia początkową, spektralną iterację obliczającą równowagowe
@@ -84,7 +84,7 @@ Poza skalarami zawiera tablice rozmiaru $N$:
         iteracjach $n, n+1, n+2$\ldots
     \item trójwymiarowych prędkości makrocząstek $\vec{v}^{n+\frac{1}{2}}$,
         zapisywanych w iteracjach $n+\frac{1}{2}, n+\frac{3}{2}, n+\frac{5}{2}$\ldots
-    \item stanu makrocząstek (flagi boolowskie oznaczające cząstki aktywne
+    \item stanu makrocząstek (flagi oznaczające cząstki aktywne
         bądź usunięte z obszaru symulacji)
 \end{itemize}
 
@@ -118,7 +118,8 @@ Warto wspomnieć o następujących metodach klasy \code{Species}:
     \item \code{distribute\_nonuniformly} - rozmieszcza cząstki według zadanej funkcji rozkładu gęstości
 \end{itemize}
 
-Poza tym \code{Species} zawiera również rozmaite metody służące inicjalizacji prędkości i położeń przy pomocy zaburzeń sinusoidalnych bądź losowych.
+Poza tym \code{Species} zawiera również rozmaite metody służące inicjalizacji
+prędkości i położeń przy pomocy zaburzeń sinusoidalnych bądź losowych.
 
 \subsection{Simulation}
 Klasa zbierająca w całość \code{Grid} oraz dowolną liczbę \code{Species} zawartych w
@@ -137,12 +138,12 @@ Przygotowanie warunków początkowych do danej symulacji polega na utworzeniu
 nowej klasy dziedziczącej po \code{Simulation}, która przygotowuje siatkę,
 cząstki i warunki brzegowe zgodnie z założeniami eksperymentu i wywołuje
 konstruktor \code{Simulation}.  Należy również przeciążyć metodę
-\code{grid\_species\_initialization}, która przygotowuje warunki początkowe. Domyślna
-wersja tej metody wykonuje pierwszą, początkową iterację równań ruchu,
-która pozwala na zachowanie symplektyczności integratora równań ruchu,
-\todo[inline]{stylistyka?} co pomaga zachować energię cząstek w symulacji.
-W tym momencie jest też tworzony plik \code{.hdf5}, do którego zapisywane są
-dane gromadzone w czasie symulacji.
+\code{grid\_species\_initialization}, która przygotowuje warunki początkowe.
+Domyślna wersja tej metody wykonuje pierwszą, początkową iterację równań ruchu
+przesuwającą prędkość o $-\Delta t / 2$ w tył. To zaś pozwala na zachowanie
+symplektyczności integratora, co pomaga zachować energię w symulacji.  W tym
+momencie jest też tworzony plik \code{.hdf5}, do którego zapisywane są dane
+gromadzone w czasie symulacji.
 
 Aby uruchomić symulację, należy wywołać jedną z metod:
 \begin{itemize}
@@ -156,60 +157,52 @@ Aby uruchomić symulację, należy wywołać jedną z metod:
          uruchomiona na nowo.
 \end{itemize}
 
-\subsection{Pliki pomocnicze} % TODO CHECK
-Poza powyższymi program jest podzielony na pliki z implementacjami algorytmow numerycznych,
-co pozwala na zwiekszenie niezaleznosci testow oraz zwieksza modularnosc kodu.
+\subsection{Pliki pomocnicze}
+Poza powyższymi program jest podzielony na pliki z implementacjami algorytmów numerycznych,
+co ułatwia kompilację JIT, pozwala na zwiększenie niezależności testów oraz
+zwiększa modularność kodu.
 \begin{itemize}
-    \item BoundaryCondition
-    \item FieldSolver
-    \item particle\_push
-    \item field\_interpolation
-
-    \item algorithms\_grid - zawiera algorytmy dotyczące rozwiązywania
-        równań Maxwella na dyskretnej siatce
-
-    \item algorithms\_interpolation - zawiera algorytmy interpolujące pola
-        z cząstek na siatkę i odwrotnie
-    \item algorithms\_pusher - zawiera algorytmy integrujące numerycznie
-        równania ruchu cząstek
-    \item animation - tworzy animacje dla celów analizy danych
-    \item static\_plots - tworzy statyczne wykresy dla celów analizy danych
-    \item plotting - zawiera ustawienia dotyczące analizy danych
-        \todo[inline]{czy to można przenieść do simulation czy gdzieś?}
+    \item \code{BoundaryCondition} - implementacja warunków brzegowych
+    \item \code{charge\_deposition} - depozycja ładunku na siatkę
+    \item \code{current\_deposition} - depozycja prądu podłużnego i poprzecznego na siatkę
+    \item \code{density\_profiles} - profile przestrzenne kształtów preplazmy
+        oraz algorytmy rozkładające cząstki według tych rozkładów.
+    \item \code{FieldSolver} - spektralne i rotacyjne algorytmy rozwiązywania równań Maxwella na siatce Eulera.
+    \item \code{particle\_push} - implementacja integratorów równań ruchu typu \english{leapfrog} oraz Borysa.
+    \item \code{field\_interpolation} - interpolacja pól elektromagnetycznych z położeń na siatce do cząstek.
 \end{itemize}
 
-Przygotowane konfiguracje istniejących symulacji są zawarte w plikach
-\code{configs/run\_*}: \todo[inline]{przeformułować}
+Katalog \code{visualization} zawiera wizualizacje danych.
 \begin{itemize}
-    \item run\_coldplasma
-    \item run\_twostream
-    \item run\_wave
-    \item run\_beam
-    \item run\_laser
+    \item \code{animation} - tworzy animacje dla celów analizy danych
+    \item \code{time\_snapshots} - implementacje wykresów zależnych od czasu, ilustrujących stan symulacji w danej iteracji.
+    \item \code{static\_plots} - tworzy statyczne wykresy dla celów analizy danych
+    \item \code{plotting} - zawiera ustawienia dotyczące analizy danych
 \end{itemize}
 
-Algorytmiczne testy jednostkowe są zawarte w katalogu \code{tests}.
+Przygotowane konfiguracje istniejących symulacji są zawarte w katalogu 
+\code{configs}, zaś algorytmiczne testy jednostkowe są zawarte w katalogu \code{tests}.
 
 \subsection{Wykorzystane biblioteki Pythona}
 
-Pomijamy tutaj bibliotekę standardową jako wbudowaną w sam język.
+Pomijamy tutaj bibliotekę standardową jako wbudowaną w sam język, skupiając się na przydatnych bibliotekach zewnętrznych.
 
 \subsubsection{Numpy}
 \code{numpy}\cite{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na
-n-wymiarowych macierzach bądź tablicach, utworzona w celu umożlwiienia
+n-wymiarowych macierzach bądź tablicach, utworzona w celu umożliwienia
 zastąpienia operacjami wektorowymi iteracji po tablicach, powszechnie
 stosowanych w metodach numerycznych i będących znanym słabym punktem
 Pythona.
 
 Pod zewnętrzną powłoką zawiera odwołania do znanych, wypróbowanych i
-sprawdzonych w numeryce modułów \code{LAPACK}, \code{BLAS} napisanych w
+sprawdzonych w nauce modułów \code{LAPACK}, \code{BLAS} napisanych w
 szybkich, niskopoziomowych językach C oraz \code{FORTRAN}.  Jest to
 \emph{de facto} standard większości obliczeń numerycznych w Pythonie.
 
 Należy zauważyć, że operacje matematyczne w wersji \code{numpy} zawartej
-w dystrybucji Anaconda są automatycznie
-zrównoleglane tam, gdzie pozwala na to
-niezależność obliczeń dzięki dołączonym bibliotekom Intel Math Kernel Library.\cite{intel-mkl} 
+w popularnej dystrybucji Anaconda są automatycznie zrównoleglane tam, gdzie
+pozwala na to niezależność obliczeń dzięki dołączonym bibliotekom Intel Math
+Kernel Library.\cite{intel-mkl} 
 
 Numpy jest oprogramowaniem otwartym, udostępnianym na licencji BSD.
 
@@ -275,13 +268,13 @@ Uruchamianie zaś:
     === 1 failed, 1 passed in 0.10 seconds ===
 \end{lstlisting}
 
-Należy zaznaczyć, że w numeryce, gdzie błędne działanie programu nie
+Należy zaznaczyć, że w symulacjach numerycznych, gdzie błędne działanie programu nie
 objawia się zazwyczaj formalnym błędem, a jedynie błędnymi
 wynikami, dobrze zautomatyzowane testy jednostkowe potrafią zaoszczędzić
 bardzo dużo czasu na debugowaniu poprzez automatyzację uruchamiania
 kolejnych partii kodu i lokalizację błędnie działających części algorytmu.
 Dobrze napisane testy są praktycznie koniecznością w dzisiejszych czasach,
-zaś każdy nowo powstały projekt numeryczno-symulacyjny powinien je
+zaś każdy nowo powstały projekt symulacyjny powinien je
 wykorzystywać, najlepiej do weryfikacji każdej części algorytmu z osobna.
 
 Dobrym przykładem skutecznego testu jednostkowego jest porównanie energii kinetycznej
