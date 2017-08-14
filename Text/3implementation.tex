@@ -187,7 +187,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
 
 \subsubsection{Depozycja podłużna} 
 \begin{enumerate}
-    \item obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
+    \itemi obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
     granicy obszaru
     \begin{equation}
         t_l = (x - x_g)/v
@@ -196,9 +196,9 @@ czasem w bieżącej iteracji $t = \Delta t$.
     ruchu cząstki.
     \item
     \begin{itemize}
-        \item jeżeli cząstka ma wystarczająco czasu $t$ (spełnia warunek $t > t_l$) aby
+        \itemi jeżeli cząstka ma wystarczająco czasu $t$ (spełnia warunek $t > t_l$) aby
         dotrzeć do kolejnej granicy obszaru, jej prąd zostaje zdepozytowany przez czas $t_l$,
-        \item W przeciwnym razie prąd jest depozytowany przez czas $t$ i ruch cząstki kończy się.
+        \itemi W przeciwnym razie prąd jest depozytowany przez czas $t$ i ruch cząstki kończy się.
     \end{itemize}
     Wkład cząstki do depozytowanego prądu wynosi
     \begin{equation}
@@ -208,7 +208,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
     gdzie $q$ to ładunek cząstki, a $n$ to parametr \code{scaling} oznaczający liczbę
     rzeczywistych cząstek w makrocząstce.
 
-    \item Jeżeli ruch cząstki się nie skończył, zostaje ona (w pętli
+    \itemi Jeżeli ruch cząstki się nie skończył, zostaje ona (w pętli
     wewnętrznej, niezależnie od jej faktycznego ruchu w symulacji)
     %TODO właściwie możnaby zoptymalizować w ten sposób ruch cząstek, wyciąć $x += v_x \Delta t$
     przesunięta za granicę obszaru o $\varepsilon =
@@ -248,7 +248,7 @@ przekrycia w trakcie ruchu, jak i końcowe przekrycie, obliczamy z tym samym zna
 Aby uzyskać wartość średniego przekrycia cząstki z komórką w trakcie ruchu
 uśredniamy przekrycie na końcu ruchu z przekryciem na początku ruchu,
 \begin{equation}
-    w = (s(x^{n+1}) + s(x^n))/{2}
+    w = \left(s(x^{n+1}) + s(x^n)\right)/{2}
 \end{equation}
 
 Ostatecznie wkład do bieżącej komórki w ciągu jednej iteracji pętli obliczeniowej to
@@ -260,7 +260,7 @@ Tablica prądów poprzecznych, do których zostają depozytowane, ma rozmiar
 cząstki mogą objąć kształtem maksymalnie dwie komórki, przez co należy dodać
 komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
 
-\subsection{Warunek początkowy pola elektrycznego: solver globalny, elektrostatyczny}
+\subsection{Warunek początkowy pola elektrycznego: \english{solver} globalny, elektrostatyczny}
 Jako że symulacja jest jednowymiarowa, musimy jedynie znaleźć równowagowe pole
 elektryczne $E_x$.
 
@@ -295,15 +295,15 @@ Tablicę (wektor w sensie listy liczb) $k$ można otrzymać w następujący spos
 
 Algorytm pozwalający otrzymać równowagowe pole elektrostatyczne jest więc bardzo prosty:
 \begin{enumerate}
-\item Używamy algorytmu FFT na gęstości prądu zebranej z cząstek na siatkę
-\item Dzielimy wynikową tablicę przez $-ik \varepsilon_0$
-\item Używamy odwrotnej transformaty Fouriera, by otrzymać $E_x(x)$.
+\itemi Używamy algorytmu FFT na gęstości prądu zebranej z cząstek na siatkę
+\itemi Dzielimy wynikową tablicę przez $-ik \varepsilon_0$, używając do tego wbudowanego typu \code{complex} obsługiwanego przez \code{Numpy} jak i zwykłego Pythona
+\itemi Używamy odwrotnej transformaty Fouriera, by otrzymać $E_x(x)$.
 \end{enumerate}
 
 Problemem jest element $k_n = 0$, utrudniający dzielenie. Istnieją dwie możliwości:
 \begin{itemize}
-\item wymuszenie $k_0 = k_1 / const$, gdzie $const$ jest dostatecznie duże (np. $10^6$)
-\item ustawienie $E(k_0) = 0$, co jest jednoznaczne z wyzerowaniem średniego ładunku w
+\itemi wymuszenie $k_0 = k_1 / \text{const}$, gdzie $\text{const}$ jest dostatecznie duże (np. $10^6$)
+\itemi ustawienie $E(k_0) = 0$, co jest jednoznaczne z wyzerowaniem średniego ładunku w
 obszarze symulacji. Można to interpretować jako ustawienie nieruchomego tła neutralizującego,
 co jest wykorzystywane w okresowych symulacjach elektrostatycznych.
 \end{itemize}
@@ -330,16 +330,18 @@ podstawie warunków brzegowych i początkowych (gęstości ładunku), możemy ju
 dalej iterować pole na podstawie równań rotacji. Ma to dwie znaczące
 zalety:
 
-* algorytm ewolucji pola staje się trywialny obliczeniowo,
+\begin{enumerate}
+\item algorytm ewolucji pola staje się trywialny obliczeniowo,
 zwłaszcza w 1D - ogranicza się bowiem do elementarnych operacji lokalnego
 dodawania i mnożenia.
 
-* algorytm ewolucji pola staje się lokalny (do
+\item algorytm ewolucji pola staje się lokalny (do
 znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
 jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego
 sąsiadach, co zapobiega
 problemowi informacji przebiegającej w symulacji szybciej niż światło oraz
 zapewnia stabilność na podstawie warunku Couranta.
+\end{enumerate}
 
 %W 1D można dokonać dekompozycji składowych poprzecznych pola
 %elektromagnetycznego (tutaj oznaczanych $y$, $z$) na propagujące się w
@@ -374,7 +376,7 @@ zapewnia stabilność na podstawie warunku Couranta.
 %    \label{eqn:fg-transform-inverse}
 %\end{align}
 
-W schemacie ewolucji czasowej wykorzystanym w programie wychodzimy z rotacyjnych równań Maxwella\ref{eqn:maxwell-E-rotation}\ref{eqn:maxwell-B-rotation}.
+W schemacie ewolucji czasowej wykorzystanym w programie wychodzimy z rotacyjnych równań Maxwella~\ref{eqn:maxwell-E-rotation},~\ref{eqn:maxwell-B-rotation}.
 
 Jako że symulacja zakłada symetrię układu wzdłuż osi propagacji lasera $x$,
 możemy przyjąć $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} =
@@ -521,8 +523,8 @@ porównaniu do efektów, jaki ma na nich impuls laserowy.
 \subsubsection{Warunki brzegowe}
 Program implementuje dwa rodzaje warunków brzegowych dla cząstek:
 \begin{itemize}
-\item okresowy, do sytuacji o symetrii translacyjnej(cząstka opuszczająca rejon symulacji z prawej strony wraca do niego z lewej strony),
-\item nieokresowy, do skończonych układów bez symetrii translacyjnej (cząstki opuszczające rejon symulacji zostają usunięte i nie są brane
+\itemi okresowy, do sytuacji o symetrii translacyjnej(cząstka opuszczająca rejon symulacji z prawej strony wraca do niego z lewej strony),
+\itemi nieokresowy, do skończonych układów bez symetrii translacyjnej (cząstki opuszczające rejon symulacji zostają usunięte i nie są brane
 dalej pod uwagę).
 \end{itemize}
 
