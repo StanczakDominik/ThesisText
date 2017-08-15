@@ -13,19 +13,18 @@ algorytmem symplektycznym jest na przykład powszechnie znany
 czasowej względem położeń.\cite{computational-physics} Mimo tego, że energia
 układu w ruchu cząstek obliczonym tym integratorem nie jest lokalnie stała na
 krótkich skalach czasowych, to jednak zachowuje energię na skali globalnej, co
-pokazuje rysunek~\ref{fig:ESE-energy}.
+pokazuje rysunek~\ref{fig:ESE-energy}. % TODO LABEL NIE DZIAŁA
 
 \begin{figure}[h!]
   \includegraphics{Images/ESE_energy_plot}
-  \label{fig:ESE-energy}
   \caption{Energia w symulacji elektrostatycznej. Ze względu na brak pola magnetycznego
-  w tej symulacji używany jest tak naprawdę iterator typu leapfrog.}
+  w tej symulacji używany jest efektywnie iterator typu leapfrog.\label{fig:ESE-energy}}
 \end{figure}
 
 W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć
 zwykłego algorytmu \emph{leapfrog}. Używa się tutaj
 specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
-elektromagnetycznym, tak zwanego integratora Borysa (lepiej opisanego w \cite{birdsall}),
+elektromagnetycznym, tak zwanego integratora Borysa (lepiej opisanego w~\cite{birdsall}),
 który rozbija pole elektryczne na dwa impulsy,
 między którymi następują dwie rotacje polem magnetycznym. Algorytm jest
 dzięki temu symplektyczny i długofalowo zachowuje energię cząstek.
@@ -61,10 +60,10 @@ $\vec{v}$. Po zakończeniu
 aktualizacji należy również powrócić do $\vec{v}$ jako prędkości używanej
 do depozycji prądu.
 
-\subsection{Komunikacja między cząstkami a siatką - depozycja i interpolacja}
+\subsection{Komunikacja między cząstkami a siatką --- depozycja i interpolacja}
 
 Kolejnym krokiem pętli obliczeniowej po rozwiązaniu równań ruchu na
-aktualizację prędkości, po której - przypomnijmy - dysponujemy położeniami
+aktualizację prędkości, po której --- przypomnijmy --- dysponujemy położeniami
 cząstek $x^n$ w chwilach $n$ oraz ich prędkościami $v^{n+1/2}$ w chwilach
 $n+1/2$  jest obliczenie prądów podłużnych i
 poprzecznych potrzebnych do obliczenia wartości pól elektromagnetycznych w
@@ -92,7 +91,7 @@ Mimo to, gęstość cząstek (proporcjonalna do gęstości ładunku jako $\rho =
 \sum_s q_s n_s$) jest wciąż zbierana w symulacji jako wygodna diagnostyka
 ewolucji przestrzennej plazmy w obszarze symulacji. Ze względu na prostotę
 algorytmu, nie zabiera ona dużo czasu obliczeniowego (do
-\todo[inline]{sprawdzić dokładnie ile, rzędu 4\%}\%) czasu trwania symulacji).
+\todo[inline]{sprawdzić dokładnie ile, rzędu 4\%}\% czasu trwania symulacji).
 
 \subsubsection{Depozycja ładunku}
 
@@ -104,6 +103,8 @@ przynależy, poprzez
 x' = (x/dx) - i_x
 \label{eqn:relative-position}
 \end{equation}
+gdzie $i_x$ to indeks komórki, w której znajduje się cząstka.
+
 Następnie gęstość cząstki jest rozkładana pomiędzy bieżącą komórkę a
 komórkę następną w stosunku $n_i = 1-x'$, $n_{i+1} = x'$. Cząstka będąca
 w połowie komórki depozytowałaby więc swój ładunek po równo między obie
@@ -117,8 +118,7 @@ komórki.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/charge-deposition}
-  \label{fig:charge-deposition}
-  \caption{Ilustracja depozycji ładunku poprzez skalowanie pola \english{(area weighting)}.}
+  \caption{Ilustracja depozycji ładunku poprzez skalowanie pola \english{(area weighting)}.\label{fig:charge-deposition}}
 \end{figure} % TODO FINISH PICTURE
 
 Po obliczeniu otrzymana tablica gęstości \emph{makrocząstek} na
@@ -159,7 +159,7 @@ musimy to okupić większą złożonością algorytmu depozycji prądu.
 
 Rozważamy tu zastosowany w bieżącej symulacji kształt cząstki $S_1$ (trójkątny).
 
-Depozycja prądu jest rozbita na dwie części - prąd podłużny i prąd
+Depozycja prądu jest rozbita na dwie części --- prąd podłużny i prąd
 poprzeczny. Jest to spowodowane tym, że ruch w kierunkach $y$, $z$ nie
 powoduje w symulacji przesuwania cząstek, a w $x$ już tak. Obliczenie prądu
 w kierunkach poprzecznych jest więc jednoznaczne z obliczeniem skalowanego
@@ -176,8 +176,7 @@ przez łącznie trzy komórki. Ilustruje to rysunek~\ref{fig:deposition-movement
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/deposition-movement}
-  \label{fig:deposition-movement}
-  \caption{Ilustracja ruchu cząstki poruszającej się z maksymalną prędkością dozwoloną w symulacji.}
+  \caption{Ilustracja ruchu cząstki poruszającej się z maksymalną prędkością dozwoloną w symulacji.\label{fig:deposition-movement}}
 \end{figure}
 
 Algorytm rozbija ruch cząstek w bieżącej iteracji na etapy. W każdym z
@@ -187,7 +186,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
 
 \subsubsection{Depozycja podłużna} 
 \begin{enumerate}
-    \itemi obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
+    \itemi{} obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
     granicy obszaru
     \begin{equation}
         t_l = (x - x_g)/v
@@ -196,9 +195,9 @@ czasem w bieżącej iteracji $t = \Delta t$.
     ruchu cząstki.
     \item
     \begin{itemize}
-        \itemi jeżeli cząstka ma wystarczająco czasu $t$ (spełnia warunek $t > t_l$) aby
+        \itemi{} jeżeli cząstka ma wystarczająco czasu $t$ (spełnia warunek $t > t_l$) aby
         dotrzeć do kolejnej granicy obszaru, jej prąd zostaje zdepozytowany przez czas $t_l$,
-        \itemi W przeciwnym razie prąd jest depozytowany przez czas $t$ i ruch cząstki kończy się.
+        \itemi{} W przeciwnym razie prąd jest depozytowany przez czas $t$ i ruch cząstki kończy się.
     \end{itemize}
     Wkład cząstki do depozytowanego prądu wynosi
     \begin{equation}
@@ -208,7 +207,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
     gdzie $q$ to ładunek cząstki, a $n$ to parametr \code{scaling} oznaczający liczbę
     rzeczywistych cząstek w makrocząstce.
 
-    \itemi Jeżeli ruch cząstki się nie skończył, zostaje ona (w pętli
+    \itemi{} Jeżeli ruch cząstki się nie skończył, zostaje ona (w pętli
     wewnętrznej, niezależnie od jej faktycznego ruchu w symulacji)
     %TODO właściwie możnaby zoptymalizować w ten sposób ruch cząstek, wyciąć $x += v_x \Delta t$
     przesunięta za granicę obszaru o $\varepsilon =
@@ -251,7 +250,7 @@ uśredniamy przekrycie na końcu ruchu z przekryciem na początku ruchu,
     w = \left(s(x^{n+1}) + s(x^n)\right)/{2}
 \end{equation}
 
-Ostatecznie wkład do bieżącej komórki w ciągu jednej iteracji pętli obliczeniowej to
+Ostatecznie wkład do bieżącej komórki w ciągu jednej iteracji pętli obliczeniowej
 to $w q n v_{y, z} t / \Delta t$.
 Zaś do dalszej komórki, w której stronę skierowany jest ruch, jest to  $(1-w) q n v_{y, z} t / \Delta t$.
 
@@ -264,7 +263,7 @@ komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
 Jako że symulacja jest jednowymiarowa, musimy jedynie znaleźć równowagowe pole
 elektryczne $E_x$.
 
-Za \cite{birdsall}, wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
+Za~\cite{birdsall}, wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
 obustronnej transformaty Fouriera w przestrzeni na polu elektrycznym i gęstości ładunku,
 zakładając możliwość rozłożenia obu tych wielkości na składowe mające następującą zależność
 od położenia:
@@ -295,15 +294,15 @@ Tablicę (wektor w sensie listy liczb) $k$ można otrzymać w następujący spos
 
 Algorytm pozwalający otrzymać równowagowe pole elektrostatyczne jest więc bardzo prosty:
 \begin{enumerate}
-\itemi Używamy algorytmu FFT na gęstości prądu zebranej z cząstek na siatkę
-\itemi Dzielimy wynikową tablicę przez $-ik \varepsilon_0$, używając do tego wbudowanego typu \code{complex} obsługiwanego przez \code{Numpy} jak i zwykłego Pythona
-\itemi Używamy odwrotnej transformaty Fouriera, by otrzymać $E_x(x)$.
+\itemi{} Używamy algorytmu FFT na gęstości prądu zebranej z cząstek na siatkę
+\itemi{} Dzielimy wynikową tablicę przez $-ik \varepsilon_0$, używając do tego wbudowanego typu \code{complex} obsługiwanego przez \code{Numpy} jak i zwykłego Pythona
+\itemi{} Używamy odwrotnej transformaty Fouriera, by otrzymać $E_x(x)$.
 \end{enumerate}
 
 Problemem jest element $k_n = 0$, utrudniający dzielenie. Istnieją dwie możliwości:
 \begin{itemize}
-\itemi wymuszenie $k_0 = k_1 / \text{const}$, gdzie $\text{const}$ jest dostatecznie duże (np. $10^6$)
-\itemi ustawienie $E(k_0) = 0$, co jest jednoznaczne z wyzerowaniem średniego ładunku w
+\itemi{} wymuszenie $k_0 = k_1 / \text{const}$, gdzie $\text{const}$ jest dostatecznie duże (np. $10^6$)
+\itemi{} ustawienie $E(k_0) = 0$, co jest jednoznaczne z wyzerowaniem średniego ładunku w
 obszarze symulacji. Można to interpretować jako ustawienie nieruchomego tła neutralizującego,
 co jest wykorzystywane w okresowych symulacjach elektrostatycznych.
 \end{itemize}
@@ -311,7 +310,7 @@ co jest wykorzystywane w okresowych symulacjach elektrostatycznych.
 
 Ewolucja pola elektromagnetycznego opisana jest poprzez równania Maxwella.
 Jak pokazują Buneman i Villasenor, numerycznie można zastosować dwa główne
-podejścia: \cite{bunemanvillasenor}
+podejścia:~\cite{bunemanvillasenor}
 
 \begin{enumerate}
     \item wykorzystać równania na dywergencję pola (prawa Gaussa) do
@@ -332,10 +331,10 @@ zalety:
 
 \begin{enumerate}
 \item algorytm ewolucji pola staje się trywialny obliczeniowo,
-zwłaszcza w 1D - ogranicza się bowiem do elementarnych operacji lokalnego
+zwłaszcza w 1D --- ogranicza się bowiem do elementarnych operacji lokalnego
 dodawania i mnożenia.
 
-\item algorytm ewolucji pola staje się lokalny (do
+\item algorytm ewolucji pola staje się lokalny --- do
 znalezienia wartości pola w danym oczku w kolejnej iteracji wykorzystujemy
 jedynie informacje zawarte w tym właśnie oczku i potencjalnie jego
 sąsiadach, co zapobiega
@@ -407,19 +406,19 @@ a raczej jej dyskretny odpowiednik
 
 
 Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje
-się sposób depozycji ładunku - należy pilnować, aby był robiony w sposób
+się sposób depozycji ładunku --- należy pilnować, aby był robiony w sposób
 który spełnia zachowanie ładunku. Inaczej koniecznym staje się aplikowanie
-tak zwanej poprawki Borysa, \todo[inline]{źródło - prezentacja}
-aby upewnić się, że warunek z równań Gaussa \ref{eqn:maxwell-E-div},\ref{eqn:maxwell-B-div}
+tak zwanej poprawki Borysa, \todo[inline]{źródło prezentacja}
+aby upewnić się, że warunek z równań Gaussa~\ref{eqn:maxwell-E-div},\ref{eqn:maxwell-B-div}
 jest wciąż spełniony.
 
 Należy zwrócić uwagę, iż w tej wersji pole elektrostatyczne $E_x$ w danej komórce jest
 aktualizowane jedynie na podstawie informacji w tej właśnie komórce.
 
 \subsubsection{Pole poprzeczne}
-Wyprowadzenie dla pola poprzecznego przedstawimy, za \cite{birdsall}, dla składowych $E_y$ oraz $B_z$. Wyprowadzenie dla $E_z$, $B_y$ jest analogiczne i przedstawimy jedynie jego wyniki.
+Wyprowadzenie dla pola poprzecznego przedstawimy, za~\cite{birdsall}, dla składowych $E_y$ oraz $B_z$. Wyprowadzenie dla $E_z$, $B_y$ jest analogiczne i przedstawimy jedynie jego wyniki.
 
-Sumując równania~\ref{eqn:maxwell-B-rotation} oraz przemnożone przez prędkość światła jako prędkość propagacji fali elektromagnetycznej~\ref{eqn:maxwell-B-rotation} dla składowej $\hat{y}$:
+Sumując równania~\ref{eqn:maxwell-E-rotation} oraz przemnożone przez prędkość światła jako prędkość propagacji fali elektromagnetycznej~\ref{eqn:maxwell-B-rotation} dla składowej $\hat{y}$:
 \begin{align}
     \frac{\partial}{\partial t} \left(E_y + c B_z\right) &= - j_y / \varepsilon_0 - c \frac{\partial}{\partial x} \left(E_y + c B_z\right) \\
     \frac{\partial}{\partial t} \left(E_y - c B_z\right) &= - j_y / \varepsilon_0 + c \frac{\partial}{\partial x} \left(E_y - c B_z\right)
@@ -431,9 +430,9 @@ Przekształcając:
     \left(\frac{\partial}{\partial t} - c \frac{\partial}{\partial x}\right)\left(E_y - c B_z\right) &= - j_y / \varepsilon_0
 \end{align}
 
-Możemy więc uzyskać wielkości $F^+ = E_y + c B_z$ reprezentujące liniowo spolaryzowane fale elektromagnetyczne $F^- = E_y - c B_z$, które propagują się po siatce z prądem $j_y$ jako wyrazem źródłowym.
+Możemy więc uzyskać wielkości $F^+ = E_y + c B_z$ oraz $F^- = E_y - c B_z$ reprezentujące liniowo spolaryzowane fale elektromagnetyczne, które propagują się po siatce z prądem $j_y$ jako wyrazem źródłowym.
 
-Wyniki dla $E_z$, $B_y$ zrealizowane poprzez wprowadzenie wielkości $G^\pm = E_z \pm c B_y$ przedstawiamy za \cite{birdsall}:
+Wyniki dla $E_z$, $B_y$ zrealizowane poprzez wprowadzenie wielkości $G^\pm = E_z \pm c B_y$ przedstawiamy za~\cite{birdsall}:
 \begin{align}
     \left(\frac{\partial}{\partial t} + c \frac{\partial}{\partial x}\right)\left(E_z + c B_y\right) &= - j_z / \varepsilon_0 \\
     \left(\frac{\partial}{\partial t} - c \frac{\partial}{\partial x}\right)\left(E_z - c B_y\right) &= - j_z / \varepsilon_0
@@ -441,7 +440,7 @@ Wyniki dla $E_z$, $B_y$ zrealizowane poprzez wprowadzenie wielkości $G^\pm = E_
 
 Finalny schemat jest superpozycją rozwiązań dla $F^\pm$ i $G^\pm$.
 
-Poprzez dobór kroku czasowego symulacji $\Delta t = \Delta x / c$ uzyskujemy trywialną numeryczną propagację wielkości $F^\pm$ \cite{Jablonski-notes}:
+Poprzez dobór kroku czasowego symulacji $\Delta t = \Delta x / c$ uzyskujemy trywialną numeryczną propagację wielkości $F^\pm$~\cite{Jablonski-notes}:
 
 \begin{equation}
     {F}^{+,n+1}_{i+1} = F^{+,n}_i - \Delta t {j_y}_{i+1/2}^{n+1/2} / \varepsilon_0
@@ -458,13 +457,13 @@ E_y = \left( F^+ + F^- \right)/2
 
 \subsection{Warunki początkowe dla cząstek}
 
-W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w
-\cite{birdsall}. Jego działanie można łatwo zilustrować na
+W celu dobrania warunków początkowych wykorzystuje się algorytm opisany w~\cite{birdsall}.
+Jego działanie można łatwo zilustrować na
 przykładzie początkowej funkcji gęstości cząstek zadanej dowolną funkcją
 wyrażoną wzorem analitycznym.
 
-Używając funkcji dystrybucji w jednym wymiarze zależnej jedynie od
-położenia znormalizowanej do liczby cząstek $N$, można wykonać całkowanie
+Używając funkcji dystrybucji w jednym wymiarze, zależnej jedynie od
+położenia i znormalizowanej do liczby cząstek $N$, można wykonać całkowanie
 kumulatywne na siatce gęstszej niż liczba cząstek na wybranym przedziale,
 po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
  przybiera kolejne większe całkowite wartości.
@@ -523,8 +522,8 @@ porównaniu do efektów, jaki ma na nich impuls laserowy.
 \subsubsection{Warunki brzegowe}
 Program implementuje dwa rodzaje warunków brzegowych dla cząstek:
 \begin{itemize}
-\itemi okresowy, do sytuacji o symetrii translacyjnej(cząstka opuszczająca rejon symulacji z prawej strony wraca do niego z lewej strony),
-\itemi nieokresowy, do skończonych układów bez symetrii translacyjnej (cząstki opuszczające rejon symulacji zostają usunięte i nie są brane
+\itemi{} okresowy, do sytuacji o symetrii translacyjnej (cząstka opuszczająca rejon symulacji z prawej strony wraca do niego z lewej strony),
+\itemi{} nieokresowy, do skończonych układów bez symetrii translacyjnej (cząstki opuszczające rejon symulacji zostają usunięte i nie są brane
 dalej pod uwagę).
 \end{itemize}
 

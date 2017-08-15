@@ -26,19 +26,19 @@
     Zjednoczonymi a ZSRR, jak również jeden z projektów mających na celu ponowne
     nawiązanie współpracy naukowej między supermocarstwami po zakończeniu tego
     konfliktu. Obecnie trwają intensywne badania nad tym problemem, których
-    dotychczasową kulminacją jest budowany we Francji tokamak ITER i planowany reaktor DEMO.
+    dotychczasową kulminacją jest budowany we Francji tokamak ITER i planowany reaktor DEMO\@.
 
     Poza tym ogromnym projektem plazmy mają szerokie zastosowania w obecnym
     przemyśle, na przykład:
     \begin{itemize}
-        \itemi metalurgicznym - cięcie metalu przy użyciu łuków plazmowych
-        \itemi elektronicznym i materiałowym - żłobienie powierzchni urządzeń
+        \itemi{} metalurgicznym --- cięcie metalu przy użyciu łuków plazmowych.
+        \itemi{} elektronicznym i materiałowym --- żłobienie powierzchni urządzeń
             półprzewodnikowych, powierzchniowa obróbka materiałów, depozycja
             aktywnych jonów pod powierzchnią czyszczenie powierzchni, depozycja
-            cienkich warstw związków chemicznych na powierzchniach (CVD)
-        \itemi kosmicznym - silniki plazmowe, interakcja z rozgrzanym powietrzem
-            podczas powtórnego wchodzenia w atmosferę
-        \itemi użytkowym - ekrany telewizorów, oświetlenie (świetlówki)
+            cienkich warstw związków chemicznych na powierzchniach (CVD).
+        \itemi{} kosmicznym --- silniki plazmowe, interakcja z rozgrzanym powietrzem
+            podczas powtórnego wchodzenia w atmosferę.
+        \itemi{} użytkowym --- ekrany telewizorów, oświetlenie (świetlówki).
     \end{itemize}
 
     Należy też zwrócić uwagę, że ze względu na złożoność układów plazmowych
@@ -53,11 +53,11 @@
     Modelowanie zjawisk z zakresu fizyki plazmy jest jednym z bardziej
     złożonych problemów fizyki komputerowej. Głównym, koncepcyjnie, powodem
     uniemożliwiającym zastosowanie prostych metod symulacji znanych z
-    newtonowskiej dynamiki molekularnej jest mnogość oddziaływań - każda
+    newtonowskiej dynamiki molekularnej jest mnogość oddziaływań --- każda
     cząstka oddziałuje z każdą inną nawzajem poprzez niepomijalne oddziaływania
     kulombowskie, skalujące się z odległością jak
     $\approx r^{-2}$. Paradoksalnie, na dużych odległościach oddziaływania
-    te znoszą się, co rozumie się w plazmie jako \concept{kwaziobojętność} - jednak
+    te znoszą się, co rozumie się w plazmie jako \concept{kwaziobojętność} --- jednak
     bez uwzględnienia oddziaływań od wszystkich cząstek nie osiągnie się tego
     efektu,
 
@@ -79,7 +79,7 @@
     \label{eqn:vlasov-electrons}\\
     \frac{\partial f_i}{\partial t} + \vec {v}_i\cdot\nabla f_i &+ Z_i e\left(\vec {E}+\vec {v_i}\times\vec {B}\right)\cdot\frac{\partial f_i}{\partial\vec {p}} = 0
     \label{eqn:vlasov-ions}\\
-    \nabla\times\vec {B} &=\mu_0 \left(\vec{j}+\epsilon_0 \frac{\partial \vec {E}}{\partial t}\right)
+    \nabla \times \vec{B} &=\mu_0 \left(\vec{j}+\epsilon_0 \frac{\partial \vec{E} }{\partial t}\right)
     \label{eqn:maxwell-B-rotation}\\
     \nabla\times\vec {E} &=-\frac{\partial\vec {B}}{\partial t}
     \label{eqn:maxwell-E-rotation}\\
@@ -106,16 +106,16 @@
 
     W modelowaniu komputerowym plazmy stosuje się trzy główne koncepcyjne podejścia:
     \begin{enumerate}
-        \itemi modele kinetyczne rozwiązujące bezpośrednio równania typu Vlasova
+        \itemi{} modele kinetyczne rozwiązujące bezpośrednio równania typu Vlasova
             na dyskretnych siatkach
-        \itemi modele płynowe oparte na ciągłym opisie plazmy poprzez
+        \itemi{} modele płynowe oparte na ciągłym opisie plazmy poprzez
             uśrednienie po dystrybucji wielkości termodynamicznych, co daje
             modele takie jak magnetohydrodynamikę. Jest to wciąż układ równań
             różniczkowych cząstkowych, lecz na mniej wymiarowej siatce.
             Niestety, nie nadają się one do badań plazmy daleko od równowagi z
             powodu czynionych przy nich założeń takich jak maxwellowski rozkład
             prędkości. Znajdują za to szerokie zastosowanie w astronomii.
-        \itemi modele dyskretne oparte na samplowaniu dystrybucji plazmy przy
+        \itemi{} modele dyskretne oparte na samplowaniu dystrybucji plazmy przy
             użyciu dyskretnych cząstek, pozwalające w prosty sposób uzyskać
             dobre przybliżenie faktycznego ruchu cząstek w plazmie i prądów
             generowanych tym ruchem. Pozwalają na wizualizację efektów działań
@@ -145,7 +145,7 @@
     Obliczeniowo algorytm particle-in-cell składa się z czterech elementów
     powtarzających się cyklicznie:
     \begin{itemize}
-        \itemi Zbierz (\english{Gather})\\
+        \itemi{} Zbierz (\english{Gather})\\
     Depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej
     siatce poprzez interpolację, co pozwala na sprawne rozwiązanie na tej
     siatce równań Maxwella jako układu różnicowych równań cząstkowych zamiast
@@ -153,7 +153,7 @@
     kulombowskich między nimi.  W naszym elektromagnetycznym przypadku bardziej
     istotną jest depozycja prądu na siatkę, co szerzej tłumaczy następny
     fragment.
-    \itemi Rozwiąż (\english{Solve})\\
+    \itemi{} Rozwiąż (\english{Solve})\\
     Sprawne rozwiązanie równań Maxwella na dyskretnej, Eulerowskiej siatce.
     Znalezienie pól elektrycznego i magnetycznego na podstawie gęstości ładunku
     i prądu na siatce.  Istnieją dwie główne szkoły rozwiązywania tych równań:
@@ -170,7 +170,7 @@
     nierelatywistycznych.  Metody lokalne pozwalają na ograniczenie szybkości
     propagacji zaburzeń do prędkości światła, co przybliża metodę numeryczną do
     fizyki zachodzącej w rzeczywistym układzie tego typu.
-    \itemi Rozprosz (\english{Scatter}) \\
+    \itemi{} Rozprosz (\english{Scatter}) \\
     Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły
     elektromagnetyczne działające na cząstki.  Należy przy tym zauważyć, że
     jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
@@ -178,8 +178,8 @@
     algorytmy Particle-in-cell doskonale nadają się do zrównoleglenia (problem
     jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego
     powodu algorytmy Particle-in-cell nadają się doskonale do wykorzystania
-    rosnącej mocy kart graficznych i architektur GPGPU.
-    \itemi Porusz (\english{Push}) \\
+    rosnącej mocy kart graficznych i architektur GPGPU\@.
+    \itemi{} Porusz (\english{Push}) \\
     iteracja równań ruchu cząstek
     \begin{equation}
         d \vec{p}/dt = \vec{F} = q (\vec{E} + \vec{v} \times \vec{B})
@@ -203,7 +203,7 @@
     istotne wielkości zależą nie od ładunku ani masy, ale od stosunku $q/m$. W
     praktyce stosuje się więc \emph{makrocząstki}, obdarzone ładunkiem i masą
     będące wielokrotnościami tych wielkości dla cząstek występujących w naturze
-    (jak jony i elektrony, pozwalając jednocześnie zachować gęstości cząstek i
+    (jak jony i elektrony), pozwalając jednocześnie zachować gęstości cząstek i
     ładunku zbliżone do rzeczywistych.
 
     Makrocząstki posiadają też kształt, który wyraża się w symulacji poprzez
@@ -216,13 +216,12 @@
     Inne funkcje kształtu tworzy się poprzez kolejne sploty funkcji podstawowej,
     co obrazuje rysunek\ref{fig:shapefunctions}. Funkcja $S_1$ (trójkątna,
     skupiona na środku) jest tradycyjną funkcją ksztąłtu wykorzystywaną
-    historycznie w większości zastosowań modelu PIC.
+    historycznie w większości zastosowań modelu PIC\@.
 
 
     \begin{figure}[h!]
       \includegraphics{Images/shapefunctions}
-      \label{fig:shapefunctions}
-      \caption{Typowe funkcje kształtu dla makrocząstki}
+      \caption{Typowe funkcje kształtu dla makrocząstki\label{fig:shapefunctions}} % TODO UPEWNIĆ SIĘ ŻE JEST S_0
     \end{figure}
 
     W symulacjach elektromagnetycznych zazwyczaj stosuje się

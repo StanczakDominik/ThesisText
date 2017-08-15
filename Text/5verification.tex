@@ -13,17 +13,17 @@
 
     Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego
     pakietu \code{pytest} i w większości były
-    uruchamiane na platformie TravisCI.
+    uruchamiane na platformie TravisCI\@.
 
     \subsubsection{Testy algorytmiczne}
-    Testy algorytmiczne polegały na przeprowadzeniu fragmentu symulacji - w
+    Testy algorytmiczne polegały na przeprowadzeniu fragmentu symulacji --- w
     przypadku testów algorytmów było to na przykład wygenerowanie pojedynczej
     cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na
     siatkę, co pozwala porównać otrzymany wynik z przewidywanym analitycznie
     dla danego rozmiaru siatki i położenia cząstki.
     \todo[inline]{sprawdzić listę testów}
     \begin{enumerate}
-        \itemi Gather
+        \itemi{} Gather
             \begin{enumerate}
                 \item Depozycja prądu z pojedynczej cząstki na niewielką siatkę
                 \item Depozycja prądu z dwóch pojedynczych cząstek na niewielką
@@ -33,35 +33,35 @@
                     cząstek
             \end{enumerate}
 
-        \itemi Solve
+        \itemi{} Solve
             \begin{enumerate}
                 \item Symulacja fali sinusoidalnej, obwiedni impulsu i złożenia
                     tych dwóch propagujących się w próżni
             \end{enumerate}
 
-        \itemi Scatter
+        \itemi{} Scatter
             \begin{enumerate}
                 \item \ldots \todo[inline]{write these}
             \end{enumerate}
 
-        \itemi \english{Push} - \code{test\_pusher}
+        \itemi{} \english{Push} --- \code{test\_pusher}
             \begin{enumerate}
-                \itemii Ruch w jednorodnym polu elektrycznym wzdłuż osi układu,
+                \itemii{} Ruch w jednorodnym polu elektrycznym wzdłuż osi układu,
                     w wersji nierelatywistycznej i relatywistycznej. Prędkość cząstki rośnie
                     jednostajnie w reżimie nierelatywistycznym.
-                \itemii Relatywistyczny i nierelatywistyczny ruch kołowy z
+                \itemii{} Relatywistyczny i nierelatywistyczny ruch kołowy z
                     zachowaniem energii w jednorodnym polu magnetycznym w kierunku osi $\hat{z}$. 
-                \itemii Relatywistyczny ruch w potencjale oscylatora harmonicznego. Ruch cząstki jest porównany
+                \itemii{} Relatywistyczny ruch w potencjale oscylatora harmonicznego. Ruch cząstki jest porównany
                     z trajektorią obliczoną analitycznie w przypadku relatywistycznym.
-                \itemii Zachowanie energii ruchu cząstki bez pola elektrycznego przy wysoce relatywistycznej prędkości, w kierunku ruchu oraz z prędkościami
+                \itemii{} Zachowanie energii ruchu cząstki bez pola elektrycznego przy wysoce relatywistycznej prędkości, w kierunku ruchu oraz z prędkościami
                     w trzech wymiarach.
-                \itemii Test dryfu $\vec{E} \times \vec{B}$ - cząstka w skrzyżowanych polach elektrycznym i magnetycznym uzyskuje stabilną prędkość $E/B$.
-                \itemii Test warunków brzegowych dla symulacji okresowych - zachowanie liczby cząstek przechodzących przez granicę obszaru symulacji.
-                \itemii Test warunków brzegowych dla symulacji okresowych - spadek liczby cząstek przechodzących przez granicę obszaru symulacji do zera.
+                \itemii{} Test dryfu $\vec{E} \times \vec{B}$ --- cząstka w skrzyżowanych polach elektrycznym i magnetycznym uzyskuje stabilną prędkość $E/B$.
+                \itemii{} Test warunków brzegowych dla symulacji okresowych --- zachowanie liczby cząstek przechodzących przez granicę obszaru symulacji.
+                \itemii{} Test warunków brzegowych dla symulacji okresowych --- spadek liczby cząstek przechodzących przez granicę obszaru symulacji do zera.
             \end{enumerate}
     \end{enumerate}
 
-    \subsection{Testy symulacyjne - przypadki elektrostatyczne}
+    \subsection{Testy symulacyjne --- przypadki elektrostatyczne}
     Testy symulacyjne polegały na uruchomieniu niewielkiej symulacji testowej z
     różnymi warunkami brzegowymi i ilościowym, automatycznym zweryfikowaniu
     dynamiki zjawisk w niej zachodzących.
@@ -79,11 +79,11 @@ x_1 &= A  \sin(k x_0) = A \sin(2 \pi n x_0 / L)
 \end{align}
 
 Określenie ``zimna plazma'' bierze się z nietermalnego, deltowego
-rozkładu prędkości cząstek - jest to faktycznie strumień cząstek o stałej
-(w tym szczególnym przypadku zerowej) prędkości).
+rozkładu prędkości cząstek --- jest to faktycznie strumień cząstek o stałej
+(w tym szczególnym przypadku zerowej) prędkości.
 
 Gęstość ładunku jest wyzerowana w pierwszym kroku algorytmu rozwiązywania pola elektrycznego
-poprzez wyzerowanie zerowej składowej fourierowskiej gęstości ładunku, cojest jednoznaczne
+poprzez wyzerowanie zerowej składowej fourierowskiej gęstości ładunku, co jest jednoznaczne
 z przyjęciem nieskończenie masywnych i nieruchomych jonów dodatnich dokładnie neutralizujących gęstość
 ładunku elektronów.
 
@@ -98,24 +98,23 @@ Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
 dx$ obserwuje się nieliniowy reżim oscylacji, 
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
-symulacja elektrostatyczna - na przykład długofalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
+symulacja elektrostatyczna --- na przykład długofalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
 znikać), % TODO inne rzeczy
-
-Liniowy reżim obserwacji jest zaznaczony na rysunku~\ref{fig:coldplasma-linear}, zaś nieliniowy~\ref{fig:coldplasma-nonlinear}.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/COSCALING}
-  \label{fig:coldplasma-linear}
   \caption{Oscylacje zimnej plazmy w reżimie liniowym. Cząstki wykonują prawie harmoniczne oscylacje wokół swoich położeń równowagi, zaś energia
-    w układzie jest wymieniana między energią kinetyczną cząstek a energią pola elektrostatycznego.}
+   w układzie jest wymieniana między energią kinetyczną cząstek a energią pola elektrostatycznego.\label{fig:coldplasma-linear}}
 \end{figure}
+
+Liniowy reżim obserwacji jest zaznaczony na rysunku~\ref{fig:coldplasma-linear}, zaś nieliniowy~\ref{fig:coldplasma-nonlinear}.
 
     \subsubsection{niestabilność dwóch strumieni}
 W tym przypadku symulacja również zawiera zimną plazmę, lecz tym razem są to dwa strumienie ujemnych cząstek
 o stałych, przeciwnych sobie prędkościach $v_0$ oraz $-v_0$.
 
     Dla niewielkich prędkości początkowych strumieni obserwuje się
-    liniowy reżim oscylacji cząstek - oba strumienie pozostają stabilne. Obserwuje się niewielkie oscylacje oraz
+    liniowy reżim oscylacji cząstek --- oba strumienie pozostają stabilne. Obserwuje się niewielkie oscylacje oraz
 grupowanie się cząstek w rejony koherentnej większej gęstości wewnątrz strumienia (opisany przez Birdsalla i Langdona \emph{bunching}).
 
     Dla dużych prędkości obserwuje się nieliniowe
@@ -130,18 +129,16 @@ To oraz szybkość narastania niestabilności jest obiektem automatycznych test�
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/TS_STABLE}
-  \label{fig:twostream-stable}
-  \caption{Stabilny reżim dla układu dwóch strumieni. Widoczne są jedynie cykliczny ruch jednostajny w obszarze symulacji i niewielkie zmiany prędkości cząstki.}
+  \caption{Stabilny reżim dla układu dwóch strumieni. Widoczne są jedynie cykliczny ruch jednostajny w obszarze symulacji i niewielkie zmiany prędkości cząstki.\label{fig:twostream-stable}}
 \end{figure}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/TS_UNSTABLE}
-  \label{fig:twostream-unstable}
-  \caption{Niestabilny reżim dla układu dwóch strumieni. Trajektoria cząstki staje się chaotyczna.}
+  \caption{Niestabilny reżim dla układu dwóch strumieni. Trajektoria cząstki staje się chaotyczna.\label{fig:twostream-unstable}}
 \end{figure}
 % \subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła} % TODO
 
-\subsection{Testowe symulacje elektromagnetyczne - propagacja fali}
+\subsection{Testowe symulacje elektromagnetyczne --- propagacja fali}
 W tym przypadku symulacja nie zawiera plazmy, a badana jest jedynie propagacja fali elektromagnetycznej w obszarze
 symulacji dla różnych charakterystyk czasowych. 
 
@@ -151,9 +148,9 @@ przez warunek brzegowy. % TODO POYNTING FLUX
 
 % TODO RYSUNEK
 
-\subsection{Symulacja elektromagnetyczna - oddziaływanie z tarczą wodorową}
+\subsection{Symulacja elektromagnetyczna --- oddziaływanie z tarczą wodorową}
 
-Jako warunki początkowe przyjęto plazmę rozbitą na dwie części -
+Jako warunki początkowe przyjęto plazmę rozbitą na dwie części ---
 \emph{preplazmę} o narastającej funkcji rozkładu gęstości oraz plazmę właściwą
 o stałej gęstości. Funkcja gęstości jest generowana automatycznie poprzez
 metodę opisaną w~\cite{birdsall} i jest normalizowana do danego poziomu
@@ -165,7 +162,7 @@ Początkowe prędkości cząstek przyjęto jako zerowe.
 
 Za intensywność lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
 zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono
-badania w polaryzacjach liniowej (pole elektryczne w kierunku osi $\hat{y}$ -
+badania w polaryzacjach liniowej (pole elektryczne w kierunku osi $\hat{y}$ ---
 nie zaobserwowano znaczących różnic w symulacji, w której pole elektryczne
 skierowano w kierunku osi $\hat{z}$) %TODO CHECK
 oraz kołowej wiązki laserowej.
@@ -174,51 +171,43 @@ Długość obszaru symulacji to około $10.6 \mu$m, podzielone na 1378 komórek 
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Ey}
-  \label{fig:laser-21-Ey}
-  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja liniowa.}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja liniowa.\label{fig:laser-21-Ey}}
 \end{figure}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Ey_004700}
-  \label{fig:laser-21-Ey-snapshot}
-  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja liniowa. Rzut na iterację 4700/7755.}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja liniowa. Rzut na iterację 4700/7755.\label{fig:laser-21-Ey-snapshot}}
 \end{figure}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Circular}
-  \label{fig:laser-21-Circular}
-  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja kołowa.}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja kołowa.\label{fig:laser-21-Circular}}
 \end{figure}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Circular_004700}
-  \label{fig:laser-21-Circular-snapshot}
-  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja kołowa. Rzut na iterację 4700/7755.}
+  \caption{Intensywność wiązki laserowej $10^{21} J/m^2$, polaryzacja kołowa. Rzut na iterację 4700/7755.\label{fig:laser-21-Circular-snapshot}}
 \end{figure}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Ey}
-  \label{fig:laser-23-Ey}
-  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja liniowa.}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja liniowa.\label{fig:laser-23-Ey}}
 \end{figure}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Ey_004700}
-  \label{fig:laser-23-Ey-snapshot}
-  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja liniowa. Rzut na iterację 4700/7755.}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja liniowa. Rzut na iterację 4700/7755.\label{fig:laser-23-Ey-snapshot}}
 \end{figure}
 
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Circular}
-  \label{fig:laser-23-Circular}
-  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja kołowa.}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja kołowa.\label{fig:laser-23-Circular}}
 \end{figure}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_23_Circular_004700}
-  \label{fig:laser-23-Circular-snapshot}
-  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja kołowa. Rzut na iterację 4700/7755.}
+  \caption{Intensywność wiązki laserowej $10^{23} J/m^2$, polaryzacja kołowa. Rzut na iterację 4700/7755.\label{fig:laser-23-Circular-snapshot}}
 \end{figure}
 
 

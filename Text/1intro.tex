@@ -11,17 +11,17 @@ progamu.
 
 W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między innymi do
 \begin{itemize}
-\itemi symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER \cite{pic-hammett}
-\itemi modelowania rekonekcji linii magnetycznych w polu gwiazdy \cite{pic-reconnection}
-\itemi projektowania silników jonowych Halla \cite{pic-hallengine}
-\itemi badania interakcji laserów z plazmą w kontekście tworzenia niewielkich,
-    wysokowydajnych akceleratorów cząstek \cite{pic-laserplasma}
+\itemi{} symulacji przewidywanej turbulencji plazmy w reaktorze termojądrowym ITER~\cite{pic-hammett}.
+\itemi{} modelowania rekonekcji linii magnetycznych w polu gwiazdy~\cite{pic-reconnection}
+\itemi{} projektowania silników jonowych Halla~\cite{pic-hallengine}
+\itemi{} badania interakcji laserów z plazmą w kontekście tworzenia niewielkich,
+    wysokowydajnych akceleratorów cząstek~\cite{pic-laserplasma}
 \end{itemize}
 
 Należy zauważyć, że w świetle rosnącej dostępności silnie równoległej mocy
 obliczeniowej w postaci kart graficznych możliwości algorytmów Particle-in-Cell
 będą rosły współmiernie, co może pozwolić na rozszerzenie zakresu ich
-zastosowań.  Przykładem takiego projektu jest PIConGPU \cite{picongpu}.
+zastosowań. Przykładem takiego projektu jest PIConGPU~\cite{picongpu}.
 
 Inżynieria oprogramowania zorientowanego na wykorzystanie możliwości kart
 graficznych, jak również w ogólności nowoczesnych symulacji wykorzystujących
@@ -34,12 +34,12 @@ Należy też zauważyć, że programy takie często są
 trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
 i modyfikacji przez osoby niezwiązane z oryginalnym autorem z powodów takich jak
 \begin{itemize}
-    \itemi brak dostępności kodu źródłowego
-    \itemi niedostateczna dokumentacja
-    \itemi brak jasno postawionych testów pokazujących, kiedy program działa
+    \itemi{} brak dostępności kodu źródłowego
+    \itemi{} niedostateczna dokumentacja
+    \itemi{} brak jasno postawionych testów pokazujących, kiedy program działa
     zgodnie z zamiarami twórców i kiedy daje wyniki zgodne z zakładanym
     modelem fizyki realizowanych w nim zjawisk
-    \itemi zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
+    \itemi{} zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
 \end{itemize}
 
 To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
@@ -78,12 +78,11 @@ Python znajduje szerokie zastosowania w analizie danych i uczeniu maszynowym
 kody skalujące się nawet w zakres superkomputerów, na przykład w mechanice
 płynów.  Nie można tu nie wspomnieć o utworzonym niedawno hydrodynamicznym kodzie
 PyFR, łączącym szybkie obliczenia w CUDA, OpenCL oraz OpenMP z wysokopoziomowością Pythona. Uruchomiono go na klastrze Piz Daint
-i udowodniono jego skalowanie (\english{weak scaling}) do 2000 kart NVIDIA K20X i 1.3 stabilnych petaflopów na sekundę.
-\cite{pyfr}\cite{pyfr-euroscipy}
+i udowodniono jego skalowanie (\english{weak scaling}) do 2000 kart NVIDIA K20X i 1.3 stabilnych petaflopów na sekundę.~\cite{pyfr}~\cite{pyfr-euroscipy}
 
 Istotną zaletą Pythona, o której nie można nie wspomnieć, jest inherentna
 otwartość wśród użytkowników tego języka. Znacząca część projektów tworzonych w
-tym języku jest udostępnianych za darmo jako projekty \english{open source},
+tym języku jest udostępnianych za darmo jako projekty \english{open source} w
 internecie na platformach takich jak GitHub, GitLab i Bitbucket, co znacząco
 ułatwia kolaborację i wspólne ich tworzenie przez społeczność.  Jest to obszar,
 którego techniki wydają się być równie korzystne w społeczności naukowej.
