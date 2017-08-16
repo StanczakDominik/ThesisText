@@ -1,4 +1,4 @@
-\section[Weryfikacja]{Część weryfikacyjna} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
+\section[Weryfikacja]{Część weryfikacyjna}\label{sec:verification} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
     Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania
     niniejszej pracy wersji programu.  W repozytorium Git na GitHubie jest to
     commit ``placeholder'' \todo[inline]{uzupełnić commita} identyfikowany
@@ -21,28 +21,28 @@
     cząstki o jednostkowej prędkości oraz zdepozytowanie jej gęstości prądu na
     siatkę, co pozwala porównać otrzymany wynik z przewidywanym analitycznie
     dla danego rozmiaru siatki i położenia cząstki.
-    \todo[inline]{sprawdzić listę testów}
     \begin{enumerate}
-        \itemi{} Gather
+        \itemi{} \english{Gather} --- \code{test\_current\_deposition}, \code{test\_charge\_deposition}
             \begin{enumerate}
-                \item Depozycja prądu z pojedynczej cząstki na niewielką siatkę
-                \item Depozycja prądu z dwóch pojedynczych cząstek na niewielką
-                    siatkę i porównanie z sumą prądów dla obu pojedynczyczh
+                \itemii{} Depozycja prądu lub ładunku z pojedynczej cząstki na niewielką siatkę i porównanie z wynikiem analitycznym\cite{Jablonski-notes}
+                \itemii{} Depozycja prądu lub ładunku z dwóch pojedynczych cząstek na niewielką
+                    siatkę i porównanie z sumą prądów lub ładunków dla obu pojedynczyczh
                     cząstek
-                \item Depozycja prądu z dużej ilości równomiernie rozłożonych
-                    cząstek
+                \itemii{} Depozycja prądu z dużej ilości równomiernie rozłożonych
+                    cząstek --- weryfikacja średniej wartości prądu
+                \itemii{} Depozycja prądu lub ładunku z cząstek blisko granic i porównanie z zamierzonymi warunkami brzegowymi
+                \itemii{} Depozycja prądu dla cząstki poruszającej się powyżej prędkości światła --- procedura depozycji zwraca błąd
             \end{enumerate}
 
-        \itemi{} Solve
+        \itemi{} \english{Solve} --- \code{test\_FieldSolver}, \code{test\_LongitudinalSolver}
             \begin{enumerate}
-                \item Symulacja fali sinusoidalnej, obwiedni impulsu i złożenia
-                    tych dwóch propagujących się w próżni
+                \itemii{} Test \english{solvera} spektralnego poprzez
+                    rozwiązanie równania Poissona dla sinusoidalnej, deltowej i rosnącej liniowo
+                    dystrybucji ładunku. Weryfikacja dokładności rozwiązania i energii pola
+                \itemii{} Test \english{solvera} rotacyjnego poprzez porównanie z rezultatami analitycznymi dla pojedynczych iteracji
             \end{enumerate}
 
-        \itemi{} Scatter
-            \begin{enumerate}
-                \item \ldots \todo[inline]{write these}
-            \end{enumerate}
+        \itemi{} \english{Scatter} --- \code{test\_field\_interpolation} --- porównanie interpolowanego pola z przypadkiem analitycznym dla kilku prostych rozkładów pola
 
         \itemi{} \english{Push} --- \code{test\_pusher}
             \begin{enumerate}
@@ -63,7 +63,7 @@
 
     \subsection{Testy symulacyjne --- przypadki elektrostatyczne}
     Testy symulacyjne polegały na uruchomieniu niewielkiej symulacji testowej z
-    różnymi warunkami brzegowymi i ilościowym, automatycznym zweryfikowaniu
+    różnymi warunkami brzegowymi i ilościowym, automatycznym bądź jakościowym, wizualnym zweryfikowaniu
     dynamiki zjawisk w niej zachodzących.
 
     Zastosowano kod do symulacji kilku znanych problemów w fizyce plazmy:
@@ -99,7 +99,7 @@ dx$ obserwuje się nieliniowy reżim oscylacji,
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
 symulacja elektrostatyczna --- na przykład długofalowe zachowanie energii, liczby cząstek (w układzie okresowym cząstki nie powinny
-znikać), % TODO inne rzeczy
+znikać).
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/COSCALING}
