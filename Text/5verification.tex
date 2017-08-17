@@ -148,7 +148,9 @@ przez warunek brzegowy. % TODO POYNTING FLUX
 
 % TODO RYSUNEK
 
-\subsection{Symulacja elektromagnetyczna --- oddziaływanie z tarczą wodorową}
+\subsection{Symulacja elektromagnetyczna --- oddziaływanie wiązki laserowej z tarczą wodorową}
+
+Jest to sytuacja, która od początku rozwoju programu miała być głównym celem istnienia kodu. Szerzej została opisana w~\ref{seq:lasershield}.
 
 Jako warunki początkowe przyjęto plazmę rozbitą na dwie części ---
 \emph{preplazmę} o narastającej funkcji rozkładu gęstości oraz plazmę właściwą
@@ -157,7 +159,13 @@ metodę opisaną w~\cite{birdsall} i jest normalizowana do danego poziomu
 maksymalnej gęstości w obszarze plazmy właściwej przy zadanej liczbie
 makrocząstek.
 
-Początkowe prędkości cząstek przyjęto jako zerowe.
+Początkowe prędkości cząstek przyjęto jako zerowe, zaś początkowe położenia
+elektronów są identyczne z położeniami początkowymi protonów. Jest to prosta
+w inicjalizacji, inherentnie równowagowa sytuacja (gwarantująca nie tylko
+kwaziobojętność elektryczną plazmy, ale również całkowitą obojętność
+początkowego układu) do czasu przybycia lasera. Należy również zauważyć, że
+przy zakładanych energiach lasera jakakolwiek termalna dynamika układu przed
+interakcją zostanie szybko wymazana. Jest to więc akceptowalne przybliżenie.
 % \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
 
 Za intensywność lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
