@@ -17,7 +17,7 @@ Oczywistym kierunkiem rozwoju dla kodu jest dodanie obsługi ruchu cząstek w wi
 Warunki początkowe można zaadaptować z pola elektrostatycznego, aczkolwiek gdy układ straci symetrię $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} = 0$, będzie konieczne również rozwiązywanie
 prawa Gaussa dla magnetyzmu~\ref{eqn:maxwell-B-div}.
 
-Symulacja nie uwzględnia również kolizji. Byłoby możliwym dodanie ich na przykład poprzez symulację Monte Carlo. %TODO poczytać o MC
+Symulacja nie uwzględnia również kolizji. Byłoby możliwym dodanie ich na przykład poprzez sprzężenie algorytmu z implementacją DSMC (\english{Direct Simulation Monte Carlo})~\cite{particleincell-dmsc}. %TODO poczytać o MC
 
 Jonizacja cząstek oraz cząstki neutralne % TODO poczytać
 
@@ -37,7 +37,7 @@ Wykorzystano wysokopoziomowy język Python, opisany w rozdziale~\ref{sec:theory}
 
 Utworzono kod symulacyjny implementacyjny algorytm particle-in-cell w Pythonie przy użyciu wszystkich dostępnych
 możliwości, jakie daje ekosystem open-source. Kod zoptymalizowano przy użyciu 
-Otrzymane wyniki benchmarków pozwalają sądzić, że \todo[inline]{dokończyć}
+Otrzymane wyniki benchmarków pozwalają sądzić, że \todo[inline]
 
 
 
