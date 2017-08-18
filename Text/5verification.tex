@@ -136,6 +136,7 @@ To oraz szybkość narastania niestabilności jest obiektem automatycznych test�
   \includegraphics[width=\textwidth]{Images/TS_UNSTABLE}
   \caption{Niestabilny reżim dla układu dwóch strumieni. Trajektoria cząstki staje się chaotyczna.\label{fig:twostream-unstable}}
 \end{figure}
+
 % \subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła} % TODO
 
 \subsection{Testowe symulacje elektromagnetyczne --- propagacja fali}
@@ -166,16 +167,46 @@ kwaziobojętność elektryczną plazmy, ale również całkowitą obojętność
 początkowego układu) do czasu przybycia lasera. Należy również zauważyć, że
 przy zakładanych energiach lasera jakakolwiek termalna dynamika układu przed
 interakcją zostanie szybko wymazana. Jest to więc akceptowalne przybliżenie.
-% \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z} % TODO
+% \todo[inline]{wylosowano z relatywistycznego rozkładu Maxwella w kierunkach y, z}
 
 Za intensywność lasera przyjęto wielkości $10^{21}, 10^{22}, 10^{23} W/m^2$,
 zaś za jego długość fali 1.064 $\mu$m (jest to laser Nd:YAG). Przeprowadzono
 badania w polaryzacjach liniowej (pole elektryczne w kierunku osi $\hat{y}$ ---
 nie zaobserwowano znaczących różnic w symulacji, w której pole elektryczne
-skierowano w kierunku osi $\hat{z}$) %TODO CHECK
+skierowano w kierunku osi $\hat{z}$)
 oraz kołowej wiązki laserowej.
 
 Długość obszaru symulacji to około $10.6 \mu$m, podzielone na 1378 komórek siatki.
+
+Dla mocy lasera do $10^{22} J/m^2$ przy polaryzacji liniowej % kołowej?
+laser zostaje w większości wytłumiony i odbity przez plazmę. Obserwuje się generację niewielkich oscylacji wysokiej częstotliwości emitowanych w kierunku $+\hat{x}$.
+Widać to zwłaszcza w przypadku polaryzacji kołowej.
+
+Dla wszystkich przypadków od $10^{22} J/m^2$ obserwuje się spłaszczenie preplazmy w kierunku plazmy głównej.
+
+% comment
+
+% TODO rysunek ilustrujący zjawisko
+
+Dla mocy lasera $10^{23} J/m^2$ przy polaryzacji liniowej % kołowej?
+obserwuje się znaczące przejście wiązki laserowej przez warstwę plazmy oraz silne zniszczenie początkowego rozkładu przestrzennego plazmy, z przejściem do termalizacji.
+Gęstości obu rodzajów cząstek uzyskują rozkład normalny.
+
+Wizualizacje symulacji tarczy wodorowej przedstawiono na rysunkach~\ref{fig:laser-21-Ey}--\ref{fig:laser-23-Ey-snapshot}.
+\todo[inline]{tu jeszcze kombinuję z najsensowniejszym wrzuceniem snapshotów dobrze oddających dynamikę układu, najchętniej bym wkleił animację ale w pracy do druku się jeszcze nie da}
+
+
+% Dla polaryzacji kołowej zaobserwowano występowanie siły ponderomotorycznej~\cite{Jablonski-notes}
+
+
+%\begin{equation}
+    %F_p = - \frac{e^2}{4 m \omega^2} \nabla (\vec{E}^2)
+    %\label{eqn:ponderomotive}
+%\end{equation}
+% https://en.wikipedia.org/wiki/Ponderomotive_force
+
+
+%Dynamika układu
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/75000_1378_run_21_Ey}
@@ -236,6 +267,7 @@ Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
 Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji
 \code{iteration}.
 \subsubsection{line\_profiler}
+\todo[inline]{W trakcie pisania}
 \subsubsection{IPython timeit}
-
-\subsection{Problemy napotkane w trakcie pisania kodu} % TODO
+\todo[inline]{W trakcie pisania}
+%\subsection{Problemy napotkane w trakcie pisania kodu} % TODO
