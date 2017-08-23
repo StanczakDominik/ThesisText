@@ -21,13 +21,13 @@ pokazuje rysunek~\ref{fig:ESE-energy}. % TODO LABEL NIE DZIAŁA
   w tej symulacji używany jest efektywnie iterator typu leapfrog.\label{fig:ESE-energy}}
 \end{figure}
 
-W przypadku ruchu w polu magnetycznym nie wystarczy, niestety, użyć
-zwykłego algorytmu \emph{leapfrog}. Używa się tutaj
+W przypadku ruchu przy niezerowym polu magnetycznym zwykły algorytm
+\emph{leapfrog} okazuje się być niewystarczający.  Zamiast niego, używa się
 specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
-elektromagnetycznym, tak zwanego integratora Borysa (lepiej opisanego w~\cite{birdsall}),
-który rozbija pole elektryczne na dwa impulsy,
-między którymi następują dwie rotacje polem magnetycznym. Algorytm jest
-dzięki temu symplektyczny i długofalowo zachowuje energię cząstek.
+elektromagnetycznym, tak zwanego integratora Borysa (lepiej opisanego
+w~\cite{birdsall}), który rozbija pole elektryczne na dwa impulsy, między
+którymi następują dwie rotacje polem magnetycznym. Algorytm jest dzięki temu
+symplektyczny i długofalowo zachowuje energię cząstek.
 
 \begin{align}
     \vec{v}^- &= \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n 
@@ -106,7 +106,7 @@ x' = (x/dx) - i_x
 gdzie $i_x$ to indeks komórki, w której znajduje się cząstka.
 
 Następnie gęstość cząstki jest rozkładana pomiędzy bieżącą komórkę a
-komórkę następną w stosunku $n_i = 1-x'$, $n_{i+1} = x'$. Cząstka będąca
+następną w stosunku $n_i = 1-x'$, $n_{i+1} = x'$. Cząstka będąca
 w połowie komórki depozytowałaby więc swój ładunek po równo między obie
 komórki.
 
@@ -142,7 +142,7 @@ makrocząstek według ich względnych położeń (równanie~\ref{eqn:relative-po
 \subsection{Depozycja prądu} % TODO
 
 Depozycja prądu jest bardziej złożonym zagadnieniem niż depozycja ładunku.
-Prądy wymagają bowiem informacji o prędkości czastek w połówkowych
+Prądy potrzebują bowiem informacji o prędkości czastek w połówkowych
 iteracjach $v^{n+1/2}$, ale sama interpolacja do komórek siatki wymaga
 położeń w iteracji całkowitej $x^{n}$. Poza tym jest też kwestia, że zwykłe
 liniowe przeskalowanie ładunku i parametru \code{scaling} przez prędkość w
@@ -187,7 +187,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
 
 \subsubsection{Depozycja podłużna} 
 \begin{enumerate}
-    \itemi{} obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
+    \item{} obliczany jest czas potrzebny cząstce na dotarcie do kolejnej
     granicy obszaru
     \begin{equation}
         t_l = (x - x_g)/v
@@ -208,8 +208,8 @@ czasem w bieżącej iteracji $t = \Delta t$.
     gdzie $q$ to ładunek cząstki, a $n$ to parametr \code{scaling} oznaczający liczbę
     rzeczywistych cząstek w makrocząstce.
 
-    \itemi{} Jeżeli ruch cząstki się nie skończył, zostaje ona (w pętli
-    wewnętrznej, niezależnie od jej faktycznego ruchu w symulacji)
+    \itemi{} Jeżeli ruch cząstki się nie skończył, zostaje ona (niezależnie od
+    jej faktycznego ruchu w symulacji) w pętli wewnętrznej, 
     %TODO właściwie możnaby zoptymalizować w ten sposób ruch cząstek, wyciąć $x += v_x \Delta t$
     przesunięta za granicę obszaru o $\varepsilon =
     10^{-10} \Delta x$. Dodanie $\varepsilon$ jest wykonywane w celu zwiększenia
@@ -227,8 +227,8 @@ W każdej iteracji pętli obliczeniowej prąd ze wszystkich cząstek jest
 akumulowany do tablicy prądów na siatce. Tablica ma rozmiar \code{NG+2} \todo[inline]{verify}
 
 \subsubsection{Depozycja poprzeczna}
-Algorytm jest identyczny do depozycji podłużnej poza samym etapem depozycji
-prądu. Jako że symulacja jest jednowymiarowa i cząstki nie wykonują
+Algorytm depozycji poprzecznej jest identyczny do depozycji podłużnej, poza samym etapem obliczania
+wielkości depozytowanego prądu. Jako że symulacja jest jednowymiarowa i cząstki nie wykonują
 faktycznego ruchu w kierunkach $y$, $z$, przyjmujemy liniową interpolację
 prądów w tych kierunkach jako iloczynów $\vec{j}=q\vec{v}$ ważonych przez przekrycie
 cząstki z komórkami oraz czas, jaki cząstka spędza w ruchu obejmując dane
@@ -264,7 +264,7 @@ komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
 Jako że symulacja jest jednowymiarowa, musimy jedynie znaleźć równowagowe pole
 elektryczne $E_x$.
 
-Za~\cite{birdsall}, wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
+Za Birdsallem i Langdonem~\cite{birdsall} wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
 obustronnej transformaty Fouriera w przestrzeni na polu elektrycznym i gęstości ładunku,
 zakładając możliwość rozłożenia obu tych wielkości na składowe mające następującą zależność
 od położenia:
@@ -286,21 +286,21 @@ W związku z tym równanie Poissona\ref{eqn:maxwell-E-div} zamienia się na (po 
     E(k) = \frac{\rho(k)}{-ik \varepsilon_0}
 \end{equation}
 
-Tablicę (wektor w sensie listy liczb) $k$ można otrzymać w następujący sposób:
+Elementy tablicy $k$ można otrzymać w następujący sposób:
 
 \begin{equation}
     k_n = 2 \pi n / L
 \end{equation}
 
 
-Algorytm pozwalający otrzymać równowagowe pole elektrostatyczne jest więc bardzo prosty:
+Algorytm pozwalający otrzymać równowagowe pole elektrostatyczne w spojrzeniu wysokopoziomowym jest więc relatywnie prosty:
 \begin{enumerate}
 \itemi{} Używamy algorytmu FFT na gęstości prądu zebranej z cząstek na siatkę
 \itemi{} Dzielimy wynikową tablicę przez $-ik \varepsilon_0$, używając do tego wbudowanego typu \code{complex} obsługiwanego przez \code{Numpy} jak i zwykłego Pythona
 \itemi{} Używamy odwrotnej transformaty Fouriera, by otrzymać $E_x(x)$.
 \end{enumerate}
 
-Problemem jest element $k_n = 0$, utrudniający dzielenie. Istnieją dwie możliwości:
+Jedynym problemem jest element $k_n = 0$, utrudniający dzielenie. Istnieją dwie możliwości:
 \begin{itemize}
 \itemi{} wymuszenie $k_0 = k_1 / \text{const}$, gdzie $\text{const}$ jest dostatecznie duże (np. $10^6$)
 \itemi{} ustawienie $E(k_0) = 0$, co jest jednoznaczne z wyzerowaniem średniego ładunku w
@@ -320,9 +320,9 @@ podejścia:~\cite{bunemanvillasenor}
     jest konieczna w każdej komórce siatki.
 
     \item wykorzystać równania na rotację pola (prawa Ampera i Faradaya),
-    opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman), dywergencja
+    opisujące ewolucję czasową pól. Jak łatwo pokazać (Buneman~\cite{bunemanvillasenor}), dywergencja
     pola elektrycznego oraz magnetycznego nie zmienia się w czasie pod
-    wpływem tak opisanej ewolucji czasowej:
+    wpływem tak opisanej ewolucji czasowej.
 \end{enumerate}
 
 Co za tym idzie, jeżeli rozpoczniemy symulację od znalezienia pola na
@@ -398,7 +398,7 @@ Składowa podłużna pola jest zatem obliczana poprzez wyrażenie
 \label{longitudinal-field-differential}
 \end{equation}
 
-a raczej jej dyskretny odpowiednik
+a jej dyskretny odpowiednik to:
 
 \begin{equation}
     E_i^{n+1} = E_i^n - \frac{\Delta t}{\varepsilon_0} j_{x,i}^{n+1/2}

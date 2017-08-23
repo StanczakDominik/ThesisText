@@ -12,7 +12,7 @@
     błędom.
 
     Poszczególne algorytmy podlegały testom przy użyciu ogólnodostępnego
-    pakietu \code{pytest} i w większości były
+    pakietu \code{pytest}~\ref{sec:pytest} i w większości były
     uruchamiane na platformie TravisCI\@.
 
     \subsubsection{Testy algorytmiczne}
@@ -82,10 +82,11 @@ Określenie ``zimna plazma'' bierze się z nietermalnego, deltowego
 rozkładu prędkości cząstek --- jest to faktycznie strumień cząstek o stałej
 (w tym szczególnym przypadku zerowej) prędkości.
 
-Gęstość ładunku jest wyzerowana w pierwszym kroku algorytmu rozwiązywania pola elektrycznego
-poprzez wyzerowanie zerowej składowej fourierowskiej gęstości ładunku, co jest jednoznaczne
-z przyjęciem nieskończenie masywnych i nieruchomych jonów dodatnich dokładnie neutralizujących gęstość
-ładunku elektronów.
+Sumaryczny ładunek w obszarze symulacji jest ustawiony na zero w pierwszym
+kroku algorytmu rozwiązywania pola elektrycznego poprzez wyzerowanie zerowej
+składowej fourierowskiej gęstości ładunku, co jest jednoznaczne z przyjęciem
+nieskończenie masywnych i nieruchomych jonów dodatnich dokładnie
+neutralizujących gęstość ładunku elektronów.
 
 Sytuacja ta
 pozwala na obserwację oscylacji cząstek wokół ich stabilnych położeń
@@ -94,7 +95,7 @@ elipsy, co pozwala wnioskować że ruch ten jest z dobrym przybliżeniem harmoni
 Oczywiście, nie jest to do końca oscylacja harmoniczna z powodu odchyleń pola interpolowanego
 z Eulerowskiej siatki od generowanego faktycznym potencjałem $ \sim x^2 $.
 
-Jest to, oczywiście, spełnione jedynie dla niewielkich odchyleń; dla $A \to
+Jest to spełnione jedynie dla niewielkich odchyleń; dla $A \to
 dx$ obserwuje się nieliniowy reżim oscylacji, 
 
 Symulacja ta jest wykorzystywana do weryfikacji podstawowych warunków, jakie powinna spełniać
