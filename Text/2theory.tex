@@ -1,7 +1,7 @@
 \section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna}\label{sec:theory} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
     Plazma, powszechnie nazywana czwartym stanem materii, to zbiór
-    zjonizowanych cząstek oraz elektronów przejawiających jako grupa globalną
-    obojętność elektryczną. Innymi słowy, od gazu plazmy odróżnia fakt, że
+    zjonizowanych cząstek oraz elektronów wykazujących jako grupa globalną
+    obojętność elektryczną. Innymi słowy, od gazu plazmę odróżnia fakt, że
     cząstki są zjonizowane, więc oddziałują kolektywnie między sobą na
     odległość, ale ich pola elektryczne wzajemnie się neutralizują na długich
     dystansach.
@@ -14,21 +14,21 @@
     ostatnim stuleciu, zaczynając od badań Langmuira (1928), który
     eksperymentował z jonizowaniem gazów w szklanych rurach zwanych rurami
     Crookesa, służących do generowania promieniowania katodowego, czyli, jak
-    wiemy obecnie, strumieni elektronów.
+    wiemy obecnie, strumieni elektronów.\cite{langmuir}
 
     Globalny wzrost zainteresowania fizyką plazmy na arenie geopolitycznej
     rozpoczął się w latach czterdziestych ubiegłego wieku, gdy uświadomiono sobie,
     że można zastosować ją do przeprowadzania kontrolowanych reakcji syntezy
     jądrowej,
     które mogą mieć zastosowania w energetyce jako następny etap rozwoju po
-    reakcjach rozpadu wykorzystywanych w ``klasycznych'' elektrowniach jądrowych.
+    reakcjach rozpadu wykorzystywanych w obecnych elektrowniach jądrowych.
     Był to jeden z elementów zimnowojennego wyścigu technologicznego między Stanami
     Zjednoczonymi a ZSRR, jak również jeden z projektów mających na celu ponowne
     nawiązanie współpracy naukowej między supermocarstwami po zakończeniu tego
     konfliktu. Obecnie trwają intensywne badania nad tym problemem, których
     dotychczasową kulminacją jest budowany we Francji tokamak ITER i planowany reaktor DEMO\@.
 
-    Poza tym ogromnym projektem plazmy mają szerokie zastosowania w obecnym
+    Poza tym ogromnym projektem, plazmy mają szerokie zastosowania w obecnym
     przemyśle, na przykład:
     \begin{itemize}
         \itemi{} metalurgicznym --- cięcie metalu przy użyciu łuków plazmowych.
@@ -51,19 +51,17 @@
     \subsection{Modelowanie i symulacja plazmy}
 
     Modelowanie zjawisk z zakresu fizyki plazmy jest jednym z bardziej
-    złożonych problemów fizyki komputerowej. Głównym, koncepcyjnie, powodem
-    uniemożliwiającym zastosowanie prostych metod symulacji znanych z
-    newtonowskiej dynamiki molekularnej jest mnogość oddziaływań --- każda
-    cząstka oddziałuje z każdą inną nawzajem poprzez niepomijalne oddziaływania
-    kulombowskie, skalujące się z odległością jak
-    $\approx r^{-2}$. Paradoksalnie, na dużych odległościach oddziaływania
-    te znoszą się, co rozumie się w plazmie jako \concept{kwaziobojętność} --- jednak
-    bez uwzględnienia oddziaływań od wszystkich cząstek nie osiągnie się tego
-    efektu,
+    złożonych problemów fizyki komputerowej. Koncepcyjnie rzecz biorąc, Głównym
+    powodem uniemożliwiającym zastosowanie prostych metod symulacji znanych z
+    newtonowskiej dynamiki molekularnej jest mnogość oddziaływań --- każda cząstka
+    oddziałuje z każdą inną nawzajem poprzez niepomijalne oddziaływania
+    kulombowskie, skalujące się z odległością jak $\approx r^{-2}$. Paradoksalnie,
+    na dużych odległościach oddziaływania te znoszą się, co rozumie się w plazmie
+    jako \concept{kwaziobojętność} --- jednak bez uwzględnienia oddziaływań od
+    wszystkich cząstek nie osiągnie się tego efektu,
 
-    Z powodu dużej liczby cząstek w układach plazmowych, jedynymi podejściami
-    fundamentalnymi (jako opierającymi się na fundamentalnej fizyce) są opisy
-    kinetyczne. Wielkością opisującą plazmę jest tu funkcja dystrybucji (zwana
+    Z powodu dużej liczby cząstek w układach plazmowych, jedynym adekwatnym modelem teoretycznym
+    opierającym się na fundamentalnej fizyce jest opis kinetyczny. Wielkością opisującą plazmę jest tu funkcja dystrybucji (zwana
     też funkcją rozkładu) zdefiniowana jako $f_s(\vec{x}, \vec{v}, t) d\vec{x}
     d\vec{v}$ opisująca gęstość rozkładu danej grupy cząstek $s$ plazmy w
     sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz
@@ -110,7 +108,7 @@
             na dyskretnych siatkach
         \itemi{} modele płynowe oparte na ciągłym opisie plazmy poprzez
             uśrednienie po dystrybucji wielkości termodynamicznych, co daje
-            modele takie jak magnetohydrodynamikę. Jest to wciąż układ równań
+            modele takie jak magnetohydrodynamika. Jest to wciąż układ równań
             różniczkowych cząstkowych, lecz na mniej wymiarowej siatce.
             Niestety, nie nadają się one do badań plazmy daleko od równowagi z
             powodu czynionych przy nich założeń takich jak maxwellowski rozkład
@@ -129,7 +127,7 @@
     \subsection{Modele Particle-in-cell}
 
     Idea modelu \concept{particle-in-cell} (dalej nazywanego \concept{PIC}) jest wyjątkowo
-    prosta i opiera się na idei przyspieszenia najbardziej złożonego obliczeniowo
+    prosta i opiera się na przyspieszeniu najbardziej złożonego obliczeniowo
     kroku symulacji dynamiki molekularnej, czyli obliczania sił
     międzycząsteczkowych.  Cząstki poruszają się w ciągłej, Lagrange'owskiej
     przestrzeni.  Ich ruch wykorzystywany jest do zebrania informacji dotyczącej
@@ -137,7 +135,8 @@
     są (jako równania różniczkowe cząstkowe) równania Maxwella, dzięki którym
     otrzymuje się pola elektryczne i magnetyczne, które z powrotem są przekazane do
     położeń cząstek.  Obliczeniowo, uwzględniając koszty odpowiednich interpolacji,
-    pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych do złożoności $O(n)$ z $O(n^2)$.
+    pozwala to zredukować złożoność kroku obliczenia sił międzycząsteczkowych
+do złożoności $O(n)$ z $O(n^2)$, gdzie $n$ jest liczbą cząstek.
     Oczywiście, jest to okupione zależnością złożoności od liczby punktów na siatce $m$, lecz jako że $m << n$,
     jest to akceptowalne i korzystne.
 
@@ -147,8 +146,8 @@
     \begin{itemize}
         \itemi{} Zbierz (\english{Gather})\\
     Depozycja ładunku oraz prądu z położeń cząstek do lokacji na dyskretnej
-    siatce poprzez interpolację, co pozwala na sprawne rozwiązanie na tej
-    siatce równań Maxwella jako układu różnicowych równań cząstkowych zamiast
+    siatce poprzez interpolację, co pozwala na sprawne rozwiązanie na niej
+    równań Maxwella jako układu różnicowych równań cząstkowych zamiast
     obliczania skalujących się kwadratowo w liczbie cząstek oddziaływań
     kulombowskich między nimi.  W naszym elektromagnetycznym przypadku bardziej
     istotną jest depozycja prądu na siatkę, co szerzej tłumaczy następny
@@ -174,7 +173,7 @@
     Interpolacja pól z siatki do lokacji cząstek, co pozwala określić siły
     elektromagnetyczne działające na cząstki.  Należy przy tym zauważyć, że
     jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
-    elektromagnetycznych w okolicy cząstki, ta część algorytmu sprawia, że
+    elektromagnetycznych w okolicy cząstki, ta część sprawia, że
     algorytmy Particle-in-cell doskonale nadają się do zrównoleglenia (problem
     jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego
     powodu algorytmy Particle-in-cell nadają się doskonale do wykorzystania
@@ -199,7 +198,7 @@
     Należy zauważyć, że obecnie nie jest jeszcze możliwe dokładne odwzorowanie
     dynamiki układów plazmowych w sensie interakcji między poszczególnymi
     cząstkami ze względu na liczbę cząstek rzędu liczby Avogadro $\approx
-    10^{23}$.  W tym kontekście bardzo szczęśliwym jest fakt, że wszystkie
+    10^{23}$.  W tym kontekście bardzo korzystnym jest fakt, że wszystkie
     istotne wielkości zależą nie od ładunku ani masy, ale od stosunku $q/m$. W
     praktyce stosuje się więc \emph{makrocząstki}, obdarzone ładunkiem i masą
     będące wielokrotnościami tych wielkości dla cząstek występujących w naturze

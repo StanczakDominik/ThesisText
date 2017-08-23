@@ -30,9 +30,9 @@ niskopoziomowość istniejących języków klasycznie kojarzonych z symulacją
 numeryczną (C, FORTRAN) oraz istniejących technologii zrównoleglania algorytmów
 (MPI, CUDA, OpenCL).
 
-Należy też zauważyć, że programy takie często są
+Należy też zauważyć~\cite{reproducible-science}, że programy takie często są
 trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
-i modyfikacji przez osoby niezwiązane z oryginalnym autorem z powodów takich jak
+i modyfikacji przez osoby niezwiązane z pierwotnym autorem z powodów takich jak
 \begin{itemize}
     \itemi{} brak dostępności kodu źródłowego
     \itemi{} niedostateczna dokumentacja
@@ -43,7 +43,7 @@ i modyfikacji przez osoby niezwiązane z oryginalnym autorem z powodów takich j
 \end{itemize}
 
 To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
-zajmujące się głównie pracą badawczą (na przykład fizyką), bez dogłębnego, formalnego przeszkolenia
+zajmujące się głównie pracą badawczą (na przykład w dziedzinie fizyki), bez dogłębnego, formalnego przeszkolenia
 w programowaniu i informatyce, jest znacznie utrudnione.
 
 Jest to też znacząca przeszkoda dla adaptacji
@@ -55,11 +55,10 @@ do symulacji oddziaływania wiązki laserowej z tarczą wodorową w popularnym j
 wysokopoziomowym Python, przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
 i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej.
 
-Może to też oczywiście pozwolić na dalsze
-zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie w większej
-liczbie fizycznych wymiarów lub z
-użyciem kart graficznych,
-lub w innych projektach.
+Utworzenie oprogramowania tego typu może również pozwolić na dalsze
+zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie w
+większej liczbie fizycznych wymiarów lub z użyciem kart graficznych, lub w
+innych projektach.
 
 Python został wybrany jako język służący do implementacji bieżącej symulacji
 przez jego rosnącą popularność zarówno w programowaniu ogólnym jak i w nauce,
@@ -67,11 +66,13 @@ możliwości szybkiego prototypowania (zwłaszcza w rozbudowanych środowiskach
 IPython\cite{ipython} i Jupyter\cite{jupyter}), oraz łatwość reprodukowania
 warunków uruchomienia.
 
-Atutem Pythona w wysokowydajnych obliczeniach jest łatwość użycia w
-nim zewnętrznych bibliotek napisanych na przykład w C lub Fortranie, co
-pozwala na osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów
-napisanych w językach niskopoziomowych bez faktycznej pracy z tymi
-językami.
+Atutem Pythona w wysokowydajnych obliczeniach jest łatwość użycia w nim
+zewnętrznych bibliotek napisanych na przykład w C lub Fortranie, co pozwala na
+osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów napisanych w
+językach niskopoziomowych przy minimalnej pracy z tymi językami. Istnieje
+również możliwość implementacji najbardziej intensywnych obliczeniowo
+fragmentów kodu w językach niskopoziomowych i odwoływanie się do nich z
+Pythona.
 
 Python znajduje szerokie zastosowania w analizie danych i uczeniu maszynowym
 (zwłaszcza w astronomii\cite{astropy}). W zakresie symulacji w ostatnich czasach powstały
