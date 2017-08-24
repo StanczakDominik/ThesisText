@@ -13,7 +13,7 @@ algorytmem symplektycznym jest na przykład powszechnie znany
 czasowej względem położeń.\cite{computational-physics} Mimo tego, że energia
 układu w ruchu cząstek obliczonym tym integratorem nie jest lokalnie stała na
 krótkich skalach czasowych, to jednak zachowuje energię na skali globalnej, co
-pokazuje rysunek~\ref{fig:ESE-energy}. % TODO LABEL NIE DZIAŁA
+pokazuje rysunek~\ref{fig:ESE-energy}.
 
 \begin{figure}[h!]
   \includegraphics{Images/ESE_energy_plot}
@@ -22,8 +22,10 @@ pokazuje rysunek~\ref{fig:ESE-energy}. % TODO LABEL NIE DZIAŁA
 \end{figure}
 
 W przypadku ruchu przy niezerowym polu magnetycznym zwykły algorytm
-\emph{leapfrog} okazuje się być niewystarczający.  Zamiast niego, używa się
-specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
+\emph{leapfrog} okazuje się być niewystarczający w celu zachowania energii
+cząstek\footnote{Można to łatwo sprawdzić poprzez umieszczenie cząstki z
+niezerowym ładunkiem i prędkością w polu magnetycznym.}.  Zamiast niego, używa
+się specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
 elektromagnetycznym, tak zwanego integratora Borysa (lepiej opisanego
 w~\cite{birdsall}), który rozbija pole elektryczne na dwa impulsy, między
 którymi następują dwie rotacje polem magnetycznym. Algorytm jest dzięki temu
@@ -108,9 +110,9 @@ gdzie $i_x$ to indeks komórki, w której znajduje się cząstka.
 Następnie gęstość cząstki jest rozkładana pomiędzy bieżącą komórkę a
 następną w stosunku $n_i = 1-x'$, $n_{i+1} = x'$. Cząstka będąca
 w połowie komórki depozytowałaby więc swój ładunek po równo między obie
-komórki.
+komórki, co ilustruje rysunek~\ref{fig:charge-deposition}.
 
-% TODO mam wrażenie że jako że tego nie wykorzystuję w symulacji to
+% TODO-IDEA mam wrażenie że jako że tego nie wykorzystuję w symulacji to
 % to może być nieco błędne, środki komórek Eulera wg depozycji ładunku są w
 % połowie. Niemniej jednak, elektrostatyczne symulacje okresowe zdają się
 % działać w ten sposób, nawet gdy liczę ewolucję pól poprzez prądy. To wymaga
@@ -118,9 +120,10 @@ komórki.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/charge-deposition}
-  \caption{Ilustracja depozycji ładunku poprzez skalowanie pola \english{(area weighting)}.\label{fig:charge-deposition}}
-\end{figure} % TODO FINISH PICTURE
-\todo[inline]{Mam jakiś błąd w kodzie robiącym ten rysunek, jeszcze go oczywiście upoluję}
+  \caption{Ilustracja depozycji ładunku poprzez skalowanie pola \english{(area
+weighting)}. Do komórki $0$ przypisana zostanie część ładunku proporcjonalna do
+niebieskiej części pola trójkąta, zaś do $1$ - reszta.\label{fig:charge-deposition}}
+\end{figure} % TODO-MAYBE CHECK PICTURE SHOULD THIS NOT GO TO 1
 
 Po obliczeniu otrzymana tablica gęstości \emph{makrocząstek} na
 siatce jest mnożona przez parametr \code{scaling} cząstek, co pozwala na
@@ -204,13 +207,12 @@ czasem w bieżącej iteracji $t = \Delta t$.
     \begin{equation}
         j_x = q n v_x t/\Delta t
     \end{equation}
-    \todo[inline]{Czy to jest czytelne?}
     gdzie $q$ to ładunek cząstki, a $n$ to parametr \code{scaling} oznaczający liczbę
     rzeczywistych cząstek w makrocząstce.
 
-    \itemi{} Jeżeli ruch cząstki się nie skończył, zostaje ona (niezależnie od
+    \item{} Jeżeli ruch cząstki się nie skończył, zostaje ona (niezależnie od
     jej faktycznego ruchu w symulacji) w pętli wewnętrznej, 
-    %TODO właściwie możnaby zoptymalizować w ten sposób ruch cząstek, wyciąć $x += v_x \Delta t$
+    %IDEA właściwie możnaby zoptymalizować w ten sposób ruch cząstek, wyciąć $x += v_x \Delta t$
     przesunięta za granicę obszaru o $\varepsilon =
     10^{-10} \Delta x$. Dodanie $\varepsilon$ jest wykonywane w celu zwiększenia
     jednoznaczności porównywania liczb zmiennoprzecinkowych przy wybieraniu
@@ -342,39 +344,6 @@ sąsiadach, co zapobiega
 problemowi informacji przebiegającej w symulacji szybciej niż światło oraz
 zapewnia stabilność na podstawie warunku Couranta.
 \end{enumerate}
-
-%W 1D można dokonać dekompozycji składowych poprzecznych pola
-%elektromagnetycznego (tutaj oznaczanych $y$, $z$) na propagujące się w
-%przód ($+$) i w tył ($-$) obszaru symulacji. Składowe $E_y$, $B_z$ są
-%zebrane poprzez zamianę zmiennych w dwie wielkości elektrodynamiczne $F^+$,
-%$F^-$, z $E_z$, $B_y$ w $F^+$, $F^-$.
-
-%\begin{align}
-%    F^{\pm} = (E_y \pm c*B_z) / 2
-%    G^{\pm} = (E_z \pm c*B_y) / 2
-%    \label{eqn:fg-transform}
-%\end{align}
-%
-%% TODO polishfonts
-%Wielkosci te zas propaguja sie w trywialny sposob:
-%
-%\begin{align}
-%    {F^+}_{i+1}^{n+1} = {F^+}_i^n - 0.5 * \Delta t {j_y}_{i+1/2}^{n+1/2} / \varepsilon_0
-%    {F^-}_{i-1}^{n+1} = {F^+}_i^n - 0.5 * \Delta t {j_y}_{i-1/2}^{n+1/2} / \varepsilon_0
-%    {G^+}_{i+1}^{n+1} = {G^+}_i^n - 0.5 * \Delta t {j_y}_{i+1/2}^{n+1/2} / \varepsilon_0
-%    {G^-}_{i-1}^{n+1} = {G^+}_i^n - 0.5 * \Delta t {j_y}_{i-1/2}^{n+1/2} / \varepsilon_0
-%\end{align}
-%
-%Po wykonaniu iteracji obliczeniowej mozna latwo powrocic do pol elektromagnetycznych
-%na potrzeby interpolacji do czastek:
-
-%\begin{align}
-%    E_y = F^+ + F^-
-%    B_z = (F^+ - F^- ) / c
-%    E_z = G^+ + G^-
-%    B_y = (G^+ - G^- ) /c
-%    \label{eqn:fg-transform-inverse}
-%\end{align}
 
 W schemacie ewolucji czasowej wykorzystanym w programie wychodzimy z rotacyjnych równań Maxwella~\ref{eqn:maxwell-E-rotation},~\ref{eqn:maxwell-B-rotation}.
 
