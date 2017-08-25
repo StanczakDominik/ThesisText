@@ -125,10 +125,10 @@ grupowanie się cząstek w rejony koherentnej większej gęstości wewnątrz str
     z początkową różnicą prędkości strumieni.
  Strumienie zaczynają się mieszać ze sobą nawzajem, zaś cały układ się termalizuje. Energia kinetyczna
  uporządkowanego ruchu strumieni zamienia się w energię potencjalną pola równowagowego 
-oraz termalną energię kinetyczną, co sprawia, że średnia prędkość obu strumieni ulega zmniejszeniu. 
+oraz termalną energię kinetyczną, co sprawia, że średnia prędkość obu strumieni ulega zmniejszeniu.\cite{birdsall}
 
-To oraz szybkość narastania niestabilności jest obiektem automatycznych testów sprawdzających poprawność symulacji.
-% TODO TEST
+To oraz stabilność symulacji o warunkach początkowych w obu reżimach jest
+obiektem automatycznych testów sprawdzających poprawność symulacji.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/TS_STABLE}
@@ -139,8 +139,6 @@ To oraz szybkość narastania niestabilności jest obiektem automatycznych test�
   \includegraphics[width=\textwidth]{Images/TS_UNSTABLE}
   \caption{Niestabilny reżim dla układu dwóch strumieni. Trajektoria cząstki staje się chaotyczna.\label{fig:twostream-unstable}}
 \end{figure}
-
-% \subsubsection{Oddziaływanie strumienia plazmy z gęstą plazmą tła} % TODO
 
 \subsection{Testowe symulacje elektromagnetyczne --- propagacja fali}
 W tym przypadku symulacja nie zawiera plazmy, a badana jest jedynie propagacja fali elektromagnetycznej w obszarze
@@ -267,7 +265,8 @@ Uruchamianie kodu w celu zmierzenia wydajności polegało na uruchomieniu skrypt
 
 Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
 
-Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji oraz ułamek tego czasu spędzony w funkcji
+Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji
+oraz ułamek tego czasu spędzony w funkcji
 \code{iteration}.
 \subsubsection{line\_profiler}
 \todo[inline]{W trakcie pisania}

@@ -93,7 +93,7 @@ Mimo to, gęstość cząstek (proporcjonalna do gęstości ładunku jako $\rho =
 \sum_s q_s n_s$) jest wciąż zbierana w symulacji jako wygodna diagnostyka
 ewolucji przestrzennej plazmy w obszarze symulacji. Ze względu na prostotę
 algorytmu, nie zabiera ona dużo czasu obliczeniowego (do
-\todo[inline]{sprawdzić dokładnie ile, rzędu 4\%}\% czasu trwania symulacji).
+\todo[inline]{sprawdzić dokładnie ile, rzędu 4\%}\% czasu trwania symulacji). % TODO BENCHMARK
 
 \subsubsection{Depozycja ładunku}
 
@@ -142,7 +142,7 @@ makrocząstek według ich względnych położeń (równanie~\ref{eqn:relative-po
     \label{eqn:field-interpolation}
 \end{equation}
 
-\subsection{Depozycja prądu} % TODO
+\subsection{Depozycja prądu}
 
 Depozycja prądu jest bardziej złożonym zagadnieniem niż depozycja ładunku.
 Prądy potrzebują bowiem informacji o prędkości czastek w połówkowych
@@ -152,8 +152,8 @@ liniowe przeskalowanie ładunku i parametru \code{scaling} przez prędkość w
 danym kierunku nie jest wystarczające z tego powodu, że taki sposób
 depozycji nie spełnia warunku zachowania ładunku.
 
-%TODO jak sformalizować warunek zachowania ładunku
-%TODO depozycja ładunku w mojej obecnej wersji nie jestem wcale przekonany że zachowuje ładunek}
+%TODO jak sformalizować warunek zachowania ładunku? check Villasenor
+%TODO-IDEA depozycja ładunku w mojej obecnej wersji nie jestem wcale przekonany że zachowuje ładunek
 
 To zaś dyskwalifikuje prostą liniową interpolację jako metodę depozycji
 prądu, ponieważ chcemy rozwiązywać lokalne równania Ampere'a-Maxwella
@@ -226,7 +226,12 @@ czasem w bieżącej iteracji $t = \Delta t$.
 \end{enumerate}
 
 W każdej iteracji pętli obliczeniowej prąd ze wszystkich cząstek jest
-akumulowany do tablicy prądów na siatce. Tablica ma rozmiar \code{NG+2} \todo[inline]{verify}
+akumulowany do tablicy prądów na siatce. Tablica ma rozmiar \code{NG+3} w
+przypadku depozycji podłużnej i \code{NG+4} w przypadku depozycji poprzecznej,
+co spowodowane jest koniecznością obsłużenia warunków brzegowych.  W obecnej
+symulacji nieokresowej prąd na zewnątrz wewnętrznego obszaru właściwego
+\code{NG} jest zerowany, zaś w symulacji okresowej - odbijany na obszar
+wewnętrzny po przeciwnej stronie siatki.
 
 \subsubsection{Depozycja poprzeczna}
 Algorytm depozycji poprzecznej jest identyczny do depozycji podłużnej, poza samym etapem obliczania
@@ -378,7 +383,7 @@ a jej dyskretny odpowiednik to:
 Z tego powodu bardzo istotnym dla dokładności i stabilności algorytmu staje
 się sposób depozycji ładunku --- należy pilnować, aby był robiony w sposób
 który spełnia zachowanie ładunku. Inaczej koniecznym staje się aplikowanie
-tak zwanej poprawki Borysa, \todo[inline]{źródło prezentacja}
+tak zwanej poprawki Borysa\cite{ren-presentation}, %TODO PC
 aby upewnić się, że warunek z równań Gaussa~\ref{eqn:maxwell-E-div},\ref{eqn:maxwell-B-div}
 jest wciąż spełniony.
 
@@ -438,7 +443,7 @@ kumulatywne na siatce gęstszej niż liczba cząstek na wybranym przedziale,
 po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
  przybiera kolejne większe całkowite wartości.
 
-\todo[inline]{rysunek: przykład z ipynb}
+\todo[inline]{rysunek: przykład z ipynb} % TODO PC
 
 % density_profiles.generate
 Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną
@@ -453,7 +458,8 @@ W bieżącej wersji symulacji zorientowanej pod symulacje układu tarczy
 wodorowej istnieją trzy wbudowane rodzaje ustawień początkowych cząstek.
 Wszystkie trzy składają się z części o jednorodnym rozkładzie gęstości oraz
 ustawionej przed nią ``preplazmy'' mającej rozkład gęstości przyrastający z
-gęstością odpowiednio liniowo, kwadratowo i wykładniczo ($\exp{10 x - 10}$)
+gęstością odpowiednio liniowo, kwadratowo i wykładniczo ($\exp{10 x - 10}$).
+% TODO UNITS ARE OFF
 
 \todo[inline]{rysunek: preplazma.eps}
 
