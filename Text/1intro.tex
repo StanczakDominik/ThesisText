@@ -1,13 +1,14 @@
 \section[Wstęp]{Wstęp}\label{sec:intro} %2-3 strony wprowadzenie w temat, motywacja, teza (cel)
-Algorytmy Particle-in-Cell (cząstka w komórce) to jedne z najbardziej
+Algorytmy Particle-in-Cell (``cząstka w komórce'') to jedne z najbardziej
 zbliżonych do fundamentalnej fizyki metod symulacji materii w stanie plazmy.
 Zastosowany w nich lagranżowski opis cząsteczek pozwala na dokładne
-odwzorowanie dynamiki ruchu elektronów i jonów. Jednocześnie, ewolucja pola
+odwzorowanie dynamiki plazmy poprzez dokonanie przybliżeń dotyczących
+krótkozasięgowego ruchu elektronów i jonów. Jednocześnie, ewolucja pola
 elektromagnetycznego na Eulerowskiej siatce dokonywana zamiast bezpośredniego
 obliczania oddziaływań międzycząsteczkowych pozwala na znaczące przyspieszenie
 etapu obliczenia oddziaływań międzycząsteczkowych. W większości symulacji
 cząsteczkowych właśnie ten etap jest najbardziej krytyczny dla wydajności
-progamu.
+progamu.\cite{birdsall}
 
 W ostatnich czasach symulacje Particle-in-Cell zostały wykorzystane między innymi do
 \begin{itemize}
@@ -30,7 +31,8 @@ niskopoziomowość istniejących języków klasycznie kojarzonych z symulacją
 numeryczną (C, FORTRAN) oraz istniejących technologii zrównoleglania algorytmów
 (MPI, CUDA, OpenCL).
 
-Należy też zauważyć~\cite{reproducible-science}, że programy takie często są
+Należy też zauważyć%~\cite{reproducible-science}
+, że programy takie często są
 trudne, jeżeli nie niemożliwe do weryfikacji działania, ponownego wykorzystania
 i modyfikacji przez osoby niezwiązane z pierwotnym autorem z powodów takich jak
 \begin{itemize}
