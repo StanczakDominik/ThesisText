@@ -251,25 +251,22 @@ Wizualizacje symulacji tarczy wodorowej przedstawiono na rysunkach~\ref{fig:lase
 \end{figure}
 
 
+\subsection{Parametry uruchomienia}
 
+Profilowanie przeprowadzono na komputerze o parametrach:
+\begin{itemize}
+\itemi{} Intel Core 4 Quad 6600 3.0GHz
+\itemi{} 4GB RAM
+\itemi{} SSD firmy Crucial % TODO CHECK 
+\itemi{} Arch Linux
+\end{itemize}
 
-\subsection{Profilowanie}
-W celu zmierzenia wydajności kodu zastosowano następujące techniki:
-\subsubsection{cProfile}
-Uruchamianie kodu w celu zmierzenia wydajności polegało na uruchomieniu skryptu \code{make benchmark}, który:
-\begin{enumerate}
-\item Czyści zawartość folderu \code{data\_analysis}
-\item Uruchamia środowisko Anaconda zawierające bardziej zoptymalizowane od zwyczajnych wersje biblioteki Numpy
-\item Uruchamia skrypt \code{fulllaser.py} w trybie \code{cProfile} i zapisuje dane
-\end{enumerate}
+Wykorzystując następujące wersje oprogramowania i bibliotek obliczeniowych:
+\begin{itemize}
+\itemi{} Python 3.6.1
+\itemi{} Numpy 1.13.1
+\itemi{} Numba 0.34.0
+\itemi{} h5py 2.7.0
+\itemi{} SciPy 0.19.1
+\end{itemize}
 
-Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
-
-Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji
-oraz ułamek tego czasu spędzony w funkcji
-\code{iteration}.
-\subsubsection{line\_profiler}
-\todo[inline]{W trakcie pisania}
-\subsubsection{IPython timeit}
-\todo[inline]{W trakcie pisania}
-%\subsection{Problemy napotkane w trakcie pisania kodu} % TODO

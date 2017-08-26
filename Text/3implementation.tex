@@ -93,7 +93,7 @@ Mimo to, gęstość cząstek (proporcjonalna do gęstości ładunku jako $\rho =
 \sum_s q_s n_s$) jest wciąż zbierana w symulacji jako wygodna diagnostyka
 ewolucji przestrzennej plazmy w obszarze symulacji. Ze względu na prostotę
 algorytmu, nie zabiera ona dużo czasu obliczeniowego (do
-\todo[inline]{sprawdzić dokładnie ile, rzędu 4\%}\% czasu trwania symulacji). % TODO BENCHMARK
+2\% czasu trwania symulacji).
 
 \subsubsection{Depozycja ładunku}
 
@@ -150,10 +150,13 @@ iteracjach $v^{n+1/2}$, ale sama interpolacja do komórek siatki wymaga
 położeń w iteracji całkowitej $x^{n}$. Poza tym jest też kwestia, że zwykłe
 liniowe przeskalowanie ładunku i parametru \code{scaling} przez prędkość w
 danym kierunku nie jest wystarczające z tego powodu, że taki sposób
-depozycji nie spełnia warunku zachowania ładunku.
-
-%TODO jak sformalizować warunek zachowania ładunku? check Villasenor
-%TODO-IDEA depozycja ładunku w mojej obecnej wersji nie jestem wcale przekonany że zachowuje ładunek
+depozycji nie spełnia warunku zachowania ładunku. Strumień prądu podłużny
+powinien reprezentować zmianę gęstości ładunku w czasie. W postaci różniczkowej
+można to zapisać, za~\cite{bunemanvillasenor}:
+\begin{equation}
+\nabla \cdot \vec{J} = -\partial \rho / \partial t
+\label{eqn:charge-conservation-condition}
+\end{equation}
 
 To zaś dyskwalifikuje prostą liniową interpolację jako metodę depozycji
 prądu, ponieważ chcemy rozwiązywać lokalne równania Ampere'a-Maxwella
@@ -443,9 +446,6 @@ kumulatywne na siatce gęstszej niż liczba cząstek na wybranym przedziale,
 po czym umieścić cząstki w miejscach, gdzie obliczona dystrybuanta funkcji
  przybiera kolejne większe całkowite wartości.
 
-\todo[inline]{rysunek: przykład z ipynb} % TODO PC
-
-% density_profiles.generate
 Zaimplementowany algorytm jest w stanie przyjąć dowolną funkcję analityczną
 przybierającą  wartości z zakresu $(0, 1)$
 i znormalizować ją tak, aby $\int_0^L
@@ -461,7 +461,11 @@ ustawionej przed nią ``preplazmy'' mającej rozkład gęstości przyrastający 
 gęstością odpowiednio liniowo, kwadratowo i wykładniczo ($\exp{10 x - 10}$).
 % TODO UNITS ARE OFF
 
-\todo[inline]{rysunek: preplazma.eps}
+\begin{figure}[h!]
+  \includegraphics{Images/preplasma}
+  \caption{Zaimplementowane w symulacji kształty preplazmy.\label{fig:preplasma-shapes}}
+\end{figure}
+
 
 W bieżącej wersji kodu prędkości cząstek inicjalizowane są jako zera. Jest to
 %TODO CODE To jest oczywiście do zmiany\todo[inline]{
@@ -503,7 +507,7 @@ Program implementuje dwa rodzaje warunków brzegowych dla cząstek:
 dalej pod uwagę).
 \end{itemize}
 
-Przygotowane są również analogiczne \english{wrappery} \todo[inline]{word}
+Przygotowane są również analogiczne \english{wrappery} % TODO analogiczne słowo?
 algorytmów obliczeniowych depozycji i interpolacji.
 
 Dla pól możliwe jest dołączenie do symulacji obiektu reprezentującego \code{Laser},
