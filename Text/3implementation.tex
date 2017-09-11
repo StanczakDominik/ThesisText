@@ -24,24 +24,13 @@ pokazuje rysunek~\ref{fig:ESE-energy}.
 W przypadku ruchu przy niezerowym polu magnetycznym zwykły algorytm
 \emph{leapfrog} okazuje się być niewystarczający w celu zachowania energii
 cząstek\footnote{Można to łatwo sprawdzić poprzez umieszczenie cząstki z
-niezerowym ładunkiem i prędkością w polu magnetycznym.}.  Zamiast niego, używa
+niezerowym ładunkiem i prędkością w polu magnetycznym. Cząstka zacznie, zamiast
+krążyć po okręgu, opadać do jego środka.}.  Zamiast niego, używa
 się specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
 elektromagnetycznym, tak zwanego integratora Borysa (lepiej opisanego
 w~\cite{birdsall}), który rozbija pole elektryczne na dwa impulsy, między
 którymi następują dwie rotacje polem magnetycznym. Algorytm jest dzięki temu
 symplektyczny i długofalowo zachowuje energię cząstek.
-
-\begin{align}
-    \vec{v}^- &= \vec{v}^{n-1/2} + \frac{q dt}{2m} \vec{E}^n 
-    \label{eqn:boris-pusher-start}\\
-    \vec{t} &= \frac{q dt} {2 m} \vec{B}^n \\
-    \vec{v'} &= \vec{v}^- + \vec{v}^- \times \vec{t} \\
-    \vec{s} &= \vec{t} / {(1 + t^2)} \\
-    \vec{v}^+ &= \vec{v}^- + \vec{v'} \times \vec{s} \\
-    \vec{v}^{n+1/2} &= \vec{v}^+ + \frac{q dt}{2m} \vec{E}^n \\
-    \vec{x}^{n+1} &= \vec{x}^{n} + \vec{v}^{n+1/2} dt
-    \label{eqn:boris-pusher-end}
-\end{align}
 
 W naszym przypadku dochodzi jeszcze jedno utrudnienie związane z
 relatywistycznymi prędkościami osiąganymi przez cząstki (zwłaszcza
@@ -52,7 +41,7 @@ się poprzez prostą transformację:
 
 \begin{align}
     \vec{u} &= \vec{v} \gamma \\
-    \gamma &= \sqrt{1+{(v/c)}^2} = 1/\sqrt{1+u}^2
+    \gamma &= \sqrt{1-{(v/c)}^2} = 1/\sqrt{1+u}^2
     \label{eqn:gamma-transformation}
 \end{align}
 
@@ -61,6 +50,30 @@ Aktualizację prędkości należy więc przeprowadzić na $\vec{u}$, nie na
 $\vec{v}$. Po zakończeniu
 aktualizacji należy również powrócić do $\vec{v}$ jako prędkości używanej
 do depozycji prądu.
+
+Ostatecznie otrzymujemy więc następujące równanie ruchu:
+
+\begin{equation}
+m_0 \frac{d \vec{u}}{dt} = q \left( \vec{E} + \vec{u} / \gamma \times \vec{B} \right)
+\label{eqn:relativistic-eqn-motion}
+\end{equation}
+
+Oraz zestaw równań różnicowych przetwarzanych w następującej kolejności:
+\begin{align}
+    \vec{u}^{n-1/2} &= \vec{v}^{n-1/2} / \sqrt{1-{(\vec{v}^{n-1/2}/c)}^2} \\
+    \label{eqn:boris-pusher-start}
+    \vec{u}^- &= \vec{u}^{n-1/2} + \frac{q \Delta t}{2m_0} \vec{E}^n \\
+    \gamma^- &= \sqrt{1 + {\left( {\vec{u}^-} / c \right)}^2 } \\
+    \vec{t} &= \frac{q \Delta t} {2 m_0 \gamma^-} \vec{B}^n \\ 
+    \vec{u'} &= \vec{u}^- + \vec{u}^- \times \vec{t} \\
+    \vec{s} &= \vec{t} / {(1 + \Vert t \Vert^2)} \\
+    \vec{u}^+ &= \vec{u}^- + \vec{u'} \times \vec{s} \\
+    \vec{u}^{n+1/2} &= \vec{u}^+ + \frac{q \Delta t}{2m_0} \vec{E}^n \\
+    \vec{v}^{n+1/2} &= \vec{u}^{n+1/2} \sqrt{1+{(\vec{u}^{n+1/2}/c)}^2} \\
+    \vec{x}^{n+1} &= \vec{x}^{n} + \vec{v}^{n+1/2} \Delta t
+    \label{eqn:boris-pusher-end}
+\end{align}
+
 
 \subsection{Komunikacja między cząstkami a siatką --- depozycja i interpolacja}
 
@@ -271,8 +284,8 @@ cząstki mogą objąć kształtem maksymalnie dwie komórki, przez co należy do
 komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
 
 \subsection{Warunek początkowy pola elektrycznego: \english{solver} globalny, elektrostatyczny}
-Jako że symulacja jest jednowymiarowa, musimy jedynie znaleźć równowagowe pole
-elektryczne $E_x$.
+Jako że symulacja jest jednowymiarowa, jeżeli początkowa gęstość ładunku nie jest zerowa, musimy jedynie znaleźć równowagowe pole
+elektryczne $E_x$,
 
 Za Birdsallem i Langdonem~\cite{birdsall} wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
 obustronnej transformaty Fouriera w przestrzeni na polu elektrycznym i gęstości ładunku,
