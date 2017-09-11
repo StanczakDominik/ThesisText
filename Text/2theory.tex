@@ -98,8 +98,19 @@
     \label{eqn:maxwell-B-div}
     \end{align}
 
-    Równanie Vlasova może zostać rozszerzone do równania Fokkera-Plancka uwzględniającego
-    bezpośrednie kolizje międzycząsteczkowe.
+    Równanie Vlasova opisuje plazmę bezkolizyjną, w której zasięg ekranowania
+    oddziaływań elektromagnetycznych pochodzących od poszczególnych cząstek
+    jest bardzo niski. Zasięg ten nazywa się długością Debye'a, która dla
+    elektronów przyjmuje postać:
+
+    \begin{equation}
+    \lambda_D = \left( \frac{\varepsilon_0 k_B T}{n_e e^2} \right)^{1/2}
+    \label{eqn:debye-length}
+    \end{equation}
+
+    W przypadku zainteresowania zjawiskami przy relatywnie dużych długościach
+    Debye'a (mikroskalą) równanie Vlasova może zostać rozszerzone do równania Fokkera-Plancka
+    uwzględniającego bezpośrednie kolizje międzycząsteczkowe poprzez dodanie operatorów kolizyjnych.
 
     W praktyce równanie Vlasova jest trudne do rozwiązania poza trywialnymi
     przypadkami o ułatwiających problem symetriach.  Jednym z powodów tej
@@ -129,7 +140,6 @@
             dobre przybliżenie faktycznego ruchu cząstek w plazmie i prądów
             generowanych tym ruchem. Pozwalają na wizualizację efektów działań
             pól, ale potrafią być mało wydajne do modelowania efektów kolektywnych.
-            \todo[inline]{czy na pewno należy rozróżniać kinetyczne i dyskretne?} % TODO-WAIT
     \end{enumerate}
 
     Istnieje bardzo popularna klasa modeli łączących cechy kategorii pierwszej i trzeciej.
