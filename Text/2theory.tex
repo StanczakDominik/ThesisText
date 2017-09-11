@@ -1,4 +1,4 @@
-\ection[Część analityczno-teoretyczna]{Część analityczno-teoretyczna}\label{sec:theory} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
+\section[Część analityczno-teoretyczna]{Część analityczno-teoretyczna}\label{sec:theory} % 30% pracy - opis problematyki podjętego tematu w zakresie wykorzystanym w pracy i analizie
     Plazma, powszechnie nazywana czwartym stanem materii, to zbiór
     zjonizowanych cząstek oraz elektronów wykazujących jako grupa globalną
     obojętność elektryczną. Innymi słowy, od gazu plazmę odróżnia fakt, że
@@ -73,8 +73,7 @@
     jest uznawany za bezkolizyjny, przez co dystrybucja plazmy jest daleka od równowagowej. W tym przypadku wykorzystuje się opis
     kinetyczny, w którym wielkością
     opisującą plazmę jest funkcja dystrybucji, zwana
-    też funkcją rozkładu) zdefiniowana jako $f_s(\vec{x}, \vec{v}, t) d\vec{x}
-    d\vec{v}$ opisująca gęstość rozkładu danej grupy cząstek $s$ plazmy w
+    też funkcją rozkładu) zdefiniowana jako $f_s(\vec{x}, \vec{v}, t) d\vec{x} d\vec{v}$ opisująca gęstość rozkładu danej grupy cząstek $s$ plazmy w
     sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz
     prędkości). Ewolucja czasowa funkcji rozkładu dokonuje się poprzez
     rozwiązanie wariantu równania Boltzmanna zwanego równaniem Vlasova,
@@ -104,7 +103,7 @@
     elektronów przyjmuje postać:
 
     \begin{equation}
-    \lambda_D = \left( \frac{\varepsilon_0 k_B T}{n_e e^2} \right)^{1/2}
+    \lambda_D = {\left( \frac{\varepsilon_0 k_B T}{n_e e^2} \right)}^{1/2}
     \label{eqn:debye-length}
     \end{equation}
 
@@ -112,38 +111,28 @@
     Debye'a (mikroskalą) równanie Vlasova może zostać rozszerzone do równania Fokkera-Plancka
     uwzględniającego bezpośrednie kolizje międzycząsteczkowe poprzez dodanie operatorów kolizyjnych.
 
-    W praktyce równanie Vlasova jest trudne do rozwiązania poza trywialnymi
+    W praktyce równanie Vlasova jest trudne do rozwiązania bezpośrednio
+    jako równanie różniczkowe cząstkowe poza trywialnymi
     przypadkami o ułatwiających problem symetriach.  Jednym z powodów tej
     trudności jest konieczność uzyskania dobrej rozdzielczości prędkości przy
     jednoczesnym zachowaniu zakresów obejmujących prędkości relatywistyczne.
-    Jako równanie różniczkowe cząstkowe, równanie Vlasova jest rozwiązywane na
-    dyskretnych siatkach, należy zauważyć zaś, że skalowanie
+    Należy zauważyć zaś, że skalowanie
     liczby punktów na siatce tego typu jest proporcjonalne do $N_r^3 N_v^3$,
     gdzie $N_r$ to liczba punktów przestrzennych, zaś $N_v$ to liczba punktów
-    na siatce prędkości. Jest to więc często niepraktyczne obliczeniowo,
+    na siatce prędkości bądź pędów. Jest to więc często niepraktyczne obliczeniowo,
     między innymi ze względu na istotne w plazmach fuzyjnych zjawisko
-    ``uciekających elektronów'' o relatywistycznych prędkościach.
+    ``uciekających elektronów'' o relatywistycznych prędkościach. Ten sam problem mają
+    modele płynowe, chociaż - dzięki założeniu termalnego rozkładu energii w plazmie -
+    redukują złożoność siatki obliczeniowej do $N_r^3$ pozbywając się
+    zależności od prędkości.
 
-    W modelowaniu komputerowym plazmy stosuje się trzy główne koncepcyjne podejścia:
-    \begin{enumerate}
-        \itemi{} modele kinetyczne rozwiązujące bezpośrednio równania typu Vlasova
-            na dyskretnych siatkach
-        \itemi{} modele płynowe oparte na ciągłym opisie plazmy poprzez
-            uśrednienie po dystrybucji wielkości termodynamicznych, co daje
-            modele takie jak magnetohydrodynamika. Jest to wciąż układ równań
-            różniczkowych cząstkowych, lecz na mniej wymiarowej siatce.
-            Niestety, nie nadają się one do badań plazmy daleko od równowagi z
-            powodu czynionych przy nich założeń takich jak maxwellowski rozkład
-            prędkości. Znajdują za to szerokie zastosowanie w astronomii.
-        \itemi{} modele dyskretne oparte na samplowaniu dystrybucji plazmy przy
-            użyciu dyskretnych cząstek, pozwalające w prosty sposób uzyskać
-            dobre przybliżenie faktycznego ruchu cząstek w plazmie i prądów
-            generowanych tym ruchem. Pozwalają na wizualizację efektów działań
-            pól, ale potrafią być mało wydajne do modelowania efektów kolektywnych.
-    \end{enumerate}
-
-    Istnieje bardzo popularna klasa modeli łączących cechy kategorii pierwszej i trzeciej.
-    Są to tak zwane modele Particle-in-cell.
+    Drugim stosowanym podejściem jest dyskretyzacja oparta na wykorzystaniu
+    dyskretnych cząstek, pozwalająca w prosty sposób uzyskać
+    dobre przybliżenie faktycznego ruchu cząstek w plazmie i prądów
+    generowanych tym ruchem. Pozwalają na wizualizację efektów działań
+    pól, ale potrafią być mało wydajne do modelowania efektów kolektywnych.
+    Istnieje jednak klasa modeli redukująca tą wadę.
+    Są to tak zwane modele \english{Particle-in-cell}.
 
     \subsection{Modele Particle-in-cell}
 
