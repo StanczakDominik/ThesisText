@@ -41,7 +41,7 @@ się poprzez prostą transformację:
 
 \begin{align}
     \vec{u} &= \vec{v} \gamma \\
-    \gamma &= \sqrt{1-{(v/c)}^2} = 1/\sqrt{1+u}^2
+    \gamma &= \sqrt{1-{(v/c)}^2} = 1/\sqrt{1+{(u/c)}^2}
     \label{eqn:gamma-transformation}
 \end{align}
 
@@ -69,7 +69,7 @@ Oraz zestaw równań różnicowych przetwarzanych w następującej kolejności:
     \vec{s} &= \vec{t} / {(1 + \Vert t \Vert^2)} \\
     \vec{u}^+ &= \vec{u}^- + \vec{u'} \times \vec{s} \\
     \vec{u}^{n+1/2} &= \vec{u}^+ + \frac{q \Delta t}{2m_0} \vec{E}^n \\
-    \vec{v}^{n+1/2} &= \vec{u}^{n+1/2} \sqrt{1+{(\vec{u}^{n+1/2}/c)}^2} \\
+    \vec{v}^{n+1/2} &= \vec{u}^{n+1/2} / \sqrt{1+{(\vec{u}^{n+1/2}/c)}^2} \\
     \vec{x}^{n+1} &= \vec{x}^{n} + \vec{v}^{n+1/2} \Delta t
     \label{eqn:boris-pusher-end}
 \end{align}
