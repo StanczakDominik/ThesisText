@@ -1,7 +1,7 @@
 \section[Weryfikacja]{Część weryfikacyjna}\label{sec:verification} % 30-40% - opis wyników, analiza, weryfikacja i porównanie do danych literaturowych
     Niniejsza analiza przeprowadzona została na ``finalnej'' w chwili pisania
     niniejszej pracy wersji programu.  W repozytorium Git na GitHubie jest to
-    commit \code{480154c9c8d21350e8761e3320ede5f63bbb9ef5}.
+    commit \code{c3c678e7a3978dc5d7edecf84e97c465a57849ae}.
 
     \subsection{Przypadki testowe}
 
@@ -102,7 +102,7 @@ symulacja elektrostatyczna --- na przykład długofalowe zachowanie energii, lic
 znikać).
 
 \begin{figure}[h!]
-  \includegraphics[width=\textwidth]{Images/COSCALING}
+  \includegraphics[width=\textwidth]{Images/CO_LINEAR}
   \caption{Oscylacje zimnej plazmy w reżimie liniowym. Cząstki wykonują prawie harmoniczne oscylacje wokół swoich położeń równowagi, zaś energia
    w układzie jest wymieniana między energią kinetyczną cząstek a energią pola
 elektrostatycznego. Jako wyjście programu, wykresy z \pythonpic{} w bieżącym rozdziale zamieszczane są w języku angielskim.\label{fig:coldplasma-linear}}
@@ -131,7 +131,11 @@ obiektem automatycznych testów sprawdzających poprawność symulacji.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Images/TS_STABLE}
-  \caption{Stabilny reżim dla układu dwóch strumieni. Widoczne są jedynie cykliczny ruch jednostajny w obszarze symulacji i niewielkie zmiany prędkości cząstki. Moduł prędkości strumienia 1 dokładnie śledzi moduł prędkości strumienia 2, więc nie jest widoczny na wykresie w lewym górnym rogu.\label{fig:twostream-stable}}
+  \caption{Stabilny reżim dla układu dwóch strumieni. Widoczne są jedynie
+  cykliczny ruch jednostajny w obszarze symulacji i niewielkie zmiany prędkości
+cząstki. Moduł prędkości strumienia 1 dokładnie śledzi moduł prędkości
+strumienia 2, więc nie jest widoczny na wykresie w lewym górnym
+rogu.\label{fig:twostream-stable}}
 \end{figure}
 
 \begin{figure}[h!]
