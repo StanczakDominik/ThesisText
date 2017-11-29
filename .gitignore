@@ -2,6 +2,8 @@
 .cache
 *.aux
 *.toc
+*.lot
+*.lof
 *.log
 *.out
 *.bbl
