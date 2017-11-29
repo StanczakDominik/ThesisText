@@ -4,10 +4,10 @@ Każda symulacja cząstek wymaga zastosowania integratora równań ruchu.
 Tradycyjnym przykładem takiego integratora jest integrator Rungego-Kutty
 czwartego rzędu, znajdujący zastosowanie w wielorakich symulacjach.
 
-Niestety, w bieżącym kodzie nie można go zastosować ze względu na jego
-niesymplektyczność: mimo ogromnej dokładności jest on niestabilny pod
-względem energii cząstek\cite{computational-physics}. W symulacjach typu
-Particle-in-cell konieczne jest zastosowanie innych algorytmów. Dobrym
+Niestety, w bieżącym kodzie nie można go zastosować ze względu na to,
+że należy do klasy integratorów niesymplektycznych: mimo ogromnej dokładności jest on niestabilny pod
+względem energii cząstek~ \cite{computational-physics}. W symulacjach typu
+Particle-in-cell konieczne jest zastosowanie innych algorytmów, symplektycznych. Dobrym
 algorytmem symplektycznym jest na przykład powszechnie znany
 \emph{leapfrog}, polegający na przesunięciu prędkości o połowę iteracji
 czasowej względem położeń.\cite{computational-physics} Mimo tego, że energia
@@ -25,7 +25,7 @@ W przypadku ruchu przy niezerowym polu magnetycznym zwykły algorytm
 \emph{leapfrog} okazuje się być niewystarczający w celu zachowania energii
 cząstek\footnote{Można to łatwo sprawdzić poprzez umieszczenie cząstki z
 niezerowym ładunkiem i prędkością w polu magnetycznym. Cząstka zacznie, zamiast
-krążyć po okręgu, opadać do jego środka.}.  Zamiast niego, używa
+krążyć po okręgu, opadać do jego środka.}.  Zamiast niego używa
 się specjalnej adaptacji tego algorytmu na potrzeby ruchu w zmiennym polu
 elektromagnetycznym, tak zwanego integratora Borysa (lepiej opisanego
 w~\cite{birdsall}), który rozbija pole elektryczne na dwa impulsy, między
@@ -51,7 +51,7 @@ $\vec{v}$. Po zakończeniu
 aktualizacji należy również powrócić do $\vec{v}$ jako prędkości używanej
 do depozycji prądu.
 
-Ostatecznie otrzymujemy więc następujące równanie ruchu:
+Ostatecznie otrzymujemy więc następujące równanie ruchu dla cząstki o masie spoczynkowej $m_0$:
 
 \begin{equation}
 m_0 \frac{d \vec{u}}{dt} = q \left( \vec{E} + \vec{u} / \gamma \times \vec{B} \right)
@@ -92,7 +92,7 @@ zachowujący ładunek zapewni dalsze zachowanie tego warunku w kolejnych
 iteracjach.~\cite{bunemanvillasenor}
 
 Wyjątek stanowi początek symulacji, w której pole faktycznie musi zostać
-obliczone od podstaw na podstawie gęstości ładunku. \pythonpic{} pozwala
+obliczone od podstaw na podstawie gęstości ładunku. Program będący przedmiotem pracy pozwala
 poradzić sobie z tym problemem. Pierwszą opcją jest ustawienie początkowych
 położeń ładunków na identyczne między cząstkami negatywnymi i dodatnimi, co
 pozwala na siłowe wyzerowanie gęstości ładunku i brak pola elektrycznego w
@@ -110,7 +110,7 @@ algorytmu, nie zabiera ona dużo czasu obliczeniowego (do
 
 \subsubsection{Depozycja ładunku}
 
- Depozycja ładunku odbywa się w prosty sposób. Dla każdego gatunku
+ Depozycja ładunku odbywa się w prosty sposób. Dla każdego rodzaju
 cząstek obliczana jest ich gęstość liczbowa (koncentracja). Najpierw
 obliczane jest względne położenie każdej cząstki w komórce, do której
 przynależy, poprzez
@@ -122,7 +122,7 @@ gdzie $i_x$ to indeks komórki, w której znajduje się cząstka.
 
 Następnie gęstość cząstki jest rozkładana pomiędzy bieżącą komórkę a
 następną w stosunku $n_i = 1-x'$, $n_{i+1} = x'$. Cząstka będąca
-w połowie komórki depozytowałaby więc swój ładunek po równo między obie
+w połowie komórki rozkładałaby  więc swój ładunek po równo między obie
 komórki, co ilustruje rysunek~\ref{fig:charge-deposition}.
 
 % TODO-IDEA mam wrażenie że jako że tego nie wykorzystuję w symulacji to
@@ -182,9 +182,9 @@ Rozważamy tu zastosowany w bieżącej symulacji kształt cząstki $S_1$ (trójk
 Depozycja prądu jest rozbita na dwie części --- prąd podłużny i prąd
 poprzeczny. Jest to spowodowane tym, że ruch w kierunkach $y$, $z$ nie
 powoduje w symulacji przesuwania cząstek, a w $x$ już tak. Obliczenie prądu
-w kierunkach poprzecznych jest więc jednoznaczne z obliczeniem skalowanego
-\emph{przekrycia} cząstek z komórkami, przez które przechodzą w trakcie
-ruchu.
+w kierunkach poprzecznych jest więc jednoznaczne z obliczeniem geometrycznego
+\emph{przekrycia} --- części wspólnej objętości --- cząstek i komórek siatki,
+przez które cząstki przechodzą w trakcie ruchu.
 
 Prędkość cząstek jest ograniczona przez prędkość światła, zaś za krok czasowy
 przyjmujemy $\Delta t = \Delta x/c$, można więc łatwo zauważyć, że maksymalna
@@ -211,7 +211,7 @@ czasem w bieżącej iteracji $t = \Delta t$.
     \begin{equation}
         t_l = (x - x_g)/v
     \end{equation}
-    Granica obszaru jest definiowana jako najbliższa połowa komórki Eulera w kierunku
+    Granica obszaru $x_g$ jest definiowana jako najbliższa połowa komórki Eulera w kierunku
     ruchu cząstki.
     \item
     \begin{itemize}
@@ -278,7 +278,7 @@ Ostatecznie wkład do bieżącej komórki w ciągu jednej iteracji pętli oblicz
 to $w q n v_{y, z} t / \Delta t$.
 Zaś do dalszej komórki, w której stronę skierowany jest ruch, jest to  $(1-w) q n v_{y, z} t / \Delta t$.
 
-Tablica prądów poprzecznych, do których zostają depozytowane, ma rozmiar
+Tablica prądów poprzecznych, do których zostają zebrane, ma rozmiar
 \shape{NG+4, 2}. Jest to spowodowane faktem, że w liniowej depozycji
 cząstki mogą objąć kształtem maksymalnie dwie komórki, przez co należy dodać
 komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
@@ -287,7 +287,7 @@ komórkę ``graniczną'' na każdej krawędzi rejonu symulacji.
 Jako że symulacja jest jednowymiarowa, jeżeli początkowa gęstość ładunku nie jest zerowa, musimy jedynie znaleźć równowagowe pole
 elektryczne $E_x$,
 
-Za Birdsallem i Langdonem~\cite{birdsall} wychodzimy z równania Poissona\ref{eqn:maxwell-E-div} i dokonujemy
+Za Birdsallem i Langdonem~\cite{birdsall} wychodzimy z równania Poissona~\ref{eqn:maxwell-E-div} i dokonujemy
 obustronnej transformaty Fouriera w przestrzeni na polu elektrycznym i gęstości ładunku,
 zakładając możliwość rozłożenia obu tych wielkości na składowe mające następującą zależność
 od położenia:
