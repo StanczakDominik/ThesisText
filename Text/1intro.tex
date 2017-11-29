@@ -1,6 +1,10 @@
 \section[Wstęp]{Wstęp}\label{sec:intro} %2-3 strony wprowadzenie w temat, motywacja, teza (cel)
-Algorytmy Particle-in-Cell (``cząstka w komórce'') to jedne z najbardziej
-zbliżonych do fundamentalnej fizyki metod symulacji materii w stanie plazmy.
+Algorytmy Particle-in-Cell (``cząstka w komórce'') są popularną metodą
+symulacji plazmy. Ich znaczącą zaletą jest mniejsza ilość koncepcyjnych
+przybliżeń względem metod takich jak symulacja magnetohydrodynamiczna,
+wynikająca z oparcia się o fundamentalne prawa ruchu naładowanych
+cząstek i dynamicznej ewolucji pola elektromagnetycznego.
+
 Zastosowany w nich lagranżowski opis cząsteczek pozwala na dokładne
 odwzorowanie dynamiki plazmy poprzez dokonanie przybliżeń dotyczących
 krótkozasięgowego ruchu elektronów i jonów. Jednocześnie, ewolucja pola
@@ -41,7 +45,7 @@ i modyfikacji przez osoby niezwiązane z pierwotnym autorem z powodów takich ja
     \itemi{} brak jasno postawionych testów pokazujących, kiedy program działa
     zgodnie z zamiarami twórców i kiedy daje wyniki zgodne z zakładanym
     modelem fizyki realizowanych w nim zjawisk
-    \itemi{} zależność działania kodu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
+    \itemi{} zależność działania programu od wersji zastosowanych bibliotek, sprzętu i kompilatorów
 \end{itemize}
 
 To sprawia, że pisanie złożonych programów symulacyjnych, zwłaszcza przez osoby
@@ -49,23 +53,23 @@ zajmujące się głównie pracą badawczą (na przykład w dziedzinie fizyki), b
 w programowaniu i informatyce, jest znacznie utrudnione.
 
 Jest to też znacząca przeszkoda dla adaptacji
-w nauce modelu \english{open science} zakładanego przez organizacje unijne
-do przyjęcia jeszcze w bieżącym dziesięcioleciu, do roku 2020.
+w nauce modelu \english{open science} i \english{open access} zakładanego przez Unię Europejską 
+do przyjęcia jeszcze w bieżącym dziesięcioleciu, do roku 2020~\cite{euopenscience}.
 
-Niniejsza praca ma na celu utworzenie kodu symulacyjnego wykorzystującego metodę Particle-in-Cell
+Niniejsza praca ma na celu utworzenie programu symulacyjnego wykorzystującego metodę Particle-in-Cell
 do symulacji oddziaływania wiązki laserowej z tarczą wodorową w popularnym języku
 wysokopoziomowym Python, przy użyciu najlepszych praktyk tworzenia reprodukowalnego, otwartego oprogramowania
 i zoptymalizowanie go w celu osiągania maksymalnej wydajności i sprawności obliczeniowej.
 
 Utworzenie oprogramowania tego typu może również pozwolić na dalsze
-zastosowanie kodu w celach badawczych i jego dalszy rozwój, potencjalnie w
+zastosowanie programu w celach badawczych i jego dalszy rozwój, potencjalnie w
 większej liczbie fizycznych wymiarów lub z użyciem kart graficznych, lub w
 innych projektach.
 
 Python został wybrany jako język służący do implementacji bieżącej symulacji
-przez jego rosnącą popularność zarówno w programowaniu ogólnym jak i w nauce,
+z powodu jego rosnącej popularności zarówno w programowaniu użytkowym jak i w nauce,
 możliwości szybkiego prototypowania (zwłaszcza w rozbudowanych środowiskach jak
-IPython\cite{ipython} i Jupyter\cite{jupyter}), oraz łatwość reprodukowania
+IPython~\cite{ipython} i Jupyter~\cite{jupyter}), oraz łatwość reprodukowania
 warunków uruchomienia.
 
 Atutem Pythona w wysokowydajnych obliczeniach jest łatwość użycia w nim
@@ -73,7 +77,7 @@ zewnętrznych bibliotek napisanych na przykład w C lub Fortranie, co pozwala na
 osiągnięcie podobnych rezultatów wydajnościowych jak dla kodów napisanych w
 językach niskopoziomowych przy minimalnej pracy z tymi językami. Istnieje
 również możliwość implementacji najbardziej intensywnych obliczeniowo
-fragmentów kodu w językach niskopoziomowych i odwoływanie się do nich z
+fragmentów programu w językach niskopoziomowych i odwoływanie się do nich z
 Pythona.
 
 Python znajduje szerokie zastosowania w analizie danych i uczeniu maszynowym

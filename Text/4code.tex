@@ -3,7 +3,7 @@
 Pomijamy tutaj bibliotekę standardową jako wbudowaną w sam język, skupiając się na przydatnych bibliotekach zewnętrznych.
 
 \subsection{Numpy}
-\code{numpy}\cite{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na
+\code{Numpy}~\cite{numpy} to biblioteka umożliwiająca wykonywanie złożonych obliczeń na
 n-wymiarowych macierzach bądź tablicach, utworzona w celu umożliwienia
 zastąpienia operacjami wektorowymi iteracji po tablicach, powszechnie
 stosowanych w metodach numerycznych i będących znanym słabym punktem
@@ -29,7 +29,7 @@ numerycznych służących między innymi całkowaniu, optymalizacji funkcji rzec
 uczeniu maszynowemu, algebrze liniowej czy transformatom Fouriera.
 
 \subsection{Numba}
-\code{numba} to biblioteka służąca do kompilacji just-in-time wysokopoziomowego
+\code{Numba} to biblioteka służąca do kompilacji just-in-time wysokopoziomowego
 kodu Pythona do kodu niskopoziomowego przy pierwszym uruchomieniu programu. W
 wielu przypadkach pozwala na osiągnięcie kodem napisanym w czystym Pythonie
 wydajności marginalnie niższej bądź nawet równej do analogicznego programu w C
@@ -139,6 +139,11 @@ Następnie zapisane dane są wizualizowane programem \code{snakeviz}.
 Za wskaźnik efektów optymalizacji przyjęto całkowity czas trwania symulacji
 oraz ułamek tego czasu spędzony w metodzie \code{iteration} klasy \code{Simulation}.
 \subsection{IPython, \code{\%timeit}}
-Do optymalizacji niewielkich fragmentów kodu wykorzystano środowisko Jupyter (dawniej IPython) Notebook\cite{jupyter}.
-Użycie ``magicznych'' komend \code{\%timeit} pozwala na automatyczne profilowanie wydajności niewielkich fragmentów kodu.
+Do optymalizacji niewielkich fragmentów kodu wykorzystano środowisko Jupyter (dawniej IPython) Notebook~\cite{jupyter}.
+Użycie ``magicznych''\footnote{\english{Magic command} to faktyczny termin z
+dokumentacji IPythona na komendę poprzedzoną dla wyróżnienia znakiem \%,
+niezawierającą się w samej składni podstawowego Pythona, wprowadzoną dla
+ułatwienia operacji częstych w tym środowisku. Jest to w pewien sposób rodzaj
+makra.} komend \code{\%timeit}
+pozwala na automatyczne profilowanie wydajności niewielkich fragmentów kodu.
 Przykładem zastosowania tej komendy jest listing~\ref{lst:numba}.

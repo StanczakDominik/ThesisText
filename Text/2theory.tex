@@ -42,16 +42,17 @@
     \end{itemize}
 
     Należy też zwrócić uwagę, że ze względu na złożoność układów plazmowych
-    pra-komputerowa fizyka miała ogromne problemy z merytorycznymi badaniami
-    zachowania plazmy poza wybranymi, mocno uproszczonymi reżimami. Postęp w
-    badaniach plazmy, jak sugeruje rozwój technologii kontrolowanej syntezy
+    pra-komputerowa fizyka miała mocno ograniczone możliwości badania
+    dynamiki plazmy poza niewieloma reżimami łatwo wpisującymi się
+    w bardzo uproszczone przypadki.  
+    Postęp w badaniach plazmy, jak sugeruje rozwój technologii kontrolowanej syntezy
     jądrowej, jest silnie skorelowany z
     rozwojem mocy obliczeniowej oraz algorytmów symulacyjnych.%\cite{youtube-plasma-algorithm-progress}
 
     \subsection{Modelowanie i symulacja plazmy}
 
     Modelowanie zjawisk z zakresu fizyki plazmy jest jednym z bardziej
-    złożonych problemów fizyki komputerowej. Koncepcyjnie rzecz biorąc, Głównym
+    złożonych problemów fizyki komputerowej. Koncepcyjnie rzecz biorąc, głównym
     powodem uniemożliwiającym zastosowanie prostych metod symulacji znanych z
     newtonowskiej dynamiki molekularnej jest mnogość oddziaływań --- każda cząstka
     oddziałuje z każdą inną nawzajem poprzez niepomijalne oddziaływania
@@ -68,19 +69,22 @@
     przez co plazma jest dominowana przez kolizje międzycząsteczkowe,
     jest to znakomite przybliżenie.
 
-    Przybliżenie płynowe przestaje jednak działać poprawnie w przypadkach relatywistycznych, jak na przykład te
-    występujące w układach, gdzie plazma generowana jest wysokoenergetycznymi impulsami laserowymi. Ten rodzaj plazmy
-    jest uznawany za bezkolizyjny, przez co dystrybucja plazmy jest daleka od równowagowej. W tym przypadku wykorzystuje się opis
-    kinetyczny, w którym wielkością
-    opisującą plazmę jest funkcja dystrybucji, zwana
-    też funkcją rozkładu) zdefiniowana jako $f_s ( \vec{x}, \vec{v}, t ) d\vec{x} d\vec{v}$ opisująca gęstość rozkładu danej grupy cząstek $s$ plazmy w
+    Przybliżenie płynowe przestaje jednak działać poprawnie w przypadkach
+    relatywistycznych, jak na przykład te występujące w układach, gdzie plazma
+    generowana jest wysokoenergetycznymi impulsami laserowymi. Ten rodzaj
+    plazmy jest uznawany za bezkolizyjny, przez co dystrybucja plazmy jest
+    daleka od równowagowej. W tym przypadku wykorzystuje się opis kinetyczny, w
+    którym wielkością opisującą plazmę jest funkcja dystrybucji, zwana też
+    funkcją rozkładu, zdefiniowana jako
+    $f_s ( \vec{x}, \vec{v}, t ) d\vec{x} d\vec{v}$ 
+    opisująca gęstość rozkładu danej grupy cząstek $s$ plazmy w
     sześciowymiarowej przestrzeni fazowej (po trzy wymiary na położenia oraz
-    prędkości). Ewolucja czasowa funkcji rozkładu dokonuje się poprzez
-    rozwiązanie wariantu równania Boltzmanna zwanego równaniem Vlasova,
-    które sprzęga gęstości ładunku i prądu otrzymywane z funkcji dystrybucji
-    z równaniami Maxwella na ewolucję pola elektromagnetycznego.
+    prędkości) i w czasie. Ewolucja czasowa funkcji rozkładu dokonuje się poprzez
+    rozwiązanie wariantu równania Boltzmanna zwanego równaniem Vlasova, które
+    sprzęga gęstości ładunku i prądu otrzymywane z funkcji dystrybucji z
+    równaniami Maxwella na ewolucję pola elektromagnetycznego.
 
-    Dla przypadku plazmy złożonej z elektronów i jednego rodzaju jonów o ładunku $Z_i$:
+    Dla przypadku plazmy złożonej z elektronów $e$ i jednego rodzaju jonów $i$ o ładunku $Z_i$:
 
     \begin{align}
     \frac{\partial f_e}{\partial t} + \vec {v}_e\cdot\nabla f_e &- e\left(\vec {E}+\vec {v_e}\times\vec {B}\right)\cdot\frac{\partial f_e}{\partial\vec {p}} = 0
@@ -96,6 +100,10 @@
     \nabla\cdot\vec {B}  &=0
     \label{eqn:maxwell-B-div}
     \end{align}
+
+    gdzie $\vec{}E$ to pole elektryczne, $\vec{B}$ - magnetyczne, $\vec{v}_e$ i $\vec{v}_i$ to
+    prędkości odpowiednio elektronów i jonów, $\vec{j}$ to sumaryczny prąd wynikający z ruchu
+    obu rodzajów cząstek, a $\rho$ to gęstość ładunku.
 
     Równanie Vlasova opisuje plazmę bezkolizyjną, w której zasięg ekranowania
     oddziaływań elektromagnetycznych pochodzących od poszczególnych cząstek
@@ -167,13 +175,13 @@ do złożoności $O(n)$ z $O(n^2)$, gdzie $n$ jest liczbą cząstek.
     Znalezienie pól elektrycznego i magnetycznego na podstawie gęstości ładunku
     i prądu na siatce.  Istnieją dwie główne szkoły rozwiązywania tych równań:
     metody globalne i lokalne. Metody globalne wykorzystują zazwyczaj równania
-    dywergencyjne (prawa Gaussa)\ref{eqn:maxwell-E-div}\ref{eqn:maxwell-B-div}
+    dywergencyjne (prawa Gaussa)~\ref{eqn:maxwell-E-div}~\ref{eqn:maxwell-B-div}
     rozwiązywane iteracyjnie (metodami takimi jak Gaussa-Seidela lub gradientów
     sprzężonych)
      lub spektralnie, przy użyciu transformat Fouriera lub Hankela~\cite{fbpic}.
      Metody lokalne z kolei
-    wykorzystują równania rotacyjne (prawa Ampera-Maxwella\ref{eqn:maxwell-E-rotation}
-    oraz Faradaya\ref{eqn:maxwell-B-rotation}):
+    wykorzystują równania rotacyjne (prawa Ampera-Maxwella~\ref{eqn:maxwell-E-rotation}
+    oraz Faradaya~\ref{eqn:maxwell-B-rotation}):
 
     Metody globalne nadają się do modeli elektrostatycznych,
     nierelatywistycznych.  Metody lokalne pozwalają na ograniczenie szybkości
@@ -185,9 +193,12 @@ do złożoności $O(n)$ z $O(n^2)$, gdzie $n$ jest liczbą cząstek.
     jako że interpolacja sił wymaga jedynie lokalnej informacji co do pól
     elektromagnetycznych w okolicy cząstki, ta część sprawia, że
     algorytmy Particle-in-cell doskonale nadają się do zrównoleglenia (problem
-    jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny''). Z tego
-    powodu algorytmy Particle-in-cell nadają się doskonale do wykorzystania
-    rosnącej mocy kart graficznych i architektur GPGPU\@.
+    jest w bardzo dobrym przybliżeniu ``trywialnie paralelizowalny'' (ang.
+    \english{trivially parallelizable}) - każda z
+    wielu cząstek porusza się niezależnie od siebie i może być symulowana
+    oddzielnym wątkiem). Z tego powodu oraz przez wzgląd na dużą liczbę cząstek
+    w tych rodzajach symulacji, algorytmy Particle-in-cell nadają się doskonale
+    do wykorzystania rosnącej mocy kart graficznych i architektur GPGPU\@.
     \itemi{} Porusz (\english{Push}) \\
     iteracja równań ruchu cząstek
     \begin{equation}
