@@ -3,11 +3,22 @@
 Język programowania Python zdobywa coraz większą popularność w fizyce obliczeniowej.
 Jedną z najbardziej intensywnych obliczeniowo dziedzin fizyki jest symulacyjna fizyka
 plazmy, czyli układów wielu cząstek obdarzonych ładunkiem elektrycznych.
+Przykładowym rodzajem algorytmu symulacyjnego w tej dziedzinie jest metoda particle-in-cell
+(``cząstka w komórce'').
 Niniejsza praca podejmuje próbę przetestowania możliwości Pythona wykorzystującego 
 obliczenia macierzowe w tych zastosowaniach.
 
 W tym celu
-utworzono kod symulacyjny Particle-in-Cell mający modelować interakcję relatywistycznej plazmy wodorowej oraz
+utworzono jednowymiarowy kod symulacyjny Particle-in-Cell mający modelować interakcję relatywistycznej plazmy wodorowej oraz
 impulsu laserowego. Kod zoptymalizowano poprzez wykorzystanie ogólnodostępnych bibliotek 
-wywołujących niskopoziomowe procedury numeryczne do osiągnięcia wysokiej wydajności obliczeniowej. Przeprowadzono 
-analizę wydajności i skalowania programu.
+wywołujących niskopoziomowe procedury numeryczne do osiągnięcia wysokiej wydajności obliczeniowej. Na jego podstawie
+napisano również analogiczny program w języku C++ dla porównania wydajności.
+
+Uzyskany program zwraca dobre jakościowo wyniki, zbliżone do rezultatów z istniejących symulacji i spodziewanych
+wyników teoretycznych dla symulacji elektrostatycznych oraz dla symulacji interakcji tarczy wodorowej z wiązką laserową
+na bazie symulacji eksperymentów z Instytutu Fizyki Plazmy i Laserowej Mikrosyntezy.
+
+Przeprowadzono analizę wydajności i skalowania programu w obu wersjach z liczbą cząstek.  
+Jak pokazują benchmarki, implementacja w Pythonie mimo prób optymalizacji w wybranym paradygmacie wysokopoziomowych obliczeń macierzowych
+uzyskuje wyniki zadowalające, lecz gorsze niż reimplementacja w C++ przy
+kompilacji z optymalizacją o rząd wielkości w kwestii szybkości obliczeń.

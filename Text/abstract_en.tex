@@ -1,4 +1,23 @@
 \section{Abstract} % 150-250słów, polski + angielski
-A Python particle-in-cell plasma simulation code is developed to model the interaction between a hydrogen plasma target
-and a laser impulse. The code is then optimized to demonstrate the possibilities of using a high level programming
-language to call low level numerical procedures, thus achieving high computational efficiency. Performance and scaling is analysed.
+
+The Python programming language has recently been growing in popularity in computational physics.
+One of the most computationally intensive branches of physics is computational plasma physics,
+which deals with systems of many charged particles.
+An example of a simulation algorithm in this area is the particle-in-cell method.
+This work attempts to test the capabilities of Python in these applications
+using a matrix calculation approach. 
+
+To this end, a one-dimensional Python particle-in-cell plasma simulation code is developed to
+model the interaction between a hydrogen plasma target
+and a laser impulse. The code is then optimized via using the high level Python programming
+language to call low level numerical procedures from widely available
+libraries. Based on this code, another program in C++ is developed to compare performance and
+scaling between implementations.
+
+The developed program does well on the qualitative side, returning results comparable to existing
+simulations and theoretical results in the field for electrostatic and electromagnetic cases.
+
+The performance and scaling analysis carried out in the latter part of this work shows
+that despite attempts at optimizing the chosen high-level matrix calculation paradigm,
+the developed Python code runs decently, yet more slowly than the C++ reimplementation (assuming compilation
+with optimization flags) by an order of magnitude in speed.
