@@ -8,17 +8,26 @@
 %   pracę z licznymi odniesieniami do rozdziałów pracy
 
 W niniejszej pracy opisano proces tworzenia kodu symulacyjnego implementującego
-algorytm particle-in-cell. W rozdziale~\ref{sec:theory} wyjaśniono zasadność modelowania plazmy symulacjami komputerowymi oraz zasadność przyjętego przybliżenia
+algorytm particle-in-cell, którego sens i kontekst w szerszej fizyce plazmy tłumaczy rozdział~\ref{sec:intro}.
+
+W rozdziale~\ref{sec:theory} wyjaśniono zasadność modelowania plazmy symulacjami komputerowymi oraz zasadność przyjętego przybliżenia
 % TODO CZY JA WYJAŚNIŁEM ZASADNOŚĆ PRZYJĘTEGO PRZYBLIŻENIA NA PODSTAWIE BIRDSALLA INTRO?
 modelowania plazmy dyskretnymi cząstkami. Poszczególne elementy realizacji algorytmu particle-in-cell w bieżącym kodzie wyjaśniono w rozdziale~\ref{sec:implementation}.
 
 W rozdziale~\ref{sec:code} opisano ekosystem Pythona, jego potencjał dla nauki i symulacji numerycznej, a także strukturę i hierarchię samego kodu, który jest przedmiotem bieżącej pracy.
 
-Z dobrą zgodnością z zakładanym modelem udało się wykonać symulację zachowania plazmy pobudzonej wysokoenergetycznym impulsem laserowym. %TODO
+Z dobrą zgodnością z zakładanym modelem i istniejącymi programami symulacyjnymi udało się wykonać symulację zachowania plazmy pobudzonej wysokoenergetycznym impulsem laserowym, jak pokazuje rozdział~\ref{sec:verification}.
 
-%Wyniki benchmarków pokazują,% TODO
+Przeprowadzone w rozdziale~\ref{sec:profiling} benchmarki pokazują, że kod będący przedmiotem bieżącej pracy jest o około rząd wielkości wolniejszy niż jego najbliższy możliwy odpowiednik
+napisany w C++, jeżeli kompilacja przeprowadzana jest z użyciem najprostszej flagi optymalizacyjnej. Użycie flagi \code{-O2} skutkuje uzyskaniem spowoduje uzyskanie dalszych postępów.
 
-\subsection{Potencjalne kierunki dalszej pracy}
+Potencjalnym problemem w pracy jest fakt, że nie cała funkcjonalność wysokopoziomego Pythona opartego u Numpy była możliwa do bezpośredniego przełożenia ``jeden na jeden'' na algorytm
+w C++ z powodu braków w bibliotece Eigen względem Numpy. W związku z tym niektóre z operacji w C++ są wykonywane poprzez prostsze pętle po cząstkach, które lepiej mogą zostać zoptymalizowane
+przez kompilator \code{gcc}. Istnieje możliwość, że do poprawy wydajności programu konieczna jest reimplementacja najbardziej złożonych częsci algorytmu w Pythonie (relatywistycznego integratora Borysa oraz depozycji prądu) w C++
+bądź w czystym, prostym Pythonie z kompilacją JIT poprzez bibliotekę Numba (faktycznie, takie rozwiązanie zdaje się skutkować dobrą wydajnością w kodzie~\cite{fbpic}).
+
+Innym rozwiązaniem byłoby ręczne zrównoleglenie obliczeń w programie przy użyciu mocy obliczeniowej kart graficznych. Potencjalnym kandydatem do tego celu byłoby wykorzystanie popularnej biblioteki \code{PyCUDA}.
+Alternatywnym sposobem zrównoleglenia kodu byłoby wykorzystanie paradygmatu OpenMP/MPI, do czego może posłużyć biblioteka \code{MPI4PY}.
 
 Program w obecnej postaci działa w jednym wymiarze, w reżimie relatywistycznym i jako taki może służyć do prostego modelowania oddziaływania plazmy z wiązkami laserowymi
 bądź do modelowania niestabilności w symulacjach elektrostatycznych.
@@ -27,25 +36,7 @@ Oczywistym kierunkiem rozwoju dla kodu jest dodanie obsługi ruchu cząstek w wi
 Warunki początkowe można zaadaptować z pola elektrostatycznego, aczkolwiek gdy układ straci symetrię $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} = 0$, będzie konieczne również rozwiązywanie
 prawa Gaussa dla magnetyzmu~\ref{eqn:maxwell-B-div}.
 
-Kolejnym potencjalnym krokiem byłoby wykorzystanie mocy obliczeniowej kart graficznych. Potencjalnym kandydatem do tego celu byłoby wykorzystanie popularnej biblioteki \code{PyCUDA}.
-Alternatywnym sposobem zrównoleglenia kodu byłoby wykorzystanie paradygmatu OpenMP/MPI, do czego może posłużyć biblioteka \code{MPI4PY}.
-
-Symulacja nie uwzględnia również kolizji. Możliwe jest dodanie ich na przykład poprzez sprzężenie algorytmu z implementacją DSMC (\english{Direct Simulation Monte Carlo})~\cite{particleincell-dmsc}. %TODO poczytać o MC
+Symulacja nie uwzględnia również kolizji. Możliwe jest dodanie ich na przykład poprzez sprzężenie algorytmu z implementacją DSMC (\english{Direct Simulation Monte Carlo})~\cite{particleincell-dmsc}.
 
 W bieżącej symulacji użyto prostego modelu pojedynczo zjonizowanych atomów wodoru bez możliwości syntezy w neutralne cząstki wodoru. Istnieje możliwość wybrania atomów innych pierwiastków,
 lecz w chwili obecnej kod zupełnie nie uwzględnia możliwości dalszej jonizacji tych cząstek.
-
-
-
-
-% szerzej opisany w rozdziałach~\ref{sec:theory} i~\ref{sec:implementation}.
-%Wykorzystano wysokopoziomowy język Python, opisany w rozdziale~\ref{sec:theory}.
-
-
-
-%Utworzono kod symulacyjny implementujący algorytm particle-in-cell w Pythonie przy użyciu wszystkich dostępnych
-%możliwości, jakie daje ekosystem open-source. Kod zoptymalizowano przy użyciu 
-%Otrzymane wyniki benchmarków pozwalają sądzić, że \todo[inline]
-
-
-
