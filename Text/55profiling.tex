@@ -7,6 +7,11 @@ utworzono uproszczony, analogiczny kod w C++ (``CPIC''), również dostępny na 
 GitHub~\footnote{\url{https://github.com/StanczakDominik/CPIC}} i oparty o bibliotekę macierzową Eigen~\cite{eigen}.
 Porównano jego rezultaty z \pythonpic{}, osiągając dobrą zgodność.
 
+Niestety, nie cała funkcjonalność wysokopoziomego Pythona opartego u Numpy była możliwa do bezpośredniego przełożenia ``jeden na jeden'' na algorytm
+w C++ z powodu mniejszej kompletności biblioteki Eigen względem Numpy. Próby zaimplementowania rozwiązań z Numpy na bazie możliwości biblioteki Eigen niestety nie powiodły się w związku z
+brakiem w tej bibliotece funkcjonalności takich jak zaawansowane boolowskie indeksowanie oraz silniejsze niż w Pythonie i Numpy ograniczenia typowania zmiennych.  
+W związku z tym niektóre z operacji w C++ są wykonywane poprzez bardziej niskopoziomowe pętle po cząstkach (mianowicie, po indeksach tablic Eigen odpowiadających wielkościom dla cząstek).
+Tam, gdzie było to możliwe (w większości przypadków) stosowane są jednak operacje na macierzach.
 
 Na potrzeby wykonania profilowania wydajności kodu przygotowano w obu wersjach
 programu uproszczoną wersję symulacji z laserem z rozdziału~\ref{sec:verification}.
@@ -33,7 +38,12 @@ oraz algorytm depozycji ładunku) poprzez kompilację JIT z wykorzystaniem Numba
 na wykorzystany wysokopoziomy paradygmat obliczeń nie udało się przekompilować kodu z wykorzystaniem
 wydajniejszej opcji \code{nopython} i pozostano przy kompilacji ``domyślnej'' w tzw.\ trybie obiektowym.
 
-Dla CPIC testy przeprowadzono w trzech wariacjach, bez flag optymalizacyjnych oraz z flagami \code{-O}, \code{-O2}.
+Dla CPIC testy przeprowadzono w trzech wariacjach, bez flag optymalizacyjnych oraz z flagami \code{-O}, \code{-O2}.  
+Przypomnijmy - w odróżnieniu od Pythona, C i C++ to języki kompilowane, czyli
+    konwertowane przed wykonaniem do kodu maszynowego. Flagi optymalizacyjne \code{-Ox}, gdzie \code{x} $\in {1, 2, 3}$ jest stopniem optymalizacji, służą zakomunikowaniu kompilatorowi, jak bardzo może w
+    wynikowym kodzie maszynowym oddalić się od struktury kodu źródłowego w celu przyspieszenia działania programu. Użycie potężniejszych flag optymalizacyjnych skutkuje wydłużeniem czasu kompilacji w miarę
+    dodawania kolejnych metod zoptymalizowania kodu.
+
 Pominięto niektóre wyniki symulacji z powodu bliżej niezidentyfikowanych błędów kończących symulację w niepokojąco
 krótkim czasie. Błędów tych nie udało się zlokalizować, ale pozostałe symulacje zwracają wyniki zgodne z oczekiwaniami.
 

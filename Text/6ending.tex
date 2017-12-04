@@ -19,22 +19,27 @@ W rozdziale~\ref{sec:code} opisano ekosystem Pythona, jego potencjał dla nauki 
 Z dobrą zgodnością z zakładanym modelem i istniejącymi programami symulacyjnymi udało się wykonać symulację zachowania plazmy pobudzonej wysokoenergetycznym impulsem laserowym, jak pokazuje rozdział~\ref{sec:verification}.
 
 Przeprowadzone w rozdziale~\ref{sec:profiling} benchmarki pokazują, że kod będący przedmiotem bieżącej pracy jest o około rząd wielkości wolniejszy niż jego najbliższy możliwy odpowiednik
-napisany w C++, jeżeli kompilacja przeprowadzana jest z użyciem najprostszej flagi optymalizacyjnej. Użycie flagi \code{-O2} skutkuje uzyskaniem spowoduje uzyskanie dalszych postępów.
+napisany w C++, jeżeli kompilacja przeprowadzana jest z użyciem najprostszej flagi optymalizacyjnej. Użycie flagi \code{-O2} bądź wyższych skutkuje uzyskaniem dalszych postępów w szybkości działania programu.
+Oczywiście, znaczącym czynnikiem może być wspomniane w rozdziale~\ref{sec:profiling} wykorzystanie bardziej niskopoziomowego paradygmatu iteracji po indeksach cząstek w kodzie w C++, spowodowane
+brakami w bibliotece Eigen.
 
-Potencjalnym problemem w pracy jest fakt, że nie cała funkcjonalność wysokopoziomego Pythona opartego u Numpy była możliwa do bezpośredniego przełożenia ``jeden na jeden'' na algorytm
-w C++ z powodu braków w bibliotece Eigen względem Numpy. W związku z tym niektóre z operacji w C++ są wykonywane poprzez prostsze pętle po cząstkach, które lepiej mogą zostać zoptymalizowane
-przez kompilator \code{gcc}. Istnieje możliwość, że do poprawy wydajności programu konieczna jest reimplementacja najbardziej złożonych częsci algorytmu w Pythonie (relatywistycznego integratora Borysa oraz depozycji prądu) w C++
+Istnieje możliwość, że do poprawy wydajności programu konieczna jest reimplementacja najbardziej złożonych częsci algorytmu w Pythonie (relatywistycznego integratora Borysa oraz depozycji prądu) w C++
 bądź w czystym, prostym Pythonie z kompilacją JIT poprzez bibliotekę Numba (faktycznie, takie rozwiązanie zdaje się skutkować dobrą wydajnością w kodzie~\cite{fbpic}).
 
-Innym rozwiązaniem byłoby ręczne zrównoleglenie obliczeń w programie przy użyciu mocy obliczeniowej kart graficznych. Potencjalnym kandydatem do tego celu byłoby wykorzystanie popularnej biblioteki \code{PyCUDA}.
-Alternatywnym sposobem zrównoleglenia kodu byłoby wykorzystanie paradygmatu OpenMP/MPI, do czego może posłużyć biblioteka \code{MPI4PY}.
+Innym rozwiązaniem byłoby ręczne zrównoleglenie obliczeń w programie przy użyciu mocy obliczeniowej kart graficznych. Potencjalnymi kandydatami do tego celu są popularne biblioteki \code{PyCUDA} bądź \code{Numba.cuda}.
+
+Alternatywnym sposobem zrównoleglenia kodu jest wykorzystanie obliczeń na CPU poprzez paradygmaty OpenMP (na wielu wątkach obliczeniowych mających dostęp do tej samej pamięci)
+bądź MPI (na dużej liczbie niezależnych procesorów mających przydzielone własne obszary pamięci, komunikujące się za pomocą oddzielnego interfejsu). Niestety, obsługa wielu intensywnych obliczeniowo wątków w Pythonie
+jest znacząco utrudniona przez tzw. GIL (\english{Global Interpreter Lock}), czego efektem w praktyce byłaby konieczność implementacji tych fragmentów w C++ bądź wykorzystanie Cythona (alternatywnej wersji Pythona, automatycznie tłumaczonej na C).
 
 Program w obecnej postaci działa w jednym wymiarze, w reżimie relatywistycznym i jako taki może służyć do prostego modelowania oddziaływania plazmy z wiązkami laserowymi
 bądź do modelowania niestabilności w symulacjach elektrostatycznych.
 
 Oczywistym kierunkiem rozwoju dla kodu jest dodanie obsługi ruchu cząstek w wielu wymiarach. Wymagałoby to niestety znacznej zmiany modelu rozwiązywania równań ewolucji czasowej pola elektromagnetycznego.
-Warunki początkowe można zaadaptować z pola elektrostatycznego, aczkolwiek gdy układ straci symetrię $\frac{\partial}{\partial y} = \frac{\partial}{\partial z} = 0$, będzie konieczne również rozwiązywanie
-prawa Gaussa dla magnetyzmu~\ref{eqn:maxwell-B-div}.
+Metodę rozwiązywania warunków początkowych dla tego pola można zaadaptować z istniejącego w kodzie rozwiązania dla pola elektrostatycznego. Jednakże, gdy układ straci symetrię typu
+$\frac{\partial}{\partial y} = \frac{\partial}{\partial z} = 0$ założoną w modelowaniu 1D, będzie konieczne również rozwiązywanie
+prawa Gaussa dla magnetyzmu~\ref{eqn:maxwell-B-div}, aby znaleźć początkowy rozkład pola magnetycznego. W tej chwili prawo to sprowadza się do $\frac{\partial B_x}{\partial x} = 0$, co
+w jednym wymiarze jest spełnione poprzez istniejący w symulacji warunek $B_x = 0$.
 
 Symulacja nie uwzględnia również kolizji. Możliwe jest dodanie ich na przykład poprzez sprzężenie algorytmu z implementacją DSMC (\english{Direct Simulation Monte Carlo})~\cite{particleincell-dmsc}.
 

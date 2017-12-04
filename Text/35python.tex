@@ -9,7 +9,7 @@ operacji na nich.
 
 Część symulacyjna kodu składa się z kilku prostych koncepcyjnie elementów:
 
-\subsection{Grid --- siatka Eulera}
+\subsection{Klasa Grid --- siatka Eulera}
 Klasa reprezentująca dyskretną siatkę Eulera, na której dokonywane są
 obliczenia dotyczące pól elektromagnetycznych oraz gęstości ładunku i
 prądu. Zawiera dane historyczne dotyczące wielkości na siatce
@@ -58,7 +58,7 @@ Istotne metody klasy \code{Grid}, o których należy wspomnieć, to:
            na informacje dotyczące energii
 \end{itemize}
 
-\subsection{Species --- cząstki}
+\subsection{Klasa Species --- cząstki}
 Klasa reprezentująca pewną grupę makrocząstek o wspólnych cechach, takich
 jak ładunek bądź masa.  Przykładowo, w symulacji oddziaływania lasera z
 tarczą wodorową jedną grupą są protony, zaś drugą --- elektrony.  Do
@@ -120,7 +120,7 @@ Warto wspomnieć o następujących metodach klasy \code{Species}:
 Poza tym \code{Species} zawiera również rozmaite metody służące inicjalizacji
 prędkości i położeń przy pomocy zaburzeń sinusoidalnych bądź losowych.
 
-\subsection{Simulation}
+\subsection{Klasa Simulation}
 Klasa zbierająca w całość \code{Grid} oraz dowolną liczbę \code{Species} zawartych w
 symulacji, jak również pozwalająca w prosty sposób na wykonywanie iteracji
 algorytmu i analizy danych. Jest tworzona tak przy uruchamianiu symulacji,
