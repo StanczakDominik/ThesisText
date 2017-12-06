@@ -1,4 +1,4 @@
-build/thesis.pdf: thesis.tex Source/begining.pdf Source/preamble.tex bibliography.bib $(shell find Text -type f) $(shell find Images -type f) runtimes_table
+build/thesis.pdf: thesis.tex Source/begining.pdf Source/preamble.tex bibliography.bib $(shell find Text -type f) $(shell find Images -type f) 
 	# make pictures
 	latexmk -halt-on-error -pdf -output-directory=build thesis.tex
 Source/begining.pdf: Source/preamble.tex Source/begining.tex Text/abstract_en.tex Text/abstract_pl.tex
